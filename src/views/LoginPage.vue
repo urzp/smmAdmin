@@ -1,14 +1,14 @@
 <template>
     <div class="header"></div>
     <div class="loginform">
-      <div class="title">Вход панель в управления</div>
+      <div class="title">Вход в панель управления</div>
       <div class="form">
         <div class="inp-label">Email</div>
         <input type="text" placeholder="user@mail.com" class="email">
         <div class="inp-label">Пароль</div>
         <input type="password" class="email">
       </div>
-      <ButtonStd class="btn" title="Войти" ></ButtonStd>
+      <ButtonStd class="btn-right" title="Войти" ></ButtonStd>
     </div>
 </template>
 
@@ -22,6 +22,12 @@ export default {
   }
 }
 </script>
+
+<style>
+  .btn-right{
+    float: right;
+  }
+</style>
 
 <style lang="scss" scoped>
   .header{
@@ -64,9 +70,7 @@ export default {
         color: #0C151C;
       }
 
-      .btn{
-        float: right;
-      }
     }
   }
 </style>
+

@@ -33,7 +33,12 @@ export default {
         background-color: #6B99C3;
         border-radius: 30px ;
         cursor: pointer;
+        transition: 0.3s;
     }
+    .wrap:hover{
+        background-color: #214260;
+    }
+
     .title{
         color: #fff;
         font-size: 20px;
