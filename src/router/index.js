@@ -74,7 +74,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   //let logget = await isLogget();
-  let logget = true;
+  let logget = false;
   if(to.meta.requireAuth&&!logget) return {path: '/login'}
   if(!to.meta.requireAuth&&logget) return {path: '/'}
 })
