@@ -1,7 +1,7 @@
 <template>
     <div class="header"></div>
     <div class="loginform">
-      <div class="title">Вход в панель управления</div>
+      <div class="title">Вход в панель пшеуправления</div>
       <div class="form">
         <div class="inp-label">Email</div>
         <input type="text" placeholder="user@mail.com" class="email">
