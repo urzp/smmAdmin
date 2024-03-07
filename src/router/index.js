@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { isLogget } from '../servis/islogget.js';
 import HomePage from '../views/HomePage.vue'
 import LoginPage from '../views/LoginPage.vue'
 import UsersPage from '../views/UsersPage.vue'
@@ -73,8 +74,8 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-  //let logget = await isLogget();
-  let logget = false;
+  let logget = await isLogget();
+  //let logget = false;
   if(to.meta.requireAuth&&!logget) return {path: '/login'}
   if(!to.meta.requireAuth&&logget) return {path: '/'}
 })

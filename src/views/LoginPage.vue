@@ -4,21 +4,45 @@
       <div class="title">Вход в панель пшеуправления</div>
       <div class="form">
         <div class="inp-label">Email</div>
-        <input type="text" placeholder="user@mail.com" class="email">
+        <input type="text" placeholder="user@mail.com" v-model="email">
         <div class="inp-label">Пароль</div>
-        <input type="password" class="email">
+        <input type="password" v-model="password">
       </div>
-      <ButtonStd class="btn-right" title="Войти" ></ButtonStd>
+      <ButtonStd class="btn-right" title="Войти" @click="submit"></ButtonStd>
     </div>
 </template>
 
 <script>
 import ButtonStd from '../components/UI/ButtonStd.vue'
+import  loginRequest  from '../servis/login.js'
 
 export default {
   name: 'LoginPage',
+  data(){
+    return{
+      email: '',
+      password: '',
+    }
+  },
   components:{
     ButtonStd
+  },
+  methods:{
+    async submit(){
+      let data = {
+          email: this.email,
+          password: this.password,
+      }
+      let result = await loginRequest(data)
+      if(result.success){
+            sessionStorage.setItem('user', JSON.stringify(result.user));
+            sessionStorage.setItem('session', result.session);
+            this.$router.push('/')
+      }else{
+          //this.wrongLogin = true 
+         // setTimeout(()=>{this.wrongLogin = false }, 3000)
+      }
+    }
   }
 }
 </script>
