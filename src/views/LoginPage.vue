@@ -1,5 +1,5 @@
 <template>
-    <div class="header"></div>
+    <Header></Header>
     <div class="loginform">
       <div class="title">Вход в панель пшеуправления</div>
       <div class="form">
@@ -13,19 +13,21 @@
 </template>
 
 <script>
-import ButtonStd from '../components/UI/ButtonStd.vue'
 import  loginRequest  from '../servis/login.js'
+import ButtonStd from '../components/UI/ButtonStd.vue'
+import Header from '../components/complex/Header.vue'
 
 export default {
+  components:{
+    ButtonStd,
+    Header
+  },
   name: 'LoginPage',
   data(){
     return{
       email: '',
       password: '',
     }
-  },
-  components:{
-    ButtonStd
   },
   methods:{
     async submit(){
@@ -47,18 +49,7 @@ export default {
 }
 </script>
 
-<style>
-  .btn-right{
-    float: right;
-  }
-</style>
-
 <style lang="scss" scoped>
-  .header{
-    width: 100%;
-    height: 100px;
-    background-color: #16354D;
-  }
   .loginform{
     margin: 220px auto;
     padding: 50px 60px;
