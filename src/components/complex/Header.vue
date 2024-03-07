@@ -8,13 +8,9 @@
 </template>
 
 <script>
-import ButtonStd from '../UI/ButtonStd.vue'
 import { isLogget } from '../../servis/islogget.js';
 
 export default {
-    components:{
-        ButtonStd
-    },
     async mounted(){
         this.logget = await isLogget();
     },

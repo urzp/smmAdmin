@@ -14,14 +14,8 @@
 
 <script>
 import  loginRequest  from '../servis/login.js'
-import ButtonStd from '../components/UI/ButtonStd.vue'
-import Header from '../components/complex/Header.vue'
 
 export default {
-  components:{
-    ButtonStd,
-    Header
-  },
   name: 'LoginPage',
   data(){
     return{
