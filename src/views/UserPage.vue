@@ -1,8 +1,8 @@
 <template>
     <Header></Header>
-    <main>
+    <MainContent>
       <h1>This is User page</h1>
-    </main>
+    </MainContent>
 </template>
 
 <script>
@@ -11,3 +11,4 @@ export default {
   name: 'UserPage'
 }
 </script>
+

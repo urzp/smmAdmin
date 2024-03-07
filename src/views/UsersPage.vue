@@ -1,9 +1,11 @@
 <template>
     <Header></Header>
     <MenuLeft selected="users"></MenuLeft>
-    <main>
-      <h1>This is Users page</h1>
-    </main>
+    <MainContent>
+      <BackGrCard>
+        <div class="title">Пользователи</div>
+      </BackGrCard>
+    </MainContent>
   </template>
 
 <script>
@@ -11,3 +13,11 @@ export default {
   name: 'UsersPage'
 }
 </script>
+
+<style scoped>
+  .title{
+    font-size: 24px;
+    text-align: left;
+  }
+</style>
+

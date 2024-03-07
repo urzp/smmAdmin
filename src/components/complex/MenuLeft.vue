@@ -58,6 +58,7 @@ export default {
     height: calc(100vh - 100px);
     background-color: #E4E5EA;
     box-shadow: 0 2px 2px #00000030;
+    float: left;
 
     .menu-list{
         padding-top: 50px;
