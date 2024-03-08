@@ -1,4 +1,5 @@
 <template>
+    <div class="menu-fix-vacuum"></div>
     <div class="menu_left">
         <div class="menu-list">
             <div class="menu-item" :class="{'active':selectedItem.users}" @click="$router.push('/users')">
@@ -53,12 +54,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.menu-fix-vacuum{
+    width: 250px;
+    height: calc(100vh - 100px);  
+    float: left; 
+}
+.menu-hide{
+    left:-250px!important;
+}
 .menu_left{
+    left: 0px;
     width: 250px;
     height: calc(100vh - 100px);
+    position: fixed;
     background-color: #E4E5EA;
     box-shadow: 0 2px 2px #00000030;
-    float: left;
+    transition: 1s;
+    
 
     .menu-list{
         padding-top: 50px;

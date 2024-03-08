@@ -10,8 +10,8 @@
           </div>
           <div class="header-table set_width_table">
             <div>id</div>
-            <div>Имя пользователя</div>
             <div>Email</div>
+            <div>Имя пользователя</div>
             <div>Телефон</div>
             <div>Баланс</div>
             <div>Дата рег.</div>
@@ -22,12 +22,12 @@
         <div class="body-table">
           <div v-for="item in users" :key="item.id" class="row set_width_table" >
             <div>{{ item.id }}</div>
-            <div>{{ item.Name }}</div>
-            <div>{{ item.email }}</div>
+            <div class="content_left">{{ item.email }}</div>
+            <div class="content_left">{{ item.Name }}</div>
             <div>{{ item.phone }}</div>
-            <div>{{ item.balans }}</div>
+            <div>{{ item.balans  }} р.</div>
             <div>-</div>
-            <div>-</div>
+            <div>{{ convetToDate(item.time_login) }}</div>
             <div>{{ item.orders }}</div>
           </div>
         </div>
@@ -59,6 +59,11 @@ export default {
             this.notFound = true
             return false
     },
+    convetToDate(t){
+      if(t==0) return '-'
+      let d = new Date(t*1000)
+      return d.toLocaleString()
+    }
   }
 }
 </script>
@@ -81,37 +86,64 @@ export default {
     border-bottom: 1px solid #D2D2D4;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content:space-between;
     column-gap: 10px;
     color: #A8A8A8;
   }
 
   .body-table{
     font-family: 'OpenGostTypeA';
-    font-size: 16px;
+    font-size: 18px;
     color:#253F54;
     .row{
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content:space-between;
       column-gap: 10px;
     }
   }
 
   .set_width_table :nth-child(1){
-    min-width: 30px;
+    width: 30px;
   }
 
   .set_width_table :nth-child(2){
-    min-width: 200px;
+    min-width: 300px;
+    width: 20%;
   }
 
   .set_width_table :nth-child(3){
     min-width: 200px;
+    width: 10%;
   }
 
   .set_width_table :nth-child(4){
+    min-width: 150px;
+  }
+
+  .set_width_table :nth-child(5){
     min-width: 100px;
+  }
+
+  .set_width_table :nth-child(6){
+    min-width: 100px;
+  }
+
+  .set_width_table :nth-child(7){
+    min-width: 130px;
+  }
+
+  .set_width_table :nth-child(8){
+    min-width: 50px;
+  }
+
+  .content_left{
+    text-align: left;
+    padding-left: 10px;
+  }
+
+  .header-table.set_width_table div {
+    text-align:center;
   }
 </style>
 

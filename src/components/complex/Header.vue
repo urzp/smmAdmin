@@ -5,6 +5,7 @@
             <ButtonStd class="btn-right"  title="Выйти" @click="logout" :bg_color_hover="'#496781'"></ButtonStd>
         </template>
     </div>
+    <div class="header-fix-vacuum"></div>
 </template>
 
 <script>
@@ -36,6 +37,7 @@ export default {
     width: 100%;
     height: 100px;
     padding: 20px;
+    position: fixed;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -44,6 +46,11 @@ export default {
     .logo{
         cursor: pointer;
     }
+  }
+
+  .header-fix-vacuum{
+    width: 100%;
+    height: 100px;   
   }
 
 
