@@ -3,6 +3,8 @@ import Header from '@/components/complex/Header.vue'
 import MenuLeft from '@/components/complex/MenuLeft.vue'
 import MainContent from '@/components/complex/MainContent.vue'
 import BackGrCard from '@/components/UI/BackGrCard.vue'
+import ButtonPage from '@/components/UI/ButtonPage.vue'
+import PagePanel from '@/components/complex/PagePanel.vue'
 
 export default [
     ButtonStd,
@@ -10,5 +12,7 @@ export default [
     MenuLeft,
     MainContent,
     BackGrCard,
+    ButtonPage,
+    PagePanel,
 ]
 

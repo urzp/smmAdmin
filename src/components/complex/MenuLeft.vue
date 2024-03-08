@@ -2,23 +2,23 @@
     <div class="menu_left">
         <div class="menu-list">
             <div class="menu-item" :class="{'active':selectedItem.users}" @click="$router.push('/users')">
-                <img v-if="selectedItem.users" src="../../assets/icons/users_w.svg" alt="users">
-                <img v-else  src="../../assets/icons/users_b.svg" alt="users">
+                <img v-if="selectedItem.users" src="../../assets/icons/menu_left/users_w.svg" alt="users">
+                <img v-else  src="../../assets/icons/menu_left/users_b.svg" alt="users">
                 <div class="memu-item-lab">Пользователи</div>
             </div>
             <div class="menu-item"  :class="{'active':selectedItem.orders}" @click="$router.push('/orders')">
-                <img v-if="selectedItem.orders" src="../../assets/icons/orders_w.svg" alt="users">
-                <img v-else  src="../../assets/icons/orders_b.svg" alt="users">
+                <img v-if="selectedItem.orders" src="../../assets/icons/menu_left/orders_w.svg" alt="users">
+                <img v-else  src="../../assets/icons/menu_left/orders_b.svg" alt="users">
                 <div class="memu-item-lab">Заказы</div>
             </div>
             <div class="menu-item"  :class="{'active':selectedItem.provaders}" @click="$router.push('/provaders')">
-                <img v-if="selectedItem.provaders" src="../../assets/icons/prov_w.svg" alt="users">
-                <img v-else  src="../../assets/icons/prov_b.svg" alt="users">
+                <img v-if="selectedItem.provaders" src="../../assets/icons/menu_left/prov_w.svg" alt="users">
+                <img v-else  src="../../assets/icons/menu_left/prov_b.svg" alt="users">
                 <div class="memu-item-lab">Поставщики</div>
             </div>
             <div class="menu-item"  :class="{'active':selectedItem.settings}" @click="$router.push('/settings')">
-                <img v-if="selectedItem.settings" src="../../assets/icons/settings_w.svg" alt="users">
-                <img v-else  src="../../assets/icons/settings_b.svg" alt="users">
+                <img v-if="selectedItem.settings" src="../../assets/icons/menu_left/settings_w.svg" alt="users">
+                <img v-else  src="../../assets/icons/menu_left/settings_b.svg" alt="users">
                 <div class="memu-item-lab">Поставщики</div>
             </div>
         </div>

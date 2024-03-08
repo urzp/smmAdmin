@@ -21,11 +21,11 @@ export default {
         },
         bg_color:{
             type: String,
-            default: '#fff',
+            default: '#F0F0F0',
         },
         bg_color_hover:{
             type: String,
-            default: '#fff',
+            default: '#F0F0F0',
         }
     }
 }
@@ -34,7 +34,7 @@ export default {
 <style lang="scss" scoped>
 .bg_card{
     width: v-bind(width);
-    height: v-bind(height);
+    min-height: v-bind(height);
     background-color: v-bind(bg_color);
     border-radius: 5px;
     transition: 0.3s;
