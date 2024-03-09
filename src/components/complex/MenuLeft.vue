@@ -59,6 +59,12 @@ export default {
     height: calc(100vh - 100px);  
     float: left; 
 }
+@media (max-width: 1499.98px) {
+    .menu-fix-vacuum{
+        width: 0px;
+    }
+}
+
 .menu-hide{
     left:-250px!important;
 }

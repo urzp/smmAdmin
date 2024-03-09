@@ -49,6 +49,7 @@ export default {
 
     .btn-right{
         float: right;
+        margin-left: auto;
     }
 
     .title{

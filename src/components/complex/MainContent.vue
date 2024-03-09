@@ -23,4 +23,14 @@ export default {
       margin: 20px;
     }
   }
+  @media (max-width: 1499.98px) {
+    .main-content{
+      width: 100%;
+    }
+  }
+  @media (max-width: 1210px) {
+    .main-content-wrap{
+      margin: 0px!important;
+    }
+  }
 </style>
