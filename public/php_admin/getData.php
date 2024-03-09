@@ -14,6 +14,9 @@ switch ($typeData) {
     case 'users':
         include 'getUsers.php';
         break;
+    case 'orders':
+        include 'getOrders.php';
+        break;
     default:
     $result = (object) [
         'success' => false,

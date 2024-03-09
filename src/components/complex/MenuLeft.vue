@@ -91,6 +91,7 @@ export default {
         align-items: center;
         justify-content: flex-start;
         column-gap: 10px;
+        font-size: 15px;
         cursor: pointer;
 
         img{

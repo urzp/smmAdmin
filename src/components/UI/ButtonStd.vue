@@ -25,6 +25,10 @@ export default {
         bg_color_hover:{
             type: String,
             default: '#214260',
+        },
+        font_size:{
+            type: String,
+            default: '20px',          
         }
     }
 
@@ -54,6 +58,6 @@ export default {
 
     .title{
         color: #fff;
-        font-size: 20px;
+        font-size: v-bind(font_size);
     }
 </style>

@@ -44,5 +44,6 @@ export default {
 }
 .bg_card_wrap{
     padding: 20px 30px;
+    margin-bottom: 20px;
 }
 </style>

@@ -5,6 +5,9 @@ import MainContent from '@/components/complex/MainContent.vue'
 import BackGrCard from '@/components/UI/BackGrCard.vue'
 import ButtonPage from '@/components/UI/ButtonPage.vue'
 import PagePanel from '@/components/complex/PagePanel.vue'
+import TitleTable from '@/components/complex/TitleTable.vue'
+import TableHeader from '@/components/complex/TableHeader.vue'
+import TableBody from '@/components/complex/TableBody.vue'
 
 export default [
     ButtonStd,
@@ -14,5 +17,8 @@ export default [
     BackGrCard,
     ButtonPage,
     PagePanel,
+    TitleTable,
+    TableHeader,
+    TableBody,
 ]
 
