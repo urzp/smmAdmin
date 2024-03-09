@@ -28,7 +28,7 @@
             <div>{{ item.balans  }} р.</div>
             <div>-</div>
             <div>{{ convetToDate(item.time_login) }}</div>
-            <div>{{ item.orders }}</div>
+            <div>{{ orders_summ(item.orders, item.sum_orders) }}</div>
           </div>
         </div>
       </BackGrCard>
@@ -63,6 +63,10 @@ export default {
       if(t==0) return '-'
       let d = new Date(t*1000)
       return d.toLocaleString()
+    },
+    orders_summ(o,s){
+      if(o==0) return '-'
+      return `${o} / ${s} р`
     }
   }
 }
@@ -108,7 +112,7 @@ export default {
   }
 
   .set_width_table :nth-child(2){
-    min-width: 300px;
+    min-width: 250px;
     width: 20%;
   }
 
@@ -134,7 +138,7 @@ export default {
   }
 
   .set_width_table :nth-child(8){
-    min-width: 50px;
+    min-width: 100px;
   }
 
   .content_left{
