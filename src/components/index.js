@@ -8,6 +8,10 @@ import PagePanel from '@/components/complex/PagePanel.vue'
 import TitleTable from '@/components/complex/TitleTable.vue'
 import TableHeader from '@/components/complex/TableHeader.vue'
 import TableBody from '@/components/complex/TableBody.vue'
+import FilterTrueFalse from '@/components/complex/FilterTrueFalse.vue'
+import FilterFind from '@/components/complex/FilterFind.vue'
+import h_colum from '@/components/UI/h_colum.vue'
+
 
 export default [
     ButtonStd,
@@ -20,5 +24,8 @@ export default [
     TitleTable,
     TableHeader,
     TableBody,
+    FilterTrueFalse,
+    FilterFind,
+    h_colum,
 ]
 

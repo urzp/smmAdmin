@@ -1,7 +1,7 @@
 <template>
     <div class="page_button">
         <img v-if="img" :src="`/src/assets/icons/page_panel/${img}.svg`" alt="">
-        <div v-else><input type="text" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)"></div>
+        <div v-else><input type="number" :value="modelValue" @change="$emit('update:modelValue', Number($event.target.value))"></div>
     </div>
 </template>
 
@@ -10,7 +10,7 @@ export default {
     name: 'ButtonPage',
     props:{
         img:String,
-        modelValue:String,
+        modelValue:Number,
     },
     emits: ['update:modelValue'],
 }
@@ -48,4 +48,16 @@ export default {
     }
 }
 
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; 
+}
+img {
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none; 
+}
 </style>
