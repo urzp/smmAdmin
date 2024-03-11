@@ -1,5 +1,5 @@
 <template>
-    <div v-if="maxPage > 1" class="page_panel">
+    <div v-if="maxPage > 1" class="page_panel" :class="{'page_panel_top':panelTop}">
     <ButtonPage img="goStart" @click="page=1"/>
     <ButtonPage img="goLeft" @click="prPage"/>
     <ButtonPage v-model="page"/>
@@ -15,10 +15,17 @@ export default {
   async mounted(){
     EventBus.on('pageTable:maxPage', (val)=>{this.maxPage=val; this.page=1})
   },
+  created () {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  unmounted () {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
   data(){
     return{
       page: 1,
       maxPage: 1,
+      panelTop:false,
     }
   },
   watch:{
@@ -30,6 +37,13 @@ export default {
     }
   },
   methods:{
+    handleScroll (event) {
+      if(window.pageYOffset>142){
+        this.panelTop = true
+      }else{
+        this.panelTop = false
+      }
+    },
     prPage(){
       if(this.page==1) return false
       --this.page
@@ -47,5 +61,10 @@ export default {
   .page_panel{
     display: flex;
     column-gap: 10px;
+  }
+  .page_panel_top{
+    position: fixed;
+    right: 246px;
+    top: 34px;
   }
 </style>

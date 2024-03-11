@@ -1,4 +1,5 @@
 <template>
+    <!-- <div v-show="show_icon" class="icon_filter">от {{ modelValue.from }} до {{ modelValue.until }}</div> -->
     <div v-show="show" class="filter_wrap_position_fix">
     <div class="filter_bg">
         <div class="filter_close_btn" @click.stop="close">
@@ -63,6 +64,10 @@ export default{
 </script>
 
 <style scoped>
+    .icon_filter{
+        margin-top: -5px;
+        font-size: 12px;
+    }
     .filter_wrap_position_fix{
         position: absolute;
     }

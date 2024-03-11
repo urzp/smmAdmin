@@ -11,12 +11,12 @@
       </BackGrCard>
       <BackGrCard>
         <div class="table">
-          <TitleTable title="Общие заказы" :subtitle="`от ${date_f.from} до ${date_f.until}`"/>
+          <TitleTable title="Заказы пользователей" :subtitle="`от ${date_f.from} до ${date_f.until}`"/>
           <TableHeader class="set_width_table">
             <h_colum title="#"/>
             <h_colum title='Дата время' type_f="date" v-model="date_f"/>
             <h_colum title='Транзакция'  type_f='find' v-model="transaction_f"/>
-            <h_colum title='Email' type_f='find' v-model="email_f"/>
+            <h_colum title='Email пользователя' type_f='find' v-model="email_f"/>
             <h_colum title='Кол-во' type_f='true_false' v-model="qunt_f" l_true="вверх" l_false="вниз"/>
             <h_colum title='Сумма' type_f='true_false' v-model="sum_f" l_true="вверх" l_false="вниз"/>
             <h_colum title='url' type_f='true_false' v-model="url_f" l_true="есть url" l_false="без url"/>
@@ -27,11 +27,11 @@
             <div v-for="(item, index) in part_orders" :key="item.id" class="row set_width_table" >
               <div>{{ index + 1 + (part - 1)*100}}</div>
               <div class="content_left">{{ item.datetime }}</div>
-              <div>{{ item.transaction }}</div> 
-              <div class="content_left">{{ item.email }}</div>
+              <div>{{ item.trnsaction }}</div> 
+              <div class="content_left">{{ item.user_email }}</div>
               <div class="content_right">{{ item.quantity }}</div>
               <div class="content_right">{{ item.sum }} p.</div>
-              <div class="content_left">{{ item.link }}</div>
+              <div class="content_left">{{ item.form_link }}</div>
               <div>{{ conv_val(item.provader_status) }}</div>
               <div class="content_left">{{ conv_val(item.provader_msg) }}</div>
             </div>
@@ -45,7 +45,7 @@
 import { getData } from '@/servis/getData.js'
 import { EventBus } from '@/servis/EventBus'
 export default {
-  name: 'OrderPage',
+  name: 'OrderUsersPage',
   async mounted(){
     this.updateList()
     EventBus.on('pageTable:update', this.newPage)
@@ -96,7 +96,7 @@ export default {
   },
   methods:{
     async updateList(){
-      let result = await getData('getData.php',{typeData:'orders', typeOrders:'not_users' ,date_from:this.date_f.from, date_until:this.date_f.until})
+      let result = await getData('getData.php',{typeData:'orders', typeOrders:'users',date_from:this.date_f.from, date_until:this.date_f.until})
       if(!this.checkResult(result)) return false
       this.orders = await result.data
       this.filter();
@@ -111,10 +111,10 @@ export default {
       let email_f = this.email_f
       let transaction_f = this.transaction_f
       if(transaction_f!=''){
-        result = result.filter(i=>i.transaction.indexOf(transaction_f)!=-1)
+        result = result.filter(i=>i.trnsaction.indexOf(transaction_f)!=-1)
       }
       if(email_f!=''){
-        result = result.filter(i=>i.email.indexOf(email_f)!=-1)
+        result = result.filter(i=>i.user_email.indexOf(email_f)!=-1)
       }
       if(qunt_f!=''){
         result = result.sort((a,b)=>{
@@ -141,8 +141,8 @@ export default {
         }) 
       }
       if(url_f!=''){
-        if(url_f=='true') result = result.filter(i=>i.link!='')
-        if(url_f=='false') result = result.filter(i=>i.link=='')
+        if(url_f=='true') result = result.filter(i=>i.form_link!='')
+        if(url_f=='false') result = result.filter(i=>i.form_link=='')
       }  
       if(status_f!=''){
         if(status_f=='true') result = result.filter(i=>i.provader_status=='success')

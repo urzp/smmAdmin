@@ -5,6 +5,7 @@ import LoginPage from '../views/LoginPage.vue'
 import UsersPage from '../views/UsersPage.vue'
 import UserPage from '../views/UserPage.vue'
 import OrdersPage from '../views/OrdersPage.vue'
+import OrdersUserPage from '../views/OrdersUsersPage.vue'
 import ProvadersPage from '../views/ProvadersPage.vue'
 import SettingsPage from '../views/SettingsPage.vue'
 
@@ -49,6 +50,14 @@ const routes = [
       requireAuth: true,
     },
     component: OrdersPage
+  },
+  {
+    path: '/orders/users',
+    name: 'orders_user',
+    meta: {
+      requireAuth: true,
+    },
+    component: OrdersUserPage
   },
   {
     path: '/provaders',

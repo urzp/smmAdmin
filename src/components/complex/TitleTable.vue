@@ -1,6 +1,6 @@
 <template>
     <div class="title-table">
-        <div class="label">{{ title }}</div>
+        <div class="label">{{ title }} <div class="subtitle">{{ subtitle }}</div></div>
         <PagePanel/>
     </div>
 </template>
@@ -10,6 +10,7 @@ export default{
     name: 'TitleTable',
     props:{
         title: String,
+        subtitle: String,
     }
 }
 </script>
@@ -24,5 +25,9 @@ export default{
   .label{
     font-size: 24px;
     text-align: left;
+  }
+  .subtitle{
+    font-size: 18px;
+    color: #959595;
   }
 </style>
