@@ -1,6 +1,7 @@
 <template>
     <div class="wrap" v-bind="$attrs">
         <div class="title">{{ title }}</div>
+        <slot/>
     </div>
 </template>
 

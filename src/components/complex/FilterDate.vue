@@ -1,40 +1,57 @@
 <template>
-    <div v-show="show_icon" class="icon_filter">{{ modelValue }}</div>
     <div v-show="show" class="filter_wrap_position_fix">
-        <div class="filter_bg">
-            <div class="filter_close_btn" @click.stop="close">
+    <div class="filter_bg">
+        <div class="filter_close_btn" @click.stop="close">
                 <img src="@/assets/icons/filters/close.svg" alt="">
-            </div>
-            <div class="title_f">Найти</div>
-            <input type="text" :value="modelValue" @input="updateVal">
-            <div class="filter_submit_btns">
-                <ButtonStd title="Отменить" @click.stop="cancel" width="100px" height="25px" font_size="14px" :border="'1px solid'" bg_color="#16354D" />
-                <ButtonStd title="ОК" @click.stop="close" width="100px" height="25px" font_size="14px" />
-            </div>
         </div>
+        <div class="title_f">Выбрать даты</div>
+        <div class="until_group">
+            <div class="label">до:</div>
+            <input type="date" :value="modelValue.until" @input="updateValUntil">
+        </div>
+        <div class="from_group">
+            <div class="label">от:</div>
+            <input type="date" :value="modelValue.from" @input="updateValFrom">
+        </div>
+        <div class="filter_submit_btns">
+                <ButtonStd title="ОК" @click.stop="close" width="100px" height="25px" font_size="14px" />
+        </div>
+    </div>
     </div>
 </template>
 
 <script>
 export default{
-    name: 'FilterFind',
+    name: 'FilterDate',
     data(){
         return{
             show_icon:false,
         }
     },
     props:{
-        modelValue:String,
+        modelValue: Object,
         show: Boolean,
     },
     emits: ['update:modelValue'],
     methods:{
-        updateVal(event){
-            this.$emit('update:modelValue', event.target.value)
-            this.show_icon = true
+        updateValUntil(event){
+            let until = event.target.value;
+            let result = {
+                until,
+                from: this.modelValue.from
+            }
+            this.$emit('update:modelValue', result)
+        },
+        updateValFrom(event){
+            let from = event.target.value;
+            let result = {
+                from,
+                until: this.modelValue.until,
+            }
+            this.$emit('update:modelValue', result)
         },
         cancel(){
-            this.$emit('update:modelValue', '')
+            this.$emit('update:modelValue', {})
             this.close()
             this.show_icon = false
         },
@@ -46,20 +63,14 @@ export default{
 </script>
 
 <style scoped>
-    .icon_filter{
-        margin-top: -5px;
-        margin-bottom: -8px;
-        color:#16354D;
-        font-family: 'Play-Bold';
-    }
     .filter_wrap_position_fix{
         position: absolute;
     }
     .filter_bg{
         position: relative;
-        width: 250px;
-        height: 125px;
-        top:-155px;
+        width: 280px;
+        height: 160px;
+        top:-200px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -69,6 +80,7 @@ export default{
     }
     .filter_close_btn{
         width: 100%;
+        margin-bottom: 5px;
     }
     .filter_close_btn img{
         float: right;
@@ -80,6 +92,15 @@ export default{
         margin-top: -22px;
         font-size: 16px;
         color: #fff;
+    }
+    .until_group, .from_group{
+        width: 90%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-evenly;
+    }
+    .label{
+        color:#fff;
     }
     input{
         width: 210px;
@@ -93,6 +114,7 @@ export default{
         background-color: #16354d;
         color: #fff;
         outline: none;
+        color-scheme: dark;
     }
     .filter_submit_btns{
         margin-top: 14px;

@@ -4,8 +4,9 @@
     <MainContent>
       <BackGrCard height="60px">
         <div class="buttons_wrap">
-          <ButtonStd title="Незарегистрированные" width="250px" font_size="15px"></ButtonStd>
-          <ButtonStd title="Зарегистрированные" width="250px" font_size="15px"></ButtonStd>
+          <ButtonStd title="Незарегистрированные" width="250px" font_size="15px"/>
+          <ButtonStd title="Зарегистрированные" width="250px" font_size="15px"/>
+          <ButtonStd @click="updateList" class="btn-right" width="80px"><img src="@/assets/icons/update_w.svg" alt=""></ButtonStd>
         </div>
       </BackGrCard>
       <BackGrCard>
@@ -13,7 +14,7 @@
           <TitleTable title="Заказы не зарегистрированных пользователей"/>
           <TableHeader class="set_width_table">
             <h_colum title="#"/>
-            <h_colum title='Дата время'/>
+            <h_colum title='Дата время' type_f="date" v-model="date_f"/>
             <h_colum title='Транзакция'  type_f='find' v-model="transaction_f"/>
             <h_colum title='Email' type_f='find' v-model="email_f"/>
             <h_colum title='Кол-во' type_f='true_false' v-model="qunt_f" l_true="вверх" l_false="вниз"/>
@@ -55,6 +56,10 @@ export default {
       part:'',
       f_orders:'',
       part_orders:'',
+      date_f:{
+        until: this.getFromTodayString(),
+        from:  this.getFromTodayString(7)
+      },
       transaction_f:'',
       email_f:'',
       qunt_f:'',
@@ -82,10 +87,16 @@ export default {
     transaction_f(){
       this.filter();
     },
+    date_f:{
+      handler(n_v,o_l){
+        this.updateList()
+      }, 
+      deep: true
+    }
   },
   methods:{
     async updateList(){
-      let result = await getData('getData.php',{typeData:'orders'})
+      let result = await getData('getData.php',{typeData:'orders', date_from:this.date_f.from, date_until:this.date_f.until})
       if(!this.checkResult(result)) return false
       this.orders = await result.data
       this.filter();
@@ -135,7 +146,7 @@ export default {
       }  
       if(status_f!=''){
         if(status_f=='true') result = result.filter(i=>i.provader_status=='success')
-        if(status_f=='false') result = result.filter(i=>i.provader_status=='fall')
+        if(status_f=='false') result = result.filter(i=>i.provader_status=='fall'||i.provader_status=='false')
       }
       this.f_orders = result
       this.intPage()
@@ -148,6 +159,8 @@ export default {
     },
     conv_val(val){
       if(val==''||val=='none') return '-'
+      val = val.replace('{','')
+      val = val.replace('}','')
       return val
     },
     coutMaxPages(){
@@ -164,6 +177,11 @@ export default {
     },
     op_f(name){
       EventBus.emit(`${name}:open`)
+    },
+    getFromTodayString(days=0){
+      let today = new Date()
+      let result = new Date(today.setDate(today.getDate() - days))
+      return result.toISOString().split('T')[0]
     }
   }
 }
@@ -213,6 +231,7 @@ export default {
 
   .set_width_table>:nth-child(9){
     min-width: 150px;
+    width: 10%;
   }
 
 

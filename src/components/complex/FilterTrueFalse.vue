@@ -7,6 +7,7 @@
             <div class="filter_close_btn" @click.stop="close">
                 <img src="@/assets/icons/filters/close.svg" alt="">
             </div>
+            <div class="title_f">Сортировать</div>
             <div class="form_filter_status">
                 <input type="radio" id="filter_status_success" name="filter_status" value="true" checked @click="updateVal"/>
                 <label for="filter_status_success">{{ l_true }}</label>
@@ -65,7 +66,7 @@ export default{
         position: relative;
         width: 250px;
         height: 125px;
-        top:10px;
+        top:-155px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -81,6 +82,11 @@ export default{
         margin-top: 10px;
         margin-right: 10px;
         cursor: pointer;
+    }
+    .title_f{
+        margin-top: -22px;
+        font-size: 16px;
+        color: #fff;
     }
     .form_filter_status{
         display: flex;

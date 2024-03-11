@@ -10,6 +10,7 @@ import TableHeader from '@/components/complex/TableHeader.vue'
 import TableBody from '@/components/complex/TableBody.vue'
 import FilterTrueFalse from '@/components/complex/FilterTrueFalse.vue'
 import FilterFind from '@/components/complex/FilterFind.vue'
+import FilterDate from '@/components/complex/FilterDate.vue'
 import h_colum from '@/components/UI/h_colum.vue'
 
 
@@ -27,5 +28,6 @@ export default [
     FilterTrueFalse,
     FilterFind,
     h_colum,
+    FilterDate,
 ]
 

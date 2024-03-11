@@ -20,7 +20,7 @@
             <div class="menu-item"  :class="{'active':selectedItem.settings}" @click="$router.push('/settings')">
                 <img v-if="selectedItem.settings" src="../../assets/icons/menu_left/settings_w.svg" alt="users">
                 <img v-else  src="../../assets/icons/menu_left/settings_b.svg" alt="users">
-                <div class="memu-item-lab">Поставщики</div>
+                <div class="memu-item-lab">Настройки</div>
             </div>
         </div>
     </div>

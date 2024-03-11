@@ -3,6 +3,7 @@
         <div class="h_c_title" :class="{'pointer':type_f!='','filter_active':f_val!=''}" @click="show=true">{{ title }}</div>
         <FilterTrueFalse v-if="type_f=='true_false'" :show="show" v-model="f_val" :l_true="l_true" :l_false="l_false"/>
         <FilterFind v-if="type_f=='find'" :show="show" v-model="f_val"/>
+        <FilterDate v-if="type_f=='date'" :show="show" v-model="f_date_val"/>
     </div>
 </template>
 
@@ -12,11 +13,12 @@ export default{
     data(){
         return{
             show:false,
-            f_val:''
+            f_val:'',
+            f_date_val:this.modelValue,
         }
     },
     props:{
-        modelValue:String,
+        modelValue:[String, Object],
         type_f:{
             type:String,
             default: '',
@@ -35,6 +37,9 @@ export default{
     emits: ['update:modelValue'],
     watch:{
         f_val(n_val){
+            this.$emit('update:modelValue', n_val)
+        },
+        f_date_val(n_val){
             this.$emit('update:modelValue', n_val)
         }
     },
