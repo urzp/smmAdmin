@@ -5,7 +5,7 @@
       <BackGrCard height="60px">
         <div class="buttons_wrap">
           <ButtonStd title="Общие" @click="$router.push('/orders')" width="250px" font_size="15px"/>
-          <ButtonStd title="Пользователей" @click="$router.push('/orders/users')" width="250px" font_size="15px"/>
+          <ButtonStd title="Пользователей" @click="updateList" width="250px" font_size="15px"/>
           <ButtonStd @click="updateList" class="btn-right" width="80px"><img src="@/assets/icons/update_w.svg" alt=""></ButtonStd>
         </div>
       </BackGrCard>

@@ -12,6 +12,7 @@ import FilterTrueFalse from '@/components/complex/FilterTrueFalse.vue'
 import FilterFind from '@/components/complex/FilterFind.vue'
 import FilterDate from '@/components/complex/FilterDate.vue'
 import h_colum from '@/components/UI/h_colum.vue'
+import PopupOrder from '@/components/complex/PopupOrder.vue'
 
 
 export default [
@@ -29,5 +30,6 @@ export default [
     FilterFind,
     h_colum,
     FilterDate,
+    PopupOrder,
 ]
 

@@ -4,7 +4,7 @@
     <MainContent>
       <BackGrCard height="60px">
         <div class="buttons_wrap">
-          <ButtonStd title="Общие" @click="$router.push('/orders')" width="250px" font_size="15px"/>
+          <ButtonStd title="Общие" @click="updateList" width="250px" font_size="15px"/>
           <ButtonStd title="Пользователей" @click="$router.push('/orders/users')" width="250px" font_size="15px"/>
           <ButtonStd @click="updateList" class="btn-right" width="80px"><img src="@/assets/icons/update_w.svg" alt=""></ButtonStd>
         </div>
@@ -24,7 +24,7 @@
             <h_colum title='msg'/>
           </TableHeader>
           <TableBody>
-            <div v-for="(item, index) in part_orders" :key="item.id" class="row set_width_table" >
+            <div v-for="(item, index) in part_orders" :key="item.id" class="row set_width_table pointer" @click="pop_show(index)">
               <div>{{ index + 1 + (part - 1)*100}}</div>
               <div class="content_left">{{ item.datetime }}</div>
               <div>{{ item.transaction }}</div> 
@@ -38,6 +38,7 @@
           </TableBody>
         </div>  
       </BackGrCard>
+      <PopupOrder :order="pop_order" v-model="pop_open"/>
     </MainContent>
   </template>
 
@@ -66,6 +67,8 @@ export default {
       sum_f:'',
       url_f:'',
       status_f:'',
+      pop_order:{},
+      pop_open:false,
     }
   },
   watch:{
@@ -182,12 +185,17 @@ export default {
       let today = new Date()
       let result = new Date(today.setDate(today.getDate() - days))
       return result.toISOString().split('T')[0]
+    },
+    pop_show(i){
+      this.pop_open = true
+      let order = this.part_orders[i]
+      this.pop_order = order 
     }
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .buttons_wrap{
     display: flex;
     column-gap: 30px;
@@ -234,5 +242,7 @@ export default {
     width: 10%;
   }
 
-
+  .pointer{
+    cursor: pointer;
+  }
 </style>
