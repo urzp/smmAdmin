@@ -14,6 +14,7 @@
                     <div class="sum_quntity">{{ pop_order.sum }} р.<br>{{ pop_order.quntity }}</div>
                 </div>
                 <div class="order_inf">
+                    <div v-show="userMode" class="row user" @click="$router.push(`/users/${pop_order.user_id}`)"><div class="inf_label">user:</div><div class="inf_content">{{ pop_order.user_email }}</div></div>
                     <div class="row"><div class="inf_label">email:</div><div class="inf_content">{{ pop_order.email }}</div></div>
                     <div class="row"><div class="inf_label">url:</div><div class="inf_content">{{ pop_order.url }}</div></div>
                 </div>
@@ -44,6 +45,10 @@
         props:{
             order:Object,
             modelValue:Boolean,
+            userMode:{
+                type:Boolean,
+                default: false,
+            }
         },
         emits: ['update:modelValue'],
         watch:{
@@ -61,6 +66,13 @@
                     prov_msg: this.clearSumbols(order.provader_msg),
                     date: order.datetime.split(' ')[0],
                     time: order.datetime.split(' ')[1],
+                }
+                if(this.userMode){
+                    this.pop_order.transaction =  order.trnsaction
+                    this.pop_order.user_email = order.user_email
+                    this.pop_order.user_id = order.id_user
+                    this.pop_order.email = order.form_email
+                    this.pop_order.url = order.form_link
                 }
                 for (let key in this.pop_order){
                     this.pop_order[key] = this.ifEmpty( this.pop_order[key])
@@ -160,6 +172,9 @@
                         width: 100px;
                         text-align: left;
                     }
+                }
+                .user{
+                    cursor: pointer;
                 }
             }
 

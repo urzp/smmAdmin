@@ -19,6 +19,10 @@ export default{
     },
     props:{
         modelValue:[String, Object],
+        click_hand:{
+            type:Boolean,
+            default: false,
+        },
         type_f:{
             type:String,
             default: '',
@@ -41,6 +45,9 @@ export default{
         },
         f_date_val(n_val){
             this.$emit('update:modelValue', n_val)
+        },
+        click_hand(){
+            this.show = true
         }
     },
 }

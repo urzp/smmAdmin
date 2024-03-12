@@ -1,10 +1,10 @@
 <template>
-    <div v-if="maxPage > 1" class="page_panel" :class="{'page_panel_top':panelTop}">
-    <ButtonPage img="goStart" @click="page=1"/>
-    <ButtonPage img="goLeft" @click="prPage"/>
+    <div v-if="maxPage > 1" class="page_panel" :class="{'page_panel_top':panelTop}" @click.stop="">
+    <ButtonPage img="goStart" @click.stop="page=1"/>
+    <ButtonPage img="goLeft" @click.stop="prPage"/>
     <ButtonPage v-model="page"/>
-    <ButtonPage img="goRight" @click="nextPage"/>
-    <ButtonPage img="goEnd" @click="page=maxPage"/>
+    <ButtonPage img="goRight" @click.stop="nextPage"/>
+    <ButtonPage img="goEnd" @click.stop="page=maxPage"/>
     </div>
 </template>
 

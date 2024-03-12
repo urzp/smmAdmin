@@ -11,10 +11,10 @@
       </BackGrCard>
       <BackGrCard>
         <div class="table">
-          <TitleTable title="Заказы пользователей" :subtitle="`от ${date_f.from} до ${date_f.until}`"/>
+          <TitleTable title="Заказы пользователей" :subtitle="`от ${date_f.from} до ${date_f.until}`" @click="date_f_click = !date_f_click" class="pointer"/>
           <TableHeader class="set_width_table">
             <h_colum title="#"/>
-            <h_colum title='Дата время' type_f="date" v-model="date_f"/>
+            <h_colum title='Дата время' type_f="date" v-model="date_f" :click_hand="date_f_click"/>
             <h_colum title='Транзакция'  type_f='find' v-model="transaction_f"/>
             <h_colum title='Email пользователя' type_f='find' v-model="email_f"/>
             <h_colum title='Кол-во' type_f='true_false' v-model="qunt_f" l_true="вверх" l_false="вниз"/>
@@ -24,7 +24,7 @@
             <h_colum title='msg'/>
           </TableHeader>
           <TableBody>
-            <div v-for="(item, index) in part_orders" :key="item.id" class="row set_width_table" >
+            <div v-for="(item, index) in part_orders" :key="item.id" class="row set_width_table pointer" @click="pop_show(index)" >
               <div>{{ index + 1 + (part - 1)*100}}</div>
               <div class="content_left">{{ item.datetime }}</div>
               <div>{{ item.trnsaction }}</div> 
@@ -38,6 +38,7 @@
           </TableBody>
         </div>  
       </BackGrCard>
+      <PopupOrder userMode :order="pop_order" v-model="pop_open"/>
     </MainContent>
   </template>
 
@@ -60,12 +61,15 @@ export default {
         until: this.getFromTodayString(),
         from:  this.getFromTodayString(7)
       },
+      date_f_click: false,
       transaction_f:'',
       email_f:'',
       qunt_f:'',
       sum_f:'',
       url_f:'',
       status_f:'',
+      pop_order:{},
+      pop_open:false,
     }
   },
   watch:{
@@ -181,6 +185,11 @@ export default {
       let today = new Date()
       let result = new Date(today.setDate(today.getDate() - days))
       return result.toISOString().split('T')[0]
+    },
+    pop_show(i){
+      this.pop_open = true
+      let order = this.part_orders[i]
+      this.pop_order = order 
     }
   }
 }
@@ -233,5 +242,7 @@ export default {
     width: 10%;
   }
 
-
+  .pointer{
+    cursor: pointer;
+  }
 </style>

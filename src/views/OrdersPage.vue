@@ -11,10 +11,10 @@
       </BackGrCard>
       <BackGrCard>
         <div class="table">
-          <TitleTable title="Общие заказы" :subtitle="`от ${date_f.from} до ${date_f.until}`"/>
+          <TitleTable title="Общие заказы" :subtitle="`от ${date_f.from} до ${date_f.until}`" @click="date_f_click = !date_f_click" class="pointer"/>
           <TableHeader class="set_width_table">
             <h_colum title="#"/>
-            <h_colum title='Дата время' type_f="date" v-model="date_f"/>
+            <h_colum title='Дата время' type_f="date" v-model="date_f" :click_hand="date_f_click"/>
             <h_colum title='Транзакция'  type_f='find' v-model="transaction_f"/>
             <h_colum title='Email' type_f='find' v-model="email_f"/>
             <h_colum title='Кол-во' type_f='true_false' v-model="qunt_f" l_true="вверх" l_false="вниз"/>
@@ -59,8 +59,9 @@ export default {
       part_orders:'',
       date_f:{
         until: this.getFromTodayString(),
-        from:  this.getFromTodayString(7)
+        from:  this.getFromTodayString(7),
       },
+      date_f_click: false,
       transaction_f:'',
       email_f:'',
       qunt_f:'',
