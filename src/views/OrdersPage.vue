@@ -44,18 +44,23 @@
 
 <script>
 import { getData } from '@/servis/getData.js'
+import {coutMaxPages, newPage} from '@/servis/pageControl.js'
 import { EventBus } from '@/servis/EventBus'
 export default {
   name: 'OrderPage',
   async mounted(){
     this.updateList()
-    EventBus.on('pageTable:update', this.newPage)
+    EventBus.on('pageTable:update', (page)=>{
+      this.part = page
+      this.part_orders = newPage(this.f_orders, page, this.part_items)
+    })
   },
   data(){
     return{
       orders:'',
-      part:'',
       f_orders:'',
+      part:'',
+      part_items: 100,
       part_orders:'',
       date_f:{
         until: this.getFromTodayString(),
@@ -167,16 +172,12 @@ export default {
       return val
     },
     coutMaxPages(){
-      return Math.floor(1+this.f_orders.length/100) 
+      return Math.floor(1+this.f_orders.length/this.part_items) 
     },
     intPage(){
-      EventBus.emit('pageTable:maxPage', this.coutMaxPages() )
+      EventBus.emit('pageTable:maxPage', coutMaxPages(this.f_orders, this.part_items)) 
       this.part = 1
-      this.part_orders = this.f_orders.slice(0, 100)
-    },
-    newPage(page){
-      this.part = page
-      this.part_orders = this.f_orders.slice(0+100*(page-1), 100*page)
+      this.part_orders = newPage(this.f_orders, this.part, this.part_items)
     },
     op_f(name){
       EventBus.emit(`${name}:open`)

@@ -2,8 +2,8 @@
     <div v-show="show_icon" class="icon_filter">
     <img src="@/assets/icons/filters/filter.svg" alt="">
     </div>
-    <div v-show="show" class="filter_wrap_position_fix">
-        <div class="filter_bg">
+    <div v-show="show" class="filter_wrap_position_fix" >
+        <div class="filter_bg" :class="{'left':left}">
             <div class="filter_close_btn" @click.stop="close">
                 <img src="@/assets/icons/filters/close.svg" alt="">
             </div>
@@ -35,6 +35,10 @@ export default{
         show: Boolean,
         l_true:String,
         l_false:String,
+        left:{
+            type:Boolean,
+            default:false
+        }
     },
     emits: ['update:modelValue'],
     methods:{
@@ -61,6 +65,7 @@ export default{
     }
     .filter_wrap_position_fix{
         position: absolute;
+        width: 0px;
     }
     .filter_bg{
         position: relative;
@@ -73,6 +78,9 @@ export default{
         border-radius: 5px;
         background-color: #16354D;
         box-shadow: 4px 4px 4px #00000030;
+    }
+    .left{
+        left: -200px;
     }
     .filter_close_btn{
         width: 100%;

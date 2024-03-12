@@ -1,7 +1,7 @@
 <template>
     <div class="h_colum">
         <div class="h_c_title" :class="{'pointer':type_f!='','filter_active':f_val!=''}" @click="show=true">{{ title }}</div>
-        <FilterTrueFalse v-if="type_f=='true_false'" :show="show" v-model="f_val" :l_true="l_true" :l_false="l_false"/>
+        <FilterTrueFalse v-if="type_f=='true_false'" :show="show" v-model="f_val" :l_true="l_true" :l_false="l_false" :left="f_left"/>
         <FilterFind v-if="type_f=='find'" :show="show" v-model="f_val"/>
         <FilterDate v-if="type_f=='date'" :show="show" v-model="f_date_val"/>
     </div>
@@ -36,6 +36,10 @@ export default{
             type:String,
             default: 'fall',
         },
+        f_left:{
+            type:Boolean,
+            default:false,
+        }
 
     },
     emits: ['update:modelValue'],
