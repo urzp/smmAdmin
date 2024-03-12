@@ -159,8 +159,7 @@ export default {
     },
     conv_val(val){
       if(val==''||val=='none') return '-'
-      val = val.replace('{','')
-      val = val.replace('}','')
+      val = val.replace(/['"{}]+/g , '')
       return val
     },
     coutMaxPages(){

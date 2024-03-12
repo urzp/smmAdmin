@@ -4,7 +4,7 @@
             <div class="header">
                 <div class="h_label">Заказ:</div>
                 <div class="h_content">{{ pop_order.transaction }}</div>
-                <div class="filter_close_btn" @click.stop="close">
+                <div class="close_btn" @click.stop="close">
                     <img src="@/assets/icons/filters/close.svg" alt="">
                 </div>
             </div>
@@ -38,17 +38,6 @@
         name: 'PopupOrder',
         data(){
             return{
-                transaction: "28933445",
-                name_order: 'Подписчики Инстаграм лучшие HQ=18 sdsdsdsdsdsadadsdafadfefadvvdasvdadgadadsgasdgasdgadgasdg',
-                sum: 100.95,
-                quntity: 100,
-                email: 'ermak80_pass@mail.ru',
-                url: 'https://www.instagram.com/ermak80_pass?utm_source=qr&igsh=anJiMmdtcGtndTZs',
-                id_prov: 5,
-                prov_status: 'success',
-                prov_msg: '"order":"345467662',
-                date: '10-03-2024',
-                time: '10:10:43',
                 pop_order:{},
             }
         },
@@ -69,9 +58,13 @@
                     url: order.link,
                     id_prov: order.id_provider,
                     prov_status: order.provader_status,
-                    prov_msg: order.provader_msg,
-                    datetime: order.datetime
+                    prov_msg: this.clearSumbols(order.provader_msg),
+                    date: order.datetime.split(' ')[0],
+                    time: order.datetime.split(' ')[1],
                 }
+                for (let key in this.pop_order){
+                    this.pop_order[key] = this.ifEmpty( this.pop_order[key])
+                };
             },
             deep: true
             }
@@ -80,6 +73,13 @@
             close(){
                 this.show = false;
                 this.$emit('update:modelValue', false)
+            },
+            clearSumbols(st){
+                return st.replace(/['"{}]+/g , '')
+            },
+            ifEmpty(val){
+                if(val=='') val='-'
+                return val
             }
         }
     }
@@ -116,9 +116,10 @@
             color: #fff;
             font-size: 24px;
 
-            .filter_close_btn{
+            .close_btn{
                 width: 35px;
                 height: 35px;
+                cursor: pointer;
                 img{
                     width: 100%;
                 }
