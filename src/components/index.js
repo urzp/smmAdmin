@@ -17,6 +17,7 @@ import Carduser from '@/components/complex/CardUser.vue'
 import TableUserOrders from '@/components/Tables/UserOrders.vue'
 import TableUserUpBalans from '@/components/Tables/UserUpBalans.vue'
 import TableUserLog from '@/components/Tables/UserLog.vue'
+import CardMain from '@/components/complex/CardMain.vue'
 
 export default [
     ButtonStd,
@@ -38,5 +39,6 @@ export default [
     TableUserOrders,
     TableUserUpBalans,
     TableUserLog,
+    CardMain
 ]
 
