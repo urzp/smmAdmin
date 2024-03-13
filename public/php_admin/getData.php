@@ -11,6 +11,12 @@ $rq_data = $post -> rq_data;
 $typeData = $rq_data -> typeData;
 
 switch ($typeData) {
+    case 'userLog':
+        include 'getUserLog.php';
+        break;
+    case 'userPaumentBalans':
+        include 'getUserPaumentBalans.php';
+        break;
     case 'userOrders':
         include 'getUserOrders.php';
         break;

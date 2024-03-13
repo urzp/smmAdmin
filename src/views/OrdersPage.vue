@@ -25,7 +25,7 @@
           </TableHeader>
           <TableBody>
             <div v-for="(item, index) in part_orders" :key="item.id" class="row set_width_table pointer" @click="pop_show(index)">
-              <div>{{ index + 1 + (part - 1)*100}}</div>
+              <div>{{ index + 1 + (part - 1)*this.part_items}}</div>
               <div class="content_left">{{ item.datetime }}</div>
               <div>{{ item.transaction }}</div> 
               <div class="content_left">{{ item.email }}</div>
@@ -170,9 +170,6 @@ export default {
       if(val==''||val=='none') return '-'
       val = val.replace(/['"{}]+/g , '')
       return val
-    },
-    coutMaxPages(){
-      return Math.floor(1+this.f_orders.length/this.part_items) 
     },
     intPage(){
       EventBus.emit('pageTable:maxPage', coutMaxPages(this.f_orders, this.part_items)) 

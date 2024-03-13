@@ -14,7 +14,9 @@ import FilterDate from '@/components/complex/FilterDate.vue'
 import h_colum from '@/components/UI/h_colum.vue'
 import PopupOrder from '@/components/complex/PopupOrder.vue'
 import Carduser from '@/components/complex/CardUser.vue'
-
+import TableUserOrders from '@/components/Tables/UserOrders.vue'
+import TableUserUpBalans from '@/components/Tables/UserUpBalans.vue'
+import TableUserLog from '@/components/Tables/UserLog.vue'
 
 export default [
     ButtonStd,
@@ -33,5 +35,8 @@ export default [
     FilterDate,
     PopupOrder,
     Carduser,
+    TableUserOrders,
+    TableUserUpBalans,
+    TableUserLog,
 ]
 

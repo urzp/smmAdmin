@@ -20,6 +20,7 @@ export  async function getData(php_script, rq_data = {}){
     });
 
     let result = await response.json();
+    if(!result.data) result.data = []
     return result
 }
 

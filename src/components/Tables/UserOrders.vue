@@ -1,22 +1,12 @@
 <template>
-    <Header></Header>
-    <MenuLeft selected="orders"></MenuLeft>
-    <MainContent>
-      <BackGrCard height="60px">
-        <div class="buttons_wrap">
-          <ButtonStd title="Общие" @click="$router.push('/orders')" width="250px" font_size="15px"/>
-          <ButtonStd title="Пользователей" @click="updateList" width="250px" font_size="15px"/>
-          <ButtonStd @click="updateList" class="btn-right" width="80px"><img src="@/assets/icons/update_w.svg" alt=""></ButtonStd>
-        </div>
-      </BackGrCard>
       <BackGrCard>
         <div class="table">
-          <TitleTable title="Заказы пользователей" :subtitle="`от ${date_f.from} до ${date_f.until}`" @click="date_f_click = !date_f_click" class="pointer"/>
+          <TitleTable title="Заказы пользователя" :subtitle="`от ${date_f.from} до ${date_f.until}`" @click="date_f_click = !date_f_click" class="pointer"/>
           <TableHeader class="set_width_table">
             <h_colum title="#"/>
             <h_colum title='Дата время' type_f="date" v-model="date_f" :click_hand="date_f_click"/>
             <h_colum title='Транзакция'  type_f='find' v-model="transaction_f"/>
-            <h_colum title='Email пользователя' type_f='find' v-model="email_f"/>
+            <h_colum title='Название' type_f='find' v-model="email_f"/>
             <h_colum title='Кол-во' type_f='true_false' v-model="qunt_f" l_true="вверх" l_false="вниз"/>
             <h_colum title='Сумма' type_f='true_false' v-model="sum_f" l_true="вверх" l_false="вниз"/>
             <h_colum title='url' type_f='true_false' v-model="url_f" l_true="есть url" l_false="без url"/>
@@ -28,7 +18,7 @@
               <div>{{ index + 1 + (part - 1)*this.part_items}}</div>
               <div class="content_left">{{ item.datetime }}</div>
               <div>{{ item.trnsaction }}</div> 
-              <div class="content_left">{{ item.user_email }}</div>
+              <div class="content_left">{{ item.products }}</div>
               <div class="content_right">{{ item.quantity }}</div>
               <div class="content_right">{{ item.sum }} p.</div>
               <div class="content_left">{{ item.form_link }}</div>
@@ -39,7 +29,6 @@
         </div>  
       </BackGrCard>
       <PopupOrder userMode :order="pop_order" v-model="pop_open"/>
-    </MainContent>
   </template>
 
 <script>
@@ -47,7 +36,7 @@ import { getData } from '@/servis/getData.js'
 import { EventBus } from '@/servis/EventBus'
 import {coutMaxPages, newPage} from '@/servis/pageControl.js'
 export default {
-  name: 'OrderUsersPage',
+  name: 'TableUserOrders',
   async mounted(){
     this.updateList()
     EventBus.on('pageTable:update', (page)=>{
@@ -64,7 +53,7 @@ export default {
       part_orders:'',
       date_f:{
         until: this.getFromTodayString(),
-        from:  this.getFromTodayString(7)
+        from:  '2024-01-01'
       },
       date_f_click: false,
       transaction_f:'',
@@ -76,6 +65,9 @@ export default {
       pop_order:{},
       pop_open:false,
     }
+  },
+  props:{
+    user_id:String,
   },
   watch:{
     status_f(){
@@ -105,7 +97,7 @@ export default {
   },
   methods:{
     async updateList(){
-      let result = await getData('getData.php',{typeData:'orders', typeOrders:'users',date_from:this.date_f.from, date_until:this.date_f.until})
+      let result = await getData('getData.php',{typeData:'userOrders', user_id:this.user_id, date_from:this.date_f.from, date_until:this.date_f.until})
       if(!this.checkResult(result)) return false
       this.orders = await result.data
       this.filter();
@@ -216,6 +208,7 @@ export default {
 
   .set_width_table>:nth-child(4){
     min-width: 250px;
+    width: 20%;
   }
 
   .set_width_table>:nth-child(5){

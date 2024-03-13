@@ -3,16 +3,20 @@
     <MenuLeft selected="users"></MenuLeft>
     <MainContent>
         <CardUser :user="user"/>
+        <TableUserOrders v-if="selectTable=='orders'" :user_id="user_id"/>
+        <TableUserUpBalans v-if="selectTable=='upbalans'" :user_id="user_id"/>
+        <TableUserLog v-if="selectTable=='log'" :user_id="user_id"/>
     </MainContent>
 </template>
 
 <script>
 import { getData } from '@/servis/getData.js'
+import { EventBus } from '@/servis/EventBus'
 export default {
   name: 'UserPage',
   async mounted(){
     await this.getUser()
-    await this.getOrders()
+    EventBus.on('UserPageSelectTable',(table)=>{this.selectTable=table})
   },
   data(){
     return{
@@ -20,6 +24,7 @@ export default {
       user:{},
       orders:{},
       balans:{},
+      selectTable:'orders'
     }
   },
   methods:{
@@ -27,11 +32,6 @@ export default {
       let result  = await getData('getData.php',{typeData:'user', user_id: this.user_id})
       if(!this.checkResult(result)) return false
       this.user = await result.data
-    },
-    async getOrders(){
-      let result  = await getData('getData.php',{typeData:'userOrders', user_id: this.user_id})
-      if(!this.checkResult(result)) return false
-      this.orders = await result.data
     },
     checkResult(result){
       this.lading = false

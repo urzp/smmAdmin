@@ -4,10 +4,19 @@ $until = $rq_data -> date_until;
 $until = $until.' 23:59:59';
 $from = $rq_data -> date_from; 
 
-if($type_orders=='not_users') $table_orders = 'orders';
-if($type_orders=='users') $table_orders = 'out_payments';
+$sql = '';
 
-$sql = "SELECT * FROM `$table_orders` WHERE `datetime` <= '$until' AND `datetime` >= '$from' ORDER BY `id` DESC";
+if($type_orders=='not_users'){ 
+    $table_orders = 'orders';
+    $sql = "SELECT * FROM `$table_orders` WHERE `datetime` <= '$until' AND `datetime` >= '$from' ORDER BY `id` DESC";
+}
+
+if($type_orders=='users'){ 
+    $table_orders = 'out_payments';
+    $sql = "SELECT * FROM `$table_orders` WHERE `datetime` <= '$until' AND `datetime` >= '$from' ORDER BY `id` DESC";
+}
+
+
 $result_sql = $mysql -> query($sql);
 while ($row = $result_sql->fetch_assoc()) {  
     if($type_orders=='users'){

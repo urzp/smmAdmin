@@ -17,9 +17,9 @@
                     </div>
                 </div>
                 <div class="buttons_wrap">
-                    <ButtonStd title="Заказы" width="220px" height="35px" font_size="16px"/>
-                    <ButtonStd title="Баланс" width="220px" height="35px"  font_size="16px"/>
-                    <ButtonStd title="Лог" width="220px" height="35px"  font_size="16px"/>
+                    <ButtonStd title="Заказы" @click="selectTabel('orders')" width="220px" height="35px" font_size="16px"/>
+                    <ButtonStd title="Баланс" @click="selectTabel('upbalans')" width="220px" height="35px"  font_size="16px"/>
+                    <ButtonStd title="Лог" @click="selectTabel('log')" width="220px" height="35px"  font_size="16px"/>
                 </div>
             </div>
             <div class="groupe_2_level_1">
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { EventBus } from '@/servis/EventBus'
 export default {
     name: 'CardUser',
     data(){
@@ -63,6 +64,9 @@ export default {
             let result = new Date(Number(d)*1000)
             return result.toLocaleString()
         },
+        selectTabel(t){
+            EventBus.emit('UserPageSelectTable',t)
+        }
     }
 }
 </script>
