@@ -13,6 +13,7 @@ import FilterFind from '@/components/complex/FilterFind.vue'
 import FilterDate from '@/components/complex/FilterDate.vue'
 import h_colum from '@/components/UI/h_colum.vue'
 import PopupOrder from '@/components/complex/PopupOrder.vue'
+import PopupProvider from '@/components/complex/PopupProvider.vue'
 import Carduser from '@/components/complex/CardUser.vue'
 import TableUserOrders from '@/components/Tables/UserOrders.vue'
 import TableUserUpBalans from '@/components/Tables/UserUpBalans.vue'
@@ -35,6 +36,7 @@ export default [
     h_colum,
     FilterDate,
     PopupOrder,
+    PopupProvider,
     Carduser,
     TableUserOrders,
     TableUserUpBalans,
