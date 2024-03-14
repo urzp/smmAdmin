@@ -1,6 +1,8 @@
 <template>
     <div class="page_button">
-        <img v-if="img" :src="`/src/assets/icons/page_panel/${img}.svg`" alt="">
+        <div v-if="img" class="img">
+            <slot/>
+        </div>
         <div v-else><input type="number" :value="modelValue" @change="$emit('update:modelValue', Number($event.target.value))"></div>
     </div>
 </template>
@@ -52,7 +54,13 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0; 
 }
-img {
+
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+.img {
+    display: flex;
     -webkit-touch-callout: none; 
     -webkit-user-select: none; 
      -khtml-user-select: none; 
