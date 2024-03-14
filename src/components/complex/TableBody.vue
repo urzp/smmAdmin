@@ -7,6 +7,12 @@
 <script>
 export default{
     name: 'TableBody',
+    props:{
+        align:{
+            type: String,
+            default: "space-between",
+        }
+    }
 } 
 </script>
 
@@ -19,7 +25,7 @@ export default{
   :deep(.row){
       display: flex;
       align-items: center;
-      justify-content:space-between;
+      justify-content: v-bind(align);
       column-gap: 10px;
       div{
         overflow: hidden;

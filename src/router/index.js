@@ -6,7 +6,7 @@ import UsersPage from '../views/UsersPage.vue'
 import UserPage from '../views/UserPage.vue'
 import OrdersPage from '../views/OrdersPage.vue'
 import OrdersUserPage from '../views/OrdersUsersPage.vue'
-import ProvadersPage from '../views/ProvadersPage.vue'
+import ProvidersPage from '../views/ProvidersPage.vue'
 import SettingsPage from '../views/SettingsPage.vue'
 
 const routes = [
@@ -65,7 +65,7 @@ const routes = [
     meta: {
       requireAuth: true,
     },
-    component: ProvadersPage
+    component: ProvidersPage
   },
   {
     path: '/settings',

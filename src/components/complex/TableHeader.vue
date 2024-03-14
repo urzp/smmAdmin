@@ -7,6 +7,12 @@
 <script>
 export default{
     name: 'TableHeader',
+    props:{
+        align:{
+            type: String,
+            default: "space-between",
+        }
+    }
 
 }
 </script>
@@ -19,7 +25,7 @@ export default{
     border-bottom: 1px solid #D2D2D4;
     display: flex;
     align-items: center;
-    justify-content:space-between;
+    justify-content: v-bind(align);
     column-gap: 10px;
     color: #A8A8A8;
 }
