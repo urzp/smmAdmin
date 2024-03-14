@@ -2,6 +2,11 @@
     <div class="menu-fix-vacuum"></div>
     <div class="menu_left">
         <div class="menu-list">
+            <div class="menu-item" :class="{'active':selectedItem.main}" @click="$router.push('/')">
+                <img v-if="selectedItem.main" src="../../assets/icons/menu_left/home_w.svg" alt="users">
+                <img v-else  src="../../assets/icons/menu_left/home_b.svg" alt="users">
+                <div class="memu-item-lab">Главная</div>
+            </div>
             <div class="menu-item" :class="{'active':selectedItem.users}" @click="$router.push('/users')">
                 <img v-if="selectedItem.users" src="../../assets/icons/menu_left/users_w.svg" alt="users">
                 <img v-else  src="../../assets/icons/menu_left/users_b.svg" alt="users">
@@ -41,6 +46,7 @@ export default {
     computed:{
         selectedItem(){
             let out ={
+                main:false,
                 users: false,
                 orders: false,
                 provaders: false,

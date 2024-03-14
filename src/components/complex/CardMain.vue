@@ -60,23 +60,34 @@ export default{
             default:{}
         }
     },
+    watch:{
+        data:{
+            handler(new_data){
+                if(this.iconCentr) return false
+                this.countGraphic(new_data.graphic)
+                this.renderGraphic()
+            },
+            deep:true,
+        }
+    },
     methods:{
         countGraphic(data){
             let max_data = Math.max(...data)
-            let min_data = Math.min(...data)
+            let min_data =  Math.min(...data)
             data.forEach((el,i) => {
-                let y = ((Number(el) - min_data)/(max_data - min_data))
+                let y = 0
+                if(max_data > 0) y = Number(el)/max_data
                 this.g_data[i] = (y*(this.grap_max - this.grap_min) + this.grap_min)  + 'px'
             });
         },
         renderGraphic(){
-            this.grap_1 = this.g_data[0]
-            this.grap_2 = this.g_data[1]
-            this.grap_3 = this.g_data[2]
+            this.grap_1 = this.g_data[6]
+            this.grap_2 = this.g_data[5]
+            this.grap_3 = this.g_data[4]
             this.grap_4 = this.g_data[3]
-            this.grap_5 = this.g_data[4]
-            this.grap_6 = this.g_data[5]
-            this.grap_7 = this.g_data[6]
+            this.grap_5 = this.g_data[2]
+            this.grap_6 = this.g_data[1]
+            this.grap_7 = this.g_data[0]
         },
 
     }
