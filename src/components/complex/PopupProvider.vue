@@ -3,19 +3,30 @@
         <div class="popup" @click.stop="">
             <div class="header">
                 <div class="h_label">Поставщик:</div>
-                <div class="h_content">#{{ pop_provider.id }}</div>
+                <div class="h_content">#{{ pop_provider.id_old }}</div>
                 <div class="close_btn" @click.stop="close">
                     <img src="@/assets/icons/filters/close.svg" alt="">
                 </div>
             </div>
             <div class="body">
-                <div class="title">
-                    <div class="name_provider"></div>
-                    <div class="sum_quntity"></div>
-                </div>
                 <div class="provider_inf">
-                    <div class="row"><div class="inf_label">url:</div><div class="inf_content">{{ pop_provider.url }}</div></div>
-                    <div class="row"><div class="inf_label">api_key:</div><div class="inf_content">{{ pop_provider.api_key }}</div></div>
+                    <div class="row id_prov">
+                        <div class="inf_label">ID:</div>
+                        <input type="number" v-model="pop_provider.id_old"   />
+                    </div>
+                    <div class="row">
+                        <div class="inf_label">url:</div>
+                        <input type="text" v-model="pop_provider.name">
+                    </div>
+                    <div class="row api_key">
+                        <div class="inf_label">api_key:</div>
+                        <input type="text" v-model="pop_provider.api_key">
+                        <!-- <ButtonStd title="Проверить" @click="checkApy()" :height="'35px'" class="btn-right" :bg_color="'#D9D9D9'" :font_color="'#16354D'" :bg_color_hover="'#becddc'"/> -->
+                    </div>
+                    <div class="row buttons">
+                        <ButtonStd title="Отменить" @click.stop="close" :height="'35px'" :bg_color="'#E4E5EA'" :bg_color_hover="'#E4E5EA'" :font_color="'#16354D'" :border="'1px solid #16354D' " />
+                        <ButtonStd title="Сохранить" @click="saveData" :height="'35px'"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -23,6 +34,8 @@
 </template>
 
 <script>
+import { getData } from '@/servis/getData.js'
+import { EventBus } from '@/servis/EventBus'
     export default{
         name: 'PopupProvider',
         data(){
@@ -31,38 +44,57 @@
             }
         },
         props:{
-            provider:Object,
+            provider_id:String,
             modelValue:Boolean,
-            userMode:{
-                type:Boolean,
-                default: false,
-            }
         },
-        emits: ['update:modelValue'],
+        emits: ['update:save'],
         watch:{
-            provider:{
-            handler:function(provider){
-                this.pop_provider = {
-                    id: provider.id,
-                    id_old: provider.id_old,
-                    url: provider.url,
-                    apy_key: provider.apy_key,
+            modelValue(new_val){
+                if(new_val){
+                    this.loadData()
                 }
-                if(this.userMode){
-                    this.pop_provider.transaction =  provider.trnsaction
-                    this.pop_provider.user_email = provider.user_email
-                    this.pop_provider.user_id = provider.id_user
-                    this.pop_provider.email = provider.form_email
-                    this.pop_provider.url = provider.form_link
-                }
-                for (let key in this.pop_provider){
-                    this.pop_provider[key] = this.ifEmpty( this.pop_provider[key])
-                };
-            },
-            deep: true
             }
         },
         methods:{
+            async loadData(){
+                if(this.provider_id == 'new'){
+                    this.pop_provider = {
+                        id:'new',
+                        id_old:'',
+                        name:'',
+                        api_key:''
+                    }
+                    return false
+                }
+                let result = await getData('getData.php',{typeData:'provider', provider_id:this.provider_id})
+                if(!this.checkResult(result)) return false
+                this.pop_provider = await result.data[0]
+            },
+            async saveData(){
+                let result = await getData('updateData.php',{typeData:'provider', data: this.pop_provider })
+                if(!this.checkResult(result)) return false
+                EventBus.emit('Provader:updateList')
+                this.close()
+            },
+            checkResult(result){
+                this.lading = false
+                if (result.success) return true
+                this.notFound = true
+                return false
+            },
+            async checkApy(){
+                let data = {
+                    key: this.pop_provider.api_key,
+                    action: 'balance'
+                }
+                let result  = fetch(this.pop_provider.name,{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams(data).toString()
+                })
+            },
             close(){
                 this.show = false;
                 this.$emit('update:modelValue', false)
@@ -91,7 +123,7 @@
             margin: auto;
             margin-top: 200px;
             width: 1100px;
-            height: 600px;
+            height: 400px;
             border-radius: 10px;
             background-color: #E4E5EA;
         }
@@ -119,36 +151,50 @@
             }
         }
 
+
+
         .body{
             margin-left: 40px;
             margin-right: 40px;
             height: calc(100% - 65px);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            .title{
-                padding-top: 70px;
-                display: flex;
-                justify-content: space-between;
-                color: #16354D;
-                font-family: 'Play-Bold';
-                font-size: 24px;
+            justify-content: center;
 
-                .name_provider{
-                    max-width: 850px;
-                    text-align: left;
-                }
-                .sum_quntity{
-                    text-align: right
-                }
+            .row{
+                margin-top: 10px;
+                margin-bottom: 10px;
             }
+
+            input{
+                width: 95%;
+                height: 35px;
+                text-align: left;
+                padding: 0px 20px;
+                border: none;
+                outline:none;
+                background-color: #D9D9D9;
+                color: #16354D;
+                border-radius: 30px;
+                font-size: 18px;
+            }
+
+            .id_prov input{
+                width: 70px;
+                padding: 0px;
+                text-align: center;
+            }
+
+            // .api_key input{
+            //     width: 70%;
+            //     margin-right: 15px;
+            // }
 
             .provider_inf{
                 font-size: 20px;
                 color: #16354D;
                 .row{
                     display: flex;
-
                     .inf_label{
                         width: 100px;
                         text-align: left;
@@ -189,6 +235,12 @@
                         width: 120px;
                     }
                 }
+            }
+
+            .buttons{
+                display: flex;
+                column-gap: 10px;
+                justify-content: flex-end;
             }
         }
     }

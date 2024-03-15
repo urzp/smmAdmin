@@ -1,6 +1,7 @@
 <template>
     <div class="title-table">
         <div class="label">{{ title }} <div class="subtitle">{{ subtitle }}</div></div>
+        <slot/>
         <PagePanel/>
     </div>
 </template>

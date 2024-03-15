@@ -38,6 +38,14 @@ export default {
         font_size:{
             type: String,
             default: '20px',          
+        },
+        font_color:{
+            type: String,
+            default: '#FFF',               
+        },
+        font_color_hover:{
+            type: String,
+            default: '#FFF',               
         }
     }
 
@@ -68,7 +76,8 @@ export default {
     }
 
     .title{
-        color: #fff;
+        color: v-bind(font_color);
         font-size: v-bind(font_size);
     }
+
 </style>

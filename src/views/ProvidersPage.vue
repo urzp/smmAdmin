@@ -4,7 +4,9 @@
     <MainContent>
         <BackGrCard>
             <div class="table">
-                <TitleTable title="Поставщики"/>
+                <TitleTable title="Поставщики">
+                  <ButtonStd title="Добавить" :height="'35px'" @click="new_provider"/>
+                </TitleTable>
                 <TableHeader class="set_width_table" :align="'flex-start'">
                     <h_colum title="#"/>
                     <h_colum title='id'/>
@@ -21,7 +23,7 @@
                 </TableBody>
             </div>
         </BackGrCard>
-      <PopupProvider :order="pop_order" v-model="pop_open"/>
+      <PopupProvider :provider_id = "pop_provider_id" v-model="pop_open"/>
     </MainContent>
 </template>
 
@@ -37,6 +39,7 @@ export default {
       this.part = page
       this.part_providers = newPage(this.f_providers, page, this.part_items)
     })
+    EventBus.on('Provader:updateList',this.updateList)
   },
   data(){
     return{
@@ -45,7 +48,8 @@ export default {
         part_items: 100,
         part:'',
         part_providers:'',
-        pop_order:'',
+        pop_provider:'',
+        pop_provider_id:'',
         pop_open:false,
     }
   },
@@ -73,8 +77,12 @@ export default {
     },
     pop_show(i){
       this.pop_open = true
-      let order = this.part_providers[i]
-      this.pop_order = order 
+      this.pop_provider_id = this.part_providers[i].id
+      this.pop_provider = this.part_providers[i]
+    },
+    new_provider(){
+      this.pop_provider_id = 'new'
+      this.pop_open = true
     }
   }
 
