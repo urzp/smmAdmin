@@ -2,7 +2,7 @@
     <div class="h_colum">
         <div class="h_c_title" :class="{'pointer':type_f!='','filter_active':f_val!=''}" @click="show=true">{{ title }}</div>
         <FilterTrueFalse v-if="type_f=='true_false'" :show="show" v-model="f_val" :l_true="l_true" :l_false="l_false" :left="f_left"/>
-        <FilterFind v-if="type_f=='find'" :show="show" v-model="f_val"/>
+        <FilterFind v-if="type_f=='find'" :show="show" v-model="f_val" :left="f_left"/>
         <FilterDate v-if="type_f=='date'" :show="show" v-model="f_date_val"/>
     </div>
 </template>
