@@ -21,8 +21,10 @@
                 <div class="prov_data_inf">
                     <div class="prov_inf">
                         <div class="row"><div class="inf_label">Поставщик:</div><div class="inf_content">{{ pop_order.id_prov }}</div></div>
-                        <div class="row"><div class="inf_label">status:</div><div class="inf_content">{{ pop_order.prov_status }}</div></div>
-                        <div class="row"><div class="inf_label">message</div><div class="inf_content">{{ pop_order.prov_msg }}</div></div>
+                        <div class="row"><div class="inf_label">Принято:</div><div class="inf_content">{{ pop_order.prov_status }}</div></div>
+                        <div class="row"><div class="inf_label">Ответ:</div><div class="inf_content">{{ pop_order.prov_msg }}</div></div>
+                        <div class="row"><div class="inf_label">Остаток:</div><div class="inf_content">{{ pop_order.progress_remains }}</div></div>
+                        <div class="row"><div class="inf_label">Прогресс:</div><div class="inf_content">{{ pop_order.progress_status }}</div></div>
                     </div>
                     <div class="data_inf">
                         <div class="row"><div class="inf_label">Дата:</div><div class="inf_content">{{ pop_order.date }}</div></div>
@@ -66,6 +68,8 @@
                     prov_msg: this.clearSumbols(order.provader_msg),
                     date: order.datetime.split(' ')[0],
                     time: order.datetime.split(' ')[1],
+                    progress_remains: order.progress_remains,
+                    progress_status: order.progress_status
                 }
                 if(this.userMode){
                     this.pop_order.transaction =  order.trnsaction

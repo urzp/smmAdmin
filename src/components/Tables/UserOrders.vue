@@ -12,6 +12,8 @@
             <h_colum title='url' type_f='true_false' v-model="url_f" l_true="есть url" l_false="без url"/>
             <h_colum title='статус' type_f='true_false' v-model="status_f"/>
             <h_colum title='msg'/>
+            <h_colum title='Остаток'/>
+            <h_colum title='Прогресс' type_f='find' v-model="prog_staus_f" f_left/>
           </TableHeader>
           <TableBody>
             <div v-for="(item, index) in part_orders" :key="item.id" class="row set_width_table pointer" @click="pop_show(index)" >
@@ -24,6 +26,8 @@
               <div class="content_left">{{ item.form_link }}</div>
               <div>{{ conv_val(item.provader_status) }}</div>
               <div class="content_left">{{ conv_val(item.provader_msg) }}</div>
+              <div class="content_right">{{ item.progress_remains }}</div>
+              <div class="content_left">{{ item.progress_status }}</div>
             </div>
           </TableBody>
         </div>  
@@ -62,6 +66,7 @@ export default {
       sum_f:'',
       url_f:'',
       status_f:'',
+      prog_staus_f:'',
       pop_order:{},
       pop_open:false,
     }
@@ -70,6 +75,9 @@ export default {
     user_id:String,
   },
   watch:{
+    prog_staus_f(){
+      this.filter();
+    },
     status_f(){
       this.filter();
     },
@@ -111,6 +119,7 @@ export default {
       let qunt_f = this.qunt_f
       let email_f = this.email_f
       let transaction_f = this.transaction_f
+      let prog_staus_f = this.prog_staus_f
       if(transaction_f!=''){
         result = result.filter(i=>i.trnsaction.indexOf(transaction_f)!=-1)
       }
@@ -148,6 +157,9 @@ export default {
       if(status_f!=''){
         if(status_f=='true') result = result.filter(i=>i.provader_status=='success')
         if(status_f=='false') result = result.filter(i=>i.provader_status=='fall'||i.provader_status=='false')
+      }
+      if(prog_staus_f!=''){
+        result = result.filter(i=>i.progress_status.indexOf(prog_staus_f)!=-1)
       }
       this.f_orders = result
       this.intPage()
@@ -220,8 +232,7 @@ export default {
   }
 
   .set_width_table>:nth-child(7){
-    min-width: 200px;
-    width: 30%;
+    width: 250px;
   }
 
   .set_width_table>:nth-child(8){
@@ -231,6 +242,14 @@ export default {
   .set_width_table>:nth-child(9){
     min-width: 150px;
     width: 10%;
+  }
+
+  .set_width_table>:nth-child(10){
+    width: 50px;
+  }
+
+  .set_width_table>:nth-child(11){
+    width: 80px;
   }
 
   .pointer{
