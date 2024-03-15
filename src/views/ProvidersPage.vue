@@ -12,6 +12,8 @@
                     <h_colum title='id'/>
                     <h_colum title='url'/>
                     <h_colum title='api-key'/>
+                    <h_colum title='баланс'/>
+                    <h_colum title='валюта'/>
                 </TableHeader>
                 <TableBody :align="'flex-start'">
                     <div v-for="(item, index) in part_providers" :key="item.id" class="row set_width_table pointer" @click="pop_show(index)">
@@ -19,6 +21,8 @@
                         <div>{{ item.id_old }}</div>
                         <div class="content_left">{{ item.name }}</div>
                         <div class="content_left">{{ item.api_key }}</div>
+                        <div class="content_right">{{ item.balans}}</div>
+                        <div class="content_left">{{ item.currency }}</div>
                     </div>
                 </TableBody>
             </div>
@@ -105,7 +109,15 @@ export default {
   }
 
   .set_width_table>:nth-child(4){
-    min-width: 450px;
+    width: 450px;
+  }
+
+  .set_width_table>:nth-child(5){
+    width: 150px;
+  }
+
+  .set_width_table>:nth-child(6){
+    width: 60px;
   }
 
 </style>
