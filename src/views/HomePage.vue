@@ -21,13 +21,13 @@
           <img src="@/assets/icons/card/order_users_d.svg" alt="" class="dark">
         </template>
       </CardMain>
-      <CardMain :data="ProvadersProp" :iconCentr="true" @click="$router.push('/provaders')">
+      <CardMain v-if="false" :data="ProvadersProp" :iconCentr="true" @click="$router.push('/provaders')">
         <template v-slot:big_icon>
           <img src="@/assets/icons/card/provader_l.svg" alt="" class="light">
           <img src="@/assets/icons/card/provader_d.svg" alt="" class="dark">         
         </template>
       </CardMain>
-      <CardMain :data="settingsProp" :iconCentr="true" @click="$router.push('/settings')">
+      <CardMain v-if="false" :data="settingsProp" :iconCentr="true" @click="$router.push('/settings')">
         <template v-slot:big_icon>
           <img src="@/assets/icons/card/settings_l.svg" alt="" class="light">
           <img src="@/assets/icons/card/settings_d.svg" alt="" class="dark">         

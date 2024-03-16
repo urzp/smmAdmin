@@ -17,12 +17,12 @@
                 <img v-else  src="../../assets/icons/menu_left/orders_b.svg" alt="users">
                 <div class="memu-item-lab">Заказы</div>
             </div>
-            <div class="menu-item"  :class="{'active':selectedItem.provaders}" @click="$router.push('/provaders')">
+            <div v-if="false" class="menu-item"  :class="{'active':selectedItem.provaders}" @click="$router.push('/provaders')">
                 <img v-if="selectedItem.provaders" src="../../assets/icons/menu_left/prov_w.svg" alt="users">
                 <img v-else  src="../../assets/icons/menu_left/prov_b.svg" alt="users">
                 <div class="memu-item-lab">Поставщики</div>
             </div>
-            <div class="menu-item"  :class="{'active':selectedItem.settings}" @click="$router.push('/settings')">
+            <div v-if="false" class="menu-item"  :class="{'active':selectedItem.settings}" @click="$router.push('/settings')">
                 <img v-if="selectedItem.settings" src="../../assets/icons/menu_left/settings_w.svg" alt="users">
                 <img v-else  src="../../assets/icons/menu_left/settings_b.svg" alt="users">
                 <div class="memu-item-lab">Настройки</div>
