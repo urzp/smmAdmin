@@ -59,14 +59,14 @@ const routes = [
     },
     component: OrdersUserPage
   },
-  {
-    path: '/provaders',
-    name: 'provaders',
-    meta: {
-      requireAuth: true,
-    },
-    component: ProvidersPage
-  },
+  // {
+  //   path: '/provaders_reredcmcmkmcd944503545rwedfmsdmf',
+  //   name: 'provaders',
+  //   meta: {
+  //     requireAuth: true,
+  //   },
+  //   component: ProvidersPage
+  // },
   {
     path: '/settings',
     name: 'settings',
