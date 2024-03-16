@@ -11,6 +11,9 @@ $rq_data = $post -> rq_data;
 $typeData = $rq_data -> typeData;
 
 switch ($typeData) {
+    case 'checkProvider':
+        include 'checkProvider.php';
+        break;
     case 'provider':
         include 'getProvider.php';
         break;

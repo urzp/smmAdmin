@@ -9,6 +9,10 @@
                 </div>
             </div>
             <div class="body">
+                <div v-show="check_api.show_reuslt" class="checck_row">
+                    <div v-if="check_api.success" class="success">Проверка прошла успешно</div>
+                    <div v-else class="error">Ошибка: {{ check_api.msq }}</div>
+                </div>
                 <div class="provider_inf">
                     <div class="row id_prov">
                         <div class="inf_label">ID:</div>
@@ -21,7 +25,7 @@
                     <div class="row api_key">
                         <div class="inf_label">api_key:</div>
                         <input type="text" v-model="pop_provider.api_key">
-                        <!-- <ButtonStd title="Проверить" @click="checkApy()" :height="'35px'" class="btn-right" :bg_color="'#D9D9D9'" :font_color="'#16354D'" :bg_color_hover="'#becddc'"/> -->
+                        <ButtonStd title="Проверить" @click="checkPovider" :height="'35px'" class="btn-right" :bg_color="'#D9D9D9'" :font_color="'#16354D'" :bg_color_hover="'#becddc'"/>
                     </div>
                     <div class="row buttons">
                         <ButtonStd title="Отменить" @click.stop="close" :height="'35px'" :bg_color="'#E4E5EA'" :bg_color_hover="'#E4E5EA'" :font_color="'#16354D'" :border="'1px solid #16354D' " />
@@ -41,6 +45,13 @@ import { EventBus } from '@/servis/EventBus'
         data(){
             return{
                 pop_provider:{},
+                check_api:{
+                   show_reuslt :false,
+                   success: false,
+                   msq:''
+                },
+
+                 
             }
         },
         props:{
@@ -82,22 +93,34 @@ import { EventBus } from '@/servis/EventBus'
                 this.notFound = true
                 return false
             },
-            async checkApy(){
-                let data = {
-                    key: this.pop_provider.api_key,
-                    action: 'balance'
+            async checkPovider(){
+                let result = await getData('getData.php',{typeData:'checkProvider', name:this.pop_provider.name, api_key: this.pop_provider.api_key})
+                if(result.success == 'success'){
+                    this.check_api.success = true; 
+                    this.check_api.msq =''
+                }else{
+                    this.check_api.success = false; 
+                    this.check_api.msq = result.data.error
                 }
-                let result  = fetch(this.pop_provider.name,{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams(data).toString()
-                })
+                this.check_api.show_reuslt = true;
             },
+            // async checkApi(){
+            //     let data = {
+            //         key: this.pop_provider.api_key,
+            //         action: 'balance'
+            //     }
+            //     let result  = fetch(this.pop_provider.name,{
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/x-www-form-urlencoded'
+            //         },
+            //         body: new URLSearchParams(data).toString()
+            //     })
+            // },
             close(){
                 this.show = false;
                 this.$emit('update:modelValue', false)
+                this.check_api.show_reuslt = false;
             },
             clearSumbols(st){
                 return st.replace(/['"{}]+/g , '')
@@ -161,6 +184,30 @@ import { EventBus } from '@/servis/EventBus'
             flex-direction: column;
             justify-content: center;
 
+            .checck_row{
+                position: relative;
+                top: -20px;
+                font-size: 20px;
+
+                div{
+                    position: relative;
+                    top: -10px;
+                    border-radius: 30px;
+                    width: 342px;
+                    margin: 0 auto;
+                }
+
+                .success{
+                    color:#fff;
+                    background-color: #76b462;
+
+                }
+                .error{
+                    color: #fff;
+                    background-color: #e41616;
+                }
+            }
+
             .row{
                 margin-top: 10px;
                 margin-bottom: 10px;
@@ -185,10 +232,10 @@ import { EventBus } from '@/servis/EventBus'
                 text-align: center;
             }
 
-            // .api_key input{
-            //     width: 70%;
-            //     margin-right: 15px;
-            // }
+            .api_key input{
+                width: 70%;
+                margin-right: 15px;
+            }
 
             .provider_inf{
                 font-size: 20px;
