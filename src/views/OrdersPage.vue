@@ -262,5 +262,12 @@ export default {
 
   .pointer{
     cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .pointer:hover{
+    background-color: #6B99C3;
+    color:#fff;
+    transition: 0.3s;
   }
 </style>

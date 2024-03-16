@@ -201,8 +201,4 @@ width: 40%;
 }
 
 
-
-.pointer{
-cursor: pointer;
-}
 </style>
