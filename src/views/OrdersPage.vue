@@ -22,6 +22,7 @@
             <h_colum title='url' type_f='true_false' v-model="url_f" l_true="есть url" l_false="без url"/>
             <h_colum title='статус' type_f='true_false' v-model="status_f"/>
             <h_colum title='msg'/>
+            <h_colum title='Старт'/>
             <h_colum title='Остаток'/>
             <h_colum title='Прогресс' type_f='find' v-model="prog_staus_f" f_left/>
           </TableHeader>
@@ -36,6 +37,7 @@
               <div class="content_left">{{ item.link }}</div>
               <div>{{ conv_val(item.provader_status) }}</div>
               <div class="content_left">{{ conv_val(item.provader_msg) }}</div>
+              <div class="content_right">{{ item.start_count }}</div>
               <div class="content_right">{{ item.progress_remains }}</div>
               <div class="content_left">{{ item.progress_status }}</div>
             </div>
@@ -227,7 +229,7 @@ export default {
   }
 
   .set_width_table>:nth-child(4){
-    min-width: 200px;
+    width: 200px;
   }
 
   .set_width_table>:nth-child(5){
@@ -257,6 +259,10 @@ export default {
   }
 
   .set_width_table>:nth-child(11){
+    width: 50px;
+  }
+
+  .set_width_table>:nth-child(12){
     width: 80px;
   }
 
