@@ -9,14 +9,15 @@
         <div class="main">
             <slot name="big_icon"/>
             <div v-if="!iconCentr" class="graphic">
-                <div class="collum collum_1"></div>
-                <div class="collum collum_2"></div>
-                <div class="collum collum_3"></div>
-                <div class="collum collum_4"></div>
-                <div class="collum collum_5"></div>
-                <div class="collum collum_6"></div>
-                <div class="collum collum_7"></div>
+                <div class="collum collum_1" @mouseover = "show_g_label(0)" @mouseleave="hover_g=false"></div>
+                <div class="collum collum_2" @mouseover = "show_g_label(1)" @mouseleave="hover_g=false"></div>
+                <div class="collum collum_3" @mouseover = "show_g_label(2)" @mouseleave="hover_g=false"></div>
+                <div class="collum collum_4" @mouseover = "show_g_label(3)" @mouseleave="hover_g=false"></div>
+                <div class="collum collum_5" @mouseover = "show_g_label(4)" @mouseleave="hover_g=false"></div>
+                <div class="collum collum_6" @mouseover = "show_g_label(5)" @mouseleave="hover_g=false"></div>
+                <div class="collum collum_7" @mouseover = "show_g_label(6)" @mouseleave="hover_g=false"></div>
             </div>
+            <div class="hover-label" ref="hover_label" :class="{active: hover_g }">{{ g_label }}</div>
         </div>   
         <div class="footer">
             <div class="day_data">{{ data.title_day_data }} {{ data.day_data }}</div>
@@ -34,10 +35,13 @@ export default{
         if(!this.data.graphic) return false
         this.countGraphic(this.data.graphic)
         this.renderGraphic()
+        document.addEventListener(`mousemove`, this.move);
     },
     data(){
         return{
             hover:false,
+            hover_g:false,
+            g_label:0,
             grap_1: '5px',
             grap_2: '5px',
             grap_3: '5px',
@@ -89,6 +93,14 @@ export default{
             this.grap_6 = this.g_data[1]
             this.grap_7 = this.g_data[0]
         },
+        show_g_label(item){
+            this.g_label = this.data.graphic[6-item]
+            this.hover_g = true
+        },
+        move(e){
+            this.$refs.hover_label.style.left = `${e.pageX + 10}px`;
+            this.$refs.hover_label.style.top = `${e.pageY + 10}px`;
+        }
 
     }
 }
@@ -204,6 +216,25 @@ export default{
         .collum_7{
             height: v-bind(grap_7);
         }
+    }
+
+    .hover-label{
+        position: absolute;
+        width: 90px;
+        height: 35px;
+        background-color: #D3EAFF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #16354D;
+        font-size: 18px;
+        border-radius: 6px;
+        box-shadow: 4px 4px 5px 2px #06243A;
+        display: none;
+    }
+
+    .hover-label.active{
+        display: flex;
     }
 
     .footer{
