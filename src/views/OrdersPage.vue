@@ -271,7 +271,7 @@ export default {
     transition: 0.3s;
   }
 
-  .pointer:hover{
+  .pointer:hover:not(.title-table){
     background-color: #6B99C3;
     color:#fff;
     transition: 0.3s;
