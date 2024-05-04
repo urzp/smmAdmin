@@ -8,14 +8,14 @@
         </div>
         <div class="main">
             <slot name="big_icon"/>
-            <div v-if="!iconCentr" class="graphic">
-                <div class="collum collum_1" @mouseover = "show_g_label(0)" @mouseleave="hover_g=false"></div>
-                <div class="collum collum_2" @mouseover = "show_g_label(1)" @mouseleave="hover_g=false"></div>
-                <div class="collum collum_3" @mouseover = "show_g_label(2)" @mouseleave="hover_g=false"></div>
-                <div class="collum collum_4" @mouseover = "show_g_label(3)" @mouseleave="hover_g=false"></div>
-                <div class="collum collum_5" @mouseover = "show_g_label(4)" @mouseleave="hover_g=false"></div>
-                <div class="collum collum_6" @mouseover = "show_g_label(5)" @mouseleave="hover_g=false"></div>
-                <div class="collum collum_7" @mouseover = "show_g_label(6)" @mouseleave="hover_g=false"></div>
+            <div v-if="!iconCentr" class="graphic" @mouseleave="hover_g=false">
+                <div class="collum collum_1" @mouseover = "show_g_label(0)" ></div>
+                <div class="collum collum_2" @mouseover = "show_g_label(1)" ></div>
+                <div class="collum collum_3" @mouseover = "show_g_label(2)" ></div>
+                <div class="collum collum_4" @mouseover = "show_g_label(3)" ></div>
+                <div class="collum collum_5" @mouseover = "show_g_label(4)" ></div>
+                <div class="collum collum_6" @mouseover = "show_g_label(5)" ></div>
+                <div class="collum collum_7" @mouseover = "show_g_label(6)" ></div>
             </div>
             <div class="hover-label" ref="hover_label" :class="{active: hover_g }">{{ g_label }}</div>
         </div>   
@@ -230,11 +230,16 @@ export default{
         font-size: 18px;
         border-radius: 6px;
         box-shadow: 4px 4px 5px 2px #06243A;
-        display: none;
+        opacity: 0;
     }
 
     .hover-label.active{
-        display: flex;
+        animation: ani 0.5s forwards;
+    }
+
+    @keyframes ani {
+        0% {opacity: 0;}
+        100% {opacity: 1;}
     }
 
     .footer{
