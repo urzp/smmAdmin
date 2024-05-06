@@ -98,6 +98,7 @@ export default{
             this.hover_g = true
         },
         move(e){
+            if(!this.$refs.hover_label) return false
             this.$refs.hover_label.style.left = `${e.pageX + 10}px`;
             this.$refs.hover_label.style.top = `${e.pageY + 10}px`;
         }

@@ -10,40 +10,22 @@
       </BackGrCard>
       <BackGrCard>
         <div class="table">
-          <TitleTable title="Список страниц сайта" :subtitle="`от ${date_f.from} до ${date_f.until}`" @click="date_f_click = !date_f_click" class="pointer"/>
-          <TableHeader class="set_width_table">
+          <TitleTable title="Список страниц сайта" />
+          <TableHeader v-if="false" class="set_width_table">
             <h_colum title="#"/>
-            <h_colum title='Дата время' type_f="date" v-model="date_f" :click_hand="date_f_click"/>
-            <h_colum title='Транзакция'  type_f='find' v-model="transaction_f"/>
-            <h_colum title='Email' type_f='find' v-model="email_f"/>
-            <h_colum title='Кол-во' type_f='true_false' v-model="qunt_f" l_true="вверх" l_false="вниз"/>
-            <h_colum title='Сумма' type_f='true_false' v-model="sum_f" l_true="вверх" l_false="вниз"/>
+            <h_colum title='Имя'  type_f='find' v-model="transaction_f" class="content_left"/>
             <h_colum title='url' type_f='true_false' v-model="url_f" l_true="есть url" l_false="без url"/>
-            <h_colum title='статус' type_f='true_false' v-model="status_f"/>
-            <h_colum title='msg'/>
-            <h_colum title='Старт'/>
-            <h_colum title='Остаток'/>
-            <h_colum title='Прогресс' type_f='find' v-model="prog_staus_f" f_left/>
           </TableHeader>
           <TableBody>
-            <div v-for="(item, index) in part_orders" :key="item.id" class="row set_width_table pointer" @click="pop_show(index)">
-              <div>{{ index + 1 + (part - 1)*this.part_items}}</div>
-              <div class="content_left">{{ item.datetime }}</div>
-              <div>{{ item.transaction }}</div> 
-              <div class="content_left">{{ item.email }}</div>
-              <div class="content_right">{{ item.quantity }}</div>
-              <div class="content_right">{{ item.sum }} p.</div>
-              <div class="content_left">{{ item.link }}</div>
-              <div>{{ conv_val(item.provader_status) }}</div>
-              <div class="content_left">{{ conv_val(item.provader_msg) }}</div>
-              <div class="content_right">{{ item.start_count }}</div>
-              <div class="content_right">{{ item.progress_remains }}</div>
-              <div class="content_left">{{ item.progress_status }}</div>
+            <div v-for="(item) in part_data_list" :key="item.id" class="row set_width_table pointer" @click="list_open_close(item)" :class={page_item:!item.folder}>
+              <div v-if="item.folder" :class={icon_folder:item.folder} :style="{'background-image': 'url('+item.pages[0].img+')'}"></div>
+              <div v-else></div>
+              <div class="content_left" >{{ item.name }}</div>
+              <div class="content_left">{{ item.url }}</div>
             </div>
           </TableBody>
         </div>  
       </BackGrCard>
-      <PopupOrder :order="pop_order" v-model="pop_open"/>
     </MainContent>
   </template>
 
@@ -57,120 +39,60 @@ export default {
     this.updateList()
     EventBus.on('pageTable:update', (page)=>{
       this.part = page
-      this.part_orders = newPage(this.f_orders, page, this.part_items)
+      this.part_data_list = newPage(this.f_data_list, page, this.part_items)
     })
   },
   data(){
     return{
-      orders:'',
-      f_orders:'',
+      data_list:'',
+      f_data_list:'',
       part:'',
       part_items: 100,
-      part_orders:'',
-      date_f:{
-        until: this.getFromTodayString(),
-        from:  this.getFromTodayString(7),
-      },
-      date_f_click: false,
-      transaction_f:'',
-      email_f:'',
-      qunt_f:'',
-      sum_f:'',
+      part_data_list:'',
       url_f:'',
-      status_f:'',
-      prog_staus_f:'',
-      pop_order:{},
-      pop_open:false,
     }
   },
   watch:{
-    prog_staus_f(){
-      this.filter();
-    },
-    status_f(){
-      this.filter();
-    },
     url_f(){
       this.filter();
     },
-    sum_f(){
-      this.filter();
-    },
-    qunt_f(){
-      this.filter();
-    },
-    email_f(){
-      this.filter();
-    },
-    transaction_f(){
-      this.filter();
-    },
-    date_f:{
-      handler(n_v,o_l){
-        this.updateList()
-      }, 
-      deep: true
-    }
   },
   methods:{
     async updateList(){
       let result = await getData('getData.php',{typeData:'pages'})
       if(!this.checkResult(result)) return false
-      this.orders = await result.data
+      this.data_list = await result.data
+      this.adapter()
       this.filter();
+    },
+    async adapter(){
+      this.data_list.forEach(item=>{
+        item.folder = true
+        item.uncover = false 
+      })
     },
     async filter(){
       let result = []
-      result.push(...this.orders)
-      let status_f = this.status_f
+      //result.push(...this.data_list)
       let url_f = this.url_f
-      let sum_f = this.sum_f
-      let qunt_f = this.qunt_f
-      let email_f = this.email_f
-      let transaction_f = this.transaction_f
-      let prog_staus_f = this.prog_staus_f
-      if(transaction_f!=''){
-        result = result.filter(i=>i.transaction.indexOf(transaction_f)!=-1)
-      }
-      if(email_f!=''){
-        result = result.filter(i=>i.email.indexOf(email_f)!=-1)
-      }
-      if(qunt_f!=''){
-        result = result.sort((a,b)=>{
-          let res;
-          a = Number(a.quantity)
-          b = Number(b.quantity)
-          if(a > b) res = 1;
-          if(a == b) res = 0;
-          if(a < b) res = -1;
-          if(qunt_f == 'false') res = res*(-1)
-          return res
-        })
-      }
-      if(sum_f!=''){
-        result = result.sort((a,b)=>{
-          let res;
-          a = Number(a.sum)
-          b = Number(b.sum)
-          if(a > b) res = 1;
-          if(a == b) res = 0;
-          if(a < b) res = -1;
-          if(sum_f == 'false') res = res*(-1)
-          return res
-        }) 
-      }
+      this.data_list.forEach( (item, index)=>{
+        result.push(item)
+        if(item.uncover){
+          item.pages.forEach((page)=>{
+            result.push({
+              name: page.title,
+              img: page.img,
+              url: page.url,
+            })
+          })
+        }
+      })
+
       if(url_f!=''){
         if(url_f=='true') result = result.filter(i=>i.link!='')
         if(url_f=='false') result = result.filter(i=>i.link=='')
       }  
-      if(status_f!=''){
-        if(status_f=='true') result = result.filter(i=>i.provader_status=='success')
-        if(status_f=='false') result = result.filter(i=>i.provader_status=='fall'||i.provader_status=='false')
-      }
-      if(prog_staus_f!=''){
-        result = result.filter(i=>i.progress_status.indexOf(prog_staus_f)!=-1)
-      }
-      this.f_orders = result
+      this.f_data_list = result
       this.intPage()
     },
     checkResult(result){
@@ -185,9 +107,9 @@ export default {
       return val
     },
     intPage(){
-      EventBus.emit('pageTable:maxPage', coutMaxPages(this.f_orders, this.part_items)) 
+      EventBus.emit('pageTable:maxPage', coutMaxPages(this.f_data_list, this.part_items)) 
       this.part = 1
-      this.part_orders = newPage(this.f_orders, this.part, this.part_items)
+      this.part_data_list = newPage(this.f_data_list, this.part, this.part_items)
     },
     op_f(name){
       EventBus.emit(`${name}:open`)
@@ -197,10 +119,13 @@ export default {
       let result = new Date(today.setDate(today.getDate() - days))
       return result.toISOString().split('T')[0]
     },
-    pop_show(i){
-      this.pop_open = true
-      let order = this.part_orders[i]
-      this.pop_order = order 
+    list_open_close(item){
+      if(!item.folder) return false
+      let id = item.id
+      let found = this.data_list.find(item => item.id == id);
+      if(!found) return false
+      found.uncover = !found.uncover
+      this.filter()
     }
   }
 }
@@ -216,54 +141,31 @@ export default {
 <style lang="scss"  scoped>
 
   .set_width_table>:nth-child(1){
-    width: 30px;
+    width: 100px;
   }
 
   .set_width_table>:nth-child(2){
     min-width: 130px;
+    width: 70%;
   }
 
   .set_width_table>:nth-child(3){
     min-width: 80px;
+    width: 30%;
   }
 
-  .set_width_table>:nth-child(4){
-    width: 200px;
+  .page_item{
+    color: #afafaf;
   }
 
-  .set_width_table>:nth-child(5){
-    min-width: 50px;
+  .icon_folder, .icon_page{
+    height: 50px;
+    margin: 10px 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
   }
 
-  .set_width_table>:nth-child(6){
-    min-width: 50px;
-  }
-
-  .set_width_table>:nth-child(7){
-    min-width: 200px;
-    width: 25%;
-  }
-
-  .set_width_table>:nth-child(8){
-    min-width: 80px;
-  }
-
-  .set_width_table>:nth-child(9){
-    min-width: 150px;
-    width: 10%;
-  }
-
-  .set_width_table>:nth-child(10){
-    width: 50px;
-  }
-
-  .set_width_table>:nth-child(11){
-    width: 50px;
-  }
-
-  .set_width_table>:nth-child(12){
-    width: 80px;
-  }
 
   .pointer{
     cursor: pointer;
