@@ -21,6 +21,12 @@
           <img src="@/assets/icons/card/order_users_d.svg" alt="" class="dark">
         </template>
       </CardMain>
+      <CardMain :data="ServisProp" :iconCentr="true" @click="$router.push('/sitePages')">
+        <template v-slot:big_icon>
+          <img src="@/assets/icons/card/servis_l.svg" alt="" class="light">
+          <img src="@/assets/icons/card/servis_l.svg" alt="" class="dark">         
+        </template>
+      </CardMain>
       <CardMain v-if="false" :data="ProvadersProp" :iconCentr="true" @click="$router.push('/provaders')">
         <template v-slot:big_icon>
           <img src="@/assets/icons/card/provader_l.svg" alt="" class="light">
@@ -70,6 +76,13 @@ export default {
         total_data: "-",
         graphic:[0,0,0,0,0,0,0],
       },
+      ServisProp:{
+        title:'Услуги',
+        title_day_data: 'страниц',
+        title_total_data: 'услуг',
+        day_data: '',
+        total_data: '-',
+      },
       ProvadersProp:{
         title:'Постащики',
         title_day_data: '',
@@ -106,6 +119,9 @@ export default {
       this.UsersOrdersProp.day_data = data.ordersUsers.today
       this.UsersOrdersProp.total_data = data.ordersUsers.total
       this.UsersOrdersProp.graphic = data.ordersUsers.graphic
+
+      this.ServisProp.day_data = data.servis.pages
+      this.ServisProp.total_data = data.servis.total
 
       this.ProvadersProp.total_data = data.provader.total
     }

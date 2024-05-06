@@ -17,6 +17,11 @@
                 <img v-else  src="../../assets/icons/menu_left/orders_b.svg" alt="users">
                 <div class="memu-item-lab">Заказы</div>
             </div>
+            <div class="menu-item"  :class="{'active':selectedItem.servis}" @click="$router.push('/sitePages')">
+                <img v-if="selectedItem.servis" src="../../assets/icons/menu_left/servis_w.svg" alt="users">
+                <img v-else  src="../../assets/icons/menu_left/servis_b.svg" alt="users">
+                <div class="memu-item-lab">Услуги</div>
+            </div>
             <div v-if="false" class="menu-item"  :class="{'active':selectedItem.provaders}" @click="$router.push('/provaders')">
                 <img v-if="selectedItem.provaders" src="../../assets/icons/menu_left/prov_w.svg" alt="users">
                 <img v-else  src="../../assets/icons/menu_left/prov_b.svg" alt="users">
@@ -49,6 +54,7 @@ export default {
                 main:false,
                 users: false,
                 orders: false,
+                servis: false,
                 provaders: false,
                 settings:false
             }

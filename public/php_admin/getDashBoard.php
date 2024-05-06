@@ -3,9 +3,9 @@
 $data = [];
 $orders = [];
 
-function countTotal($type_data){
+function countTotal($type_data, $condition = ''){
     global $mysql;
-    $sql = "SELECT COUNT(id) FROM `$type_data` ";
+    $sql = "SELECT COUNT(id) FROM `$type_data` $condition";
     $result_sql = $mysql -> query($sql); 
     $result_sql = $result_sql -> fetch_assoc();
     return $result_sql['COUNT(id)'];
@@ -44,6 +44,10 @@ $ordersUsers['total'] = countTotal('out_payments');
 $ordersUsers['today'] = countDay('out_payments', 0);
 $ordersUsers['graphic'] = getGraphic('out_payments');
 $data['ordersUsers'] = $ordersUsers;
+
+$servis['pages'] = countTotal('pages', "WHERE `cards`>'0' ");
+$servis['total'] = countTotal('cardsProduct');
+$data['servis'] = $servis;
 
 $provader['total'] = countTotal('postavshik');
 $data['provader'] = $provader;
