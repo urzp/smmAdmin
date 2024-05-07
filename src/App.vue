@@ -35,6 +35,18 @@ body{
       url(assets/fonts/OpenGostTypeA.ttf);
   }
 
+  @font-face {
+    font-family: 'TildaSans';
+    src: local('TildaSans'),
+      url(assets/fonts/TildaSans-Regular.ttf);
+  }
+
+  @font-face {
+    font-family: 'TildaSansBold';
+    src: local('TildaSansBold'),
+      url(assets/fonts/TildaSans-Bold.ttf);
+  }
+
   font-family: Play-Regular, Arial, sans-serif;
   -webkit-font-smoothing: Play-Regular;
   -moz-osx-font-smoothing: Play-Regular;

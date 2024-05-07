@@ -5,6 +5,7 @@ import MainContent from '@/components/complex/MainContent.vue'
 import BackGrCard from '@/components/UI/BackGrCard.vue'
 import ButtonPage from '@/components/UI/ButtonPage.vue'
 import PagePanel from '@/components/complex/PagePanel.vue'
+import Title from '@/components/complex/Title.vue'
 import TitleTable from '@/components/complex/TitleTable.vue'
 import TableHeader from '@/components/complex/TableHeader.vue'
 import TableBody from '@/components/complex/TableBody.vue'
@@ -19,6 +20,7 @@ import TableUserOrders from '@/components/Tables/UserOrders.vue'
 import TableUserUpBalans from '@/components/Tables/UserUpBalans.vue'
 import TableUserLog from '@/components/Tables/UserLog.vue'
 import CardMain from '@/components/complex/CardMain.vue'
+import SitePage from '@/components/complex/SitePage.vue'
 
 export default [
     ButtonStd,
@@ -28,6 +30,7 @@ export default [
     BackGrCard,
     ButtonPage,
     PagePanel,
+    Title,
     TitleTable,
     TableHeader,
     TableBody,
@@ -41,6 +44,7 @@ export default [
     TableUserOrders,
     TableUserUpBalans,
     TableUserLog,
-    CardMain
+    CardMain,
+    SitePage,
 ]
 

@@ -2,15 +2,15 @@
     <Header></Header>
     <MenuLeft selected="servis"></MenuLeft>
     <MainContent>
-      <BackGrCard height="60px">
+      <BackGrCard height="60px" :class="{hide:hide}" >
         <div class="buttons_wrap">
-          <ButtonStd title="Обновить список страниц" @click="updateList" width="250px" font_size="15px"/>
-          <ButtonStd @click="updateList" class="btn-right" width="80px"><img src="@/assets/icons/update_w.svg" alt=""></ButtonStd>
+          <Title title="Список страниц сайта"/>
+          <ButtonStd @click="$router.push('/pages')" class="btn-right" width="80px"><img src="@/assets/icons/update_w.svg" alt=""></ButtonStd>
         </div>
       </BackGrCard>
-      <BackGrCard>
+      <BackGrCard :class="{hide:hide}">
         <div class="table">
-          <TitleTable title="Список страниц сайта" />
+          
           <TableHeader v-if="false" class="set_width_table">
             <h_colum title="#"/>
             <h_colum title='Имя'  type_f='find' v-model="transaction_f" class="content_left"/>
@@ -26,6 +26,7 @@
           </TableBody>
         </div>  
       </BackGrCard>
+      <SitePage/>
     </MainContent>
   </template>
 
@@ -50,6 +51,7 @@ export default {
       part_items: 100,
       part_data_list:'',
       url_f:'',
+      hide: false,
     }
   },
   watch:{
@@ -80,6 +82,7 @@ export default {
         if(item.uncover){
           item.pages.forEach((page)=>{
             result.push({
+              id: page.id,
               name: page.title,
               img: page.img,
               url: page.url,
@@ -120,7 +123,16 @@ export default {
       return result.toISOString().split('T')[0]
     },
     list_open_close(item){
-      if(!item.folder) return false
+      if(!item.folder){ 
+        //this.$router.push(`/page/${item.id}`);
+        this.hide = true;
+        setTimeout(()=>{
+          let hideEl = document.getElementsByClassName('hide')
+          hideEl[0].style.display = 'none'
+          hideEl[1].style.display = 'none'
+        }, 500)
+        return false
+      }
       let id = item.id
       let found = this.data_list.find(item => item.id == id);
       if(!found) return false
@@ -177,4 +189,11 @@ export default {
     color:#fff;
     transition: 0.3s;
   }
+
+  .hide{
+    width: 0!important;
+    opacity: 0;
+  
+  }
+
 </style>

@@ -9,6 +9,7 @@ import OrdersUserPage from '../views/OrdersUsersPage.vue'
 import ProvidersPage from '../views/ProvidersPage.vue'
 import SettingsPage from '../views/SettingsPage.vue'
 import sitePages from '../views/SitePages.vue'
+import SitePage from '../views/SitePage.vue'
 
 const routes = [
 
@@ -67,6 +68,14 @@ const routes = [
       requireAuth: true,
     },
     component: sitePages
+  },
+  {
+    path: '/page/:pageId([0-9]+)',
+    name: 'page',
+    meta: {
+      requireAuth: true,
+    },
+    component: SitePage
   },
   // {
   //   path: '/provaders_reredcmcmkmcd944503545rwedfmsdmf',
