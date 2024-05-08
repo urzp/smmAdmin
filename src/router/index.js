@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { isLogget } from '../servis/islogget.js';
+import { isLogget, isAdmin } from '../servis/islogget.js';
 import HomePage from '../views/HomePage.vue'
 import LoginPage from '../views/LoginPage.vue'
 import UsersPage from '../views/UsersPage.vue'
@@ -77,14 +77,15 @@ const routes = [
     },
     component: SitePage
   },
-  // {
-  //   path: '/provaders_reredcmcmkmcd944503545rwedfmsdmf',
-  //   name: 'provaders',
-  //   meta: {
-  //     requireAuth: true,
-  //   },
-  //   component: ProvidersPage
-  // },
+  {
+    path: '/provaders',
+    name: 'provaders',
+    meta: {
+      requireAuth: true,
+      requireAdmin: true,
+    },
+    component: ProvidersPage
+  },
   {
     path: '/settings',
     name: 'settings',
@@ -102,9 +103,11 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   let logget = await isLogget();
-  //let logget = false;
+  let admin = await isAdmin();
+
   if(to.meta.requireAuth&&!logget) return {path: '/login'}
   if(!to.meta.requireAuth&&logget) return {path: '/'}
+  if(to.meta.requireAdmin&&!admin) return {path: '/'}
 })
 
 export default router
