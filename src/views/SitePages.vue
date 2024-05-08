@@ -2,13 +2,13 @@
     <Header></Header>
     <MenuLeft selected="servis"></MenuLeft>
     <MainContent>
-      <BackGrCard height="60px" :class="{hide:hide}" >
+      <BackGrCard height="60px" :class="{collapse:collapse, displayNone:displayNone}" >
         <div class="buttons_wrap">
           <Title title="Список страниц сайта"/>
           <ButtonStd @click="$router.push('/pages')" class="btn-right" width="80px"><img src="@/assets/icons/update_w.svg" alt=""></ButtonStd>
         </div>
       </BackGrCard>
-      <BackGrCard :class="{hide:hide}">
+      <BackGrCard :class="{collapse:collapse, displayNone:displayNone}">
         <div class="table">
           
           <TableHeader v-if="false" class="set_width_table">
@@ -26,7 +26,9 @@
           </TableBody>
         </div>  
       </BackGrCard>
-      <SitePage/>
+      <div class="animateOpen" :class="{collapse:!uncolapse, displayNone:!displayNone}">
+        <SitePage />
+      </div>
     </MainContent>
   </template>
 
@@ -51,7 +53,9 @@ export default {
       part_items: 100,
       part_data_list:'',
       url_f:'',
-      hide: false,
+      collapse: false,
+      uncolapse: false,
+      displayNone:false
     }
   },
   watch:{
@@ -125,12 +129,13 @@ export default {
     list_open_close(item){
       if(!item.folder){ 
         //this.$router.push(`/page/${item.id}`);
-        this.hide = true;
+        this.collapse = true;
         setTimeout(()=>{
-          let hideEl = document.getElementsByClassName('hide')
-          hideEl[0].style.display = 'none'
-          hideEl[1].style.display = 'none'
+          this.displayNone = true
         }, 500)
+        setTimeout(()=>{
+          this.uncolapse = true
+        },600)
         return false
       }
       let id = item.id
@@ -147,6 +152,11 @@ export default {
   .buttons_wrap{
     display: flex;
     column-gap: 30px;
+  }
+
+  .animateOpen{
+    width: 100%;
+    transition: 0.3s;
   }
 </style>
 
@@ -178,7 +188,6 @@ export default {
     background-size: contain;
   }
 
-
   .pointer{
     cursor: pointer;
     transition: 0.3s;
@@ -190,10 +199,15 @@ export default {
     transition: 0.3s;
   }
 
-  .hide{
+
+
+  .collapse{
     width: 0!important;
     opacity: 0;
-  
+  }
+
+  .displayNone{
+    display: none;
   }
 
 </style>
