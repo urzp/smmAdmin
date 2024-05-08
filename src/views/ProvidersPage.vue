@@ -39,7 +39,7 @@ import { isAdmin } from '@/servis/islogget'
 export default {
   name: 'ProvidersPage',
   async mounted(){
-    this.isAdmin = isAdmin()
+    this.isAdmin = await isAdmin()
     this.updateList()
     EventBus.on('pageTable:update', (page)=>{
       this.part = page
