@@ -20,6 +20,7 @@
             </div>
           </div>
         </div>
+        <PopupSettingCardProduct/>
       </BackGrCard>
   </template>
 

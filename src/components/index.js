@@ -15,6 +15,7 @@ import FilterDate from '@/components/complex/FilterDate.vue'
 import h_colum from '@/components/UI/h_colum.vue'
 import PopupOrder from '@/components/complex/PopupOrder.vue'
 import PopupProvider from '@/components/complex/PopupProvider.vue'
+import PopupSettingCardProduct from '@/components/complex/PopupSettingCardProduct.vue'
 import Carduser from '@/components/complex/CardUser.vue'
 import TableUserOrders from '@/components/Tables/UserOrders.vue'
 import TableUserUpBalans from '@/components/Tables/UserUpBalans.vue'
@@ -46,5 +47,6 @@ export default [
     TableUserLog,
     CardMain,
     SitePage,
+    PopupSettingCardProduct,
 ]
 
