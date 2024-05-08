@@ -1,7 +1,7 @@
 <template>
       <BackGrCard height="60px">
         <div class="Panel_wrap">
-          <ButtonStd title="К списку страниц"  @click="$router.push('/sitePages')" width="180px" font_size="15px"/>
+          <ButtonStd title="К списку страниц"  @click="closeThePage()" width="180px" font_size="15px"/>
           <Title title="Настройка карточек услуг" subtitle="instagram-podpishiki"  />
           <ButtonStd @click="updateList" class="btn-right" width="80px"><img src="@/assets/icons/update_w.svg" alt=""></ButtonStd>
         </div>
@@ -34,12 +34,21 @@ export default {
   data(){
     return{
       data:'',
-      page_id:this.$route.params.pageId,
+    }
+  },
+  props:{
+    pageId:String,
+  },
+  watch:{
+    pageId(){
+      this.updateList()
     }
   },
   methods:{
     async updateList(){
-      let result = await getData('getData.php',{typeData:'page', page_id: this.page_id})
+      console.log(this.pageId)
+      if(this.pageId=='') return false
+      let result = await getData('getData.php',{typeData:'page', page_id: this.pageId})
       if(!this.checkResult(result)) return false
       this.data = await result.data
     },
@@ -54,8 +63,11 @@ export default {
     },
     pageDiscription(){
       return this.data.page?this.data.page.descr_in_page:''
+    },
+    closeThePage(){
+      EventBus.emit('pages:closeSitePage')
     }
-  }
+  },
 }
 </script>
 
@@ -151,7 +163,7 @@ export default {
       cursor: pointer;
 
       .icon_btn{
-        background-image: url('../assets/icons/menu_left/settings_w.svg');
+        background-image: url('../../assets/icons/menu_left/settings_w.svg');
         width: 20px;
         height: 20px;
         margin-right: 5px;

@@ -22,7 +22,7 @@
                 <img v-else  src="../../assets/icons/menu_left/servis_b.svg" alt="users">
                 <div class="memu-item-lab">Услуги</div>
             </div>
-            <div v-if="isAdmin" class="menu-item"  :class="{'active':selectedItem.provaders}" @click="$router.push('/provaders')">
+            <div  class="menu-item"  :class="{'active':selectedItem.provaders}" @click="$router.push('/provaders')">
                 <img v-if="selectedItem.provaders" src="../../assets/icons/menu_left/prov_w.svg" alt="users">
                 <img v-else  src="../../assets/icons/menu_left/prov_b.svg" alt="users">
                 <div class="memu-item-lab">Поставщики</div>
@@ -38,16 +38,9 @@
 
 
 <script>
-import {  isAdmin } from '../../servis/islogget.js'
 export default {
     name: 'MenuLeft',
-    async mounted(){
-        this.isAdmin = await isAdmin();
-    },
     data(){
-        return{
-            isAdmin:false,
-        }
     },
     props:{
         selected: String,

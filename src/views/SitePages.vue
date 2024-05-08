@@ -27,7 +27,7 @@
         </div>  
       </BackGrCard>
       <div class="animateOpen" :class="{collapse:!uncolapse, displayNone:!displayNone}">
-        <SitePage />
+        <SitePage :pageId="activePageId"/>
       </div>
     </MainContent>
   </template>
@@ -37,16 +37,21 @@ import { getData } from '@/servis/getData.js'
 import {coutMaxPages, newPage} from '@/servis/pageControl.js'
 import { EventBus } from '@/servis/EventBus'
 export default {
-  name: 'OrderPage',
+  name: 'SitePages',
   async mounted(){
     this.updateList()
     EventBus.on('pageTable:update', (page)=>{
       this.part = page
       this.part_data_list = newPage(this.f_data_list, page, this.part_items)
     })
+    EventBus.on('pages:closeSitePage', ()=>{
+      this.closeSitePage()
+    })
   },
   data(){
     return{
+      scrollPosition:'',
+      activePageId:'',
       data_list:'',
       f_data_list:'',
       part:'',
@@ -128,14 +133,9 @@ export default {
     },
     list_open_close(item){
       if(!item.folder){ 
+        this.activePageId = item.id;
         //this.$router.push(`/page/${item.id}`);
-        this.collapse = true;
-        setTimeout(()=>{
-          this.displayNone = true
-        }, 500)
-        setTimeout(()=>{
-          this.uncolapse = true
-        },600)
+        this.openSitePage()
         return false
       }
       let id = item.id
@@ -143,6 +143,37 @@ export default {
       if(!found) return false
       found.uncover = !found.uncover
       this.filter()
+    },
+    openSitePage(){
+      this.scrollPosition =  window.pageYOffset 
+      this.collapse = true;
+      setTimeout(()=>{
+        this.displayNone = true
+      }, 500)
+      setTimeout(()=>{
+        this.uncolapse = true
+      },600)
+      setTimeout(()=>{
+        window.scroll({
+          top: 0,
+          behavior: "smooth",
+        });
+      },1000)
+    },
+    closeSitePage(){
+      this.uncolapse = false
+      setTimeout(()=>{
+        this.displayNone = false
+      }, 500)
+      setTimeout(()=>{
+        this.collapse = false;
+      },600)
+      setTimeout(()=>{
+        window.scroll({
+          top: this.scrollPosition,
+          behavior: "smooth",
+        });
+      },1000)
     }
   }
 }

@@ -82,7 +82,6 @@ const routes = [
     name: 'provaders',
     meta: {
       requireAuth: true,
-      requireAdmin: true,
     },
     component: ProvidersPage
   },
@@ -103,11 +102,9 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   let logget = await isLogget();
-  let admin = await isAdmin();
 
   if(to.meta.requireAuth&&!logget) return {path: '/login'}
   if(!to.meta.requireAuth&&logget) return {path: '/'}
-  if(to.meta.requireAdmin&&!admin) return {path: '/'}
 })
 
 export default router

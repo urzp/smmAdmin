@@ -5,13 +5,13 @@
         <BackGrCard>
             <div class="table">
                 <TitleTable title="Поставщики">
-                  <ButtonStd title="Добавить" :height="'35px'" @click="new_provider"/>
+                  <ButtonStd v-if="isAdmin" title="Добавить" :height="'35px'" @click="new_provider"/>
                 </TitleTable>
                 <TableHeader class="set_width_table" :align="'flex-start'">
                     <h_colum title="#"/>
-                    <h_colum title='id'/>
-                    <h_colum title='url'/>
-                    <h_colum title='api-key'/>
+                    <h_colum title='id поставщика'/>
+                    <h_colum v-if="isAdmin" title='url'/>
+                    <h_colum v-if="isAdmin" title='api-key'/>
                     <h_colum title='баланс'/>
                     <h_colum title='валюта'/>
                 </TableHeader>
@@ -19,15 +19,15 @@
                     <div v-for="(item, index) in part_providers" :key="item.id" class="row set_width_table pointer" @click="pop_show(index)">
                         <div>{{ index + 1 + (part - 1)*this.part_items}}</div>
                         <div>{{ item.id_old }}</div>
-                        <div class="content_left">{{ item.name }}</div>
-                        <div class="content_left">{{ item.api_key }}</div>
+                        <div v-if="isAdmin" class="content_left">{{ item.name }}</div>
+                        <div v-if="isAdmin" class="content_left">{{ item.api_key }}</div>
                         <div class="content_right">{{ item.balans}}</div>
                         <div class="content_left">{{ item.currency }}</div>
                     </div>
                 </TableBody>
             </div>
         </BackGrCard>
-      <PopupProvider :provider_id = "pop_provider_id" v-model="pop_open"/>
+      <PopupProvider v-if="isAdmin" :provider_id = "pop_provider_id" v-model="pop_open"/>
     </MainContent>
 </template>
 
@@ -35,9 +35,11 @@
 import { getData } from '@/servis/getData.js'
 import {coutMaxPages, newPage} from '@/servis/pageControl.js'
 import { EventBus } from '@/servis/EventBus'
+import { isAdmin } from '@/servis/islogget'
 export default {
   name: 'ProvidersPage',
   async mounted(){
+    this.isAdmin = isAdmin()
     this.updateList()
     EventBus.on('pageTable:update', (page)=>{
       this.part = page
@@ -47,6 +49,7 @@ export default {
   },
   data(){
     return{
+        isAdmin:false,
         providers:'',
         f_providers:'',
         part_items: 100,
@@ -80,6 +83,7 @@ export default {
       this.part_providers = newPage(this.f_providers, this.part, this.part_items)
     },
     pop_show(i){
+      if(!this.isAdmin) return
       this.pop_open = true
       this.pop_provider_id = this.part_providers[i].id
       this.pop_provider = this.part_providers[i]
@@ -109,7 +113,7 @@ export default {
   }
 
   .set_width_table>:nth-child(4){
-    width: 450px;
+    width: 50px;
   }
 
   .set_width_table>:nth-child(5){

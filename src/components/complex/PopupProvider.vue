@@ -50,8 +50,6 @@ import { EventBus } from '@/servis/EventBus'
                    success: false,
                    msq:''
                 },
-
-                 
             }
         },
         props:{

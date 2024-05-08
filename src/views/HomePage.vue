@@ -27,7 +27,7 @@
           <img src="@/assets/icons/card/servis_l.svg" alt="" class="dark">         
         </template>
       </CardMain>
-      <CardMain v-if="isAdmin" :data="ProvadersProp" :iconCentr="true" @click="$router.push('/provaders')">
+      <CardMain :data="ProvadersProp" :iconCentr="true" @click="$router.push('/provaders')">
         <template v-slot:big_icon>
           <img src="@/assets/icons/card/provader_l.svg" alt="" class="light">
           <img src="@/assets/icons/card/provader_d.svg" alt="" class="dark">         
@@ -45,16 +45,13 @@
 
 <script>
 import { getData } from '@/servis/getData.js'
-import {  isAdmin } from '../servis/islogget.js'
 export default {
   name: 'HomePage',
   async mounted(){
     this.updateData()
-    this.isAdmin = await isAdmin();
   },
   data(){
     return{
-      isAdmin:false,
       usersProp:{
         title:'Пользователи',
         title_day_data: 'сутки',
