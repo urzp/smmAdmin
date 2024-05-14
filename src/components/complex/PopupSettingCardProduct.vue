@@ -52,9 +52,9 @@
                                         <div class="header_colum header_colum_1">Название</div>
                                         <div class="header_colum header_colum_2">Значение</div>
                                     </div>
-                                    <div class="setting_field_row">
-                                        <div class="colum header_colum_1"></div>
-                                        <div class="colum header_colum_2"></div>
+                                    <div v-for="(item) in card.params" :key="item.id" class="setting_field_row">
+                                        <div class="colum header_colum_1">{{ item.name }}</div>
+                                        <div class="colum header_colum_2">{{ item.value }}</div>
                                     </div>
                                 </div>
                             </div>

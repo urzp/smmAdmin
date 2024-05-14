@@ -15,6 +15,14 @@ $result_sql = $mysql -> query($sql);
 $cards=[];
 $i=0;
 foreach($result_sql as $item){
+    $params = [];
+    $card_id = $item['id'];
+    $sql = "SELECT * FROM `cardProductParams` WHERE `id_card`='$card_id' ";
+    $res_sql = $mysql -> query($sql);
+    foreach($res_sql as $item_params){
+        array_push( $params, $item_params );
+    }
+    $item['params'] = $params;
     $cards[$i] = $item;
     $i++;
 }
