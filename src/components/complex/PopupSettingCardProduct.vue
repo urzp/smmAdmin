@@ -1,15 +1,15 @@
 <template>
-    <div v-show="true" class="popup_bg_screen" @click.stop="thisClose">
+    <div v-show="modelValue" class="popup_bg_screen" @click.stop="thisClose">
         <div class="popup" >
-            <div class="close_btn" @click.stop="close">
+            <div class="close_btn" @click.stop="closePopup">
                     <img src="@/assets/icons/filters/close.svg" alt="">
             </div>
             <div class="content_wrap">
                 <div class="card">
-                    <div class="icon" style="background-image: url('https://static.tildacdn.com/tild6632-3337-4263-b336-633037643565/instagram3.svg');"></div>
-                    <div class="title">Подписчики Инстаграм дешевые</div>
-                    <div class="discription">Пол: смешанный. Низкое качество. Скорость: 10 тыс. в сутки. Гео: мир. Возможны любые списания. Без гарантии. Макс: 250 тыс.</div>
-                    <div class="price">0,06 ₽ за шт.</div>
+                    <div class="icon" :style="{'background-image': 'url('+card.img+')'}"></div>
+                    <div class="title">{{ card.title }}</div>
+                    <div class="discription">{{ card.description }}</div>
+                    <div class="price">{{ card.price_title }}</div>
                     <div class="button"><div class="icon_btn"></div>НАСТРОИТЬ</div>
                 </div>
                 <div class="settings">
@@ -18,12 +18,30 @@
                         <div class="form_content">
                             <div class="provider_form">
                                 <div class="title_field_form">Провайдер:</div>
-                                <div class="provider_field">
-                                    <div class="icon_btn_list_provider"><img src="@/assets/icons/btn_list.svg" alt=""></div>
-                                    <div class="content_provider">2 https://smmmain.com/api/v2</div>
+                                <div class="provider_field" @click="list_provider_open=!list_provider_open">
+                                    <div class="icon_btn_list_provider" ><img src="@/assets/icons/btn_list.svg" alt=""></div>
+                                    <div v-if="!!selectedProvider" class="content_provider">
+                                        <div class="id_provider_selected">{{ selectedProvider.id_old }}</div>
+                                        <div class="name_provider_selected">{{ selectedProvider.name}}</div>
+                                    </div>
                                 </div>
                                 <div class="list_providers_wrap">
-                                    <div class="list_providers"></div>
+                                    <div class="list_providers" :class="{close:!list_provider_open}">
+                                        <div v-for="(item) in providers" :key="item.id" class="row_provider" @click="selectProvider(item.id_old)">
+                                            <div class="id_provider">{{ item.id_old }}</div>
+                                            <div class="name_provider">{{ item.name }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="id_sevis_and_type_form">
+                                <div class="id_sevis_form">
+                                    <div class="title_field_form">ID servis:</div>
+                                    <input class="id_sevis_field" type="text" v-model="id_servis">
+                                </div>
+                                <div class="id_type_form">
+                                    <div class="title_field_form">Type:</div>
+                                    <input class="id_sevis_field" type="text" v-model="type_servis">
                                 </div>
                             </div>
                             <div class="settings_form">
@@ -35,8 +53,8 @@
                                         <div class="header_colum header_colum_2">Значение</div>
                                     </div>
                                     <div class="setting_field_row">
-                                        <div class="colum header_colum_1">id_servis</div>
-                                        <div class="colum header_colum_2">4</div>
+                                        <div class="colum header_colum_1"></div>
+                                        <div class="colum header_colum_2"></div>
                                     </div>
                                 </div>
                             </div>
@@ -56,27 +74,66 @@
 </template>
 
 <script>
+import { getData } from '@/servis/getData.js'
 export default{
     name: 'PopupSettingCardProduct',
+    async mounted(){
+        this.updateList()
+    },
     data(){
         return{
             pop_order:{},
+            providers:'',
+            selectedProvider:'',
+            id_servis:'',
+            type_servis:'',
+            list_provider_open: false,
         }
     },
     props:{
-        order:Object,
-        modelValue:Boolean,
-        userMode:{
-            type:Boolean,
-            default: false,
-        }
+        card:Object,
+        modelValue:Boolean, //open_close
     },
     emits: ['update:modelValue'],
+    watch:{
+        modelValue(){
+            this.updateSelectProvider(this.card.id_provider)
+            this.update_id_servis()
+            this.update_type_servis()
+        }
+    },
     methods:{
-        close(){
+        closePopup(){
             this.$emit('update:modelValue', false)
+            this.list_provider_open = false
         },
-    }
+        async updateList(){
+            let result = await getData('getData.php',{typeData:'providers'})
+            if(!this.checkResult(result)) return false
+            this.providers = await result.data
+        },
+        updateSelectProvider(id_provider){
+            this.selectedProvider = this.providers.find(item => item.id_old == id_provider);
+        },
+        update_id_servis(){
+            this.id_servis = this.card.id_servis
+        },
+        update_type_servis(){
+            this.type_servis = this.card.type
+        },
+        selectProvider(id_old){
+            this.updateSelectProvider(id_old)
+            this.card.id_provider = id_old;
+            this.list_provider_open = false
+        },
+        checkResult(result){
+            this.lading = false
+            if (result.success) return true
+            this.notFound = true
+            return false
+        },
+    },
+
 }
 </script>
 
@@ -122,8 +179,8 @@ export default{
     width: 360px;
     height: 500px;
     border-right: 1px solid #D2D2D2;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 .icon{
@@ -170,6 +227,7 @@ export default{
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    opacity: 0.3;
 
     .icon_btn{
     background-image: url('../../assets/icons/menu_left/settings_w.svg');
@@ -208,17 +266,32 @@ export default{
             margin-bottom: 5px;
         }
 
-        .provider_form{
+        .provider_form, .id_sevis_and_type_form{
+            position: relative;
             margin-bottom: 20px;
         }
 
-        .provider_field{
+        .id_sevis_and_type_form{
+            display: flex;
+            justify-content: flex-start;
+            gap: 20px;
+        }
+
+        .provider_field, .id_sevis_field{
+            position: relative;
+            z-index: 10;
             height: 36px;
             display: flex;
             align-items: center;
             gap: 10px;
             background-color: #F4F4F4;
             border-radius: 30px;
+        }
+        .id_sevis_field{
+            z-index: 0;
+            border: none;
+            text-align: center;
+            font-family: 'TildaSansBold';
         }
 
         .icon_btn_list_provider{
@@ -229,23 +302,45 @@ export default{
         }
 
         .content_provider{
+            display: flex;
+            gap: 5px;
             color: #383838;
         }
 
         .list_providers_wrap{
-            position: relative;
+            z-index: 1;
+            position: absolute;
+            top: 45px;
             .list_providers{
-                position: absolute;
-                height: 300px;
+                padding-top: 25px;
+                padding-left: 20px;
+                padding-bottom: 20px;
+                overflow-x: hidden;
+                overflow-y: auto;
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+                height: 420px;
                 width: 390px;
                 background-color: #eaeaea;
+                .row_provider{
+                    display: flex;
+                    gap: 10px;
+                    color: #818181;
+                    font-family: "TildaSans";
+                    font-weight: 400;
+                    cursor: pointer;
+                }
+            }
+
+            .list_providers.close{
+                display: none;
             }
         }
 
         .settings_field{
             background-color: #F4F4F4;
             border-radius: 20px;
-            height: 350px;
+            height: 270px;
             padding: 10px 20px;
             .settings_field_header{
                 display: flex;

@@ -16,11 +16,11 @@
               <div class="title">{{ item.title }}</div>
               <div class="discription">{{ item.description }}</div>
               <div class="price">{{ item.price_title }}</div>
-              <div class="button"><div class="icon_btn"></div>НАСТРОИТЬ</div>
+              <div class="button" @click="openPopap(item)"><div class="icon_btn"></div>НАСТРОИТЬ</div>
             </div>
           </div>
         </div>
-        <PopupSettingCardProduct/>
+        <PopupSettingCardProduct :card="selectedCard" v-model="openPopupCard"/>
       </BackGrCard>
   </template>
 
@@ -35,6 +35,8 @@ export default {
   data(){
     return{
       data:'',
+      selectedCard:'',
+      openPopupCard: false,
     }
   },
   props:{
@@ -67,6 +69,10 @@ export default {
     },
     closeThePage(){
       EventBus.emit('pages:closeSitePage')
+    },
+    openPopap(card){
+      this.selectedCard = card;
+      this.openPopupCard = true;
     }
   },
 }
