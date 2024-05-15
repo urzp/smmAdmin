@@ -30,7 +30,7 @@ import { EventBus } from '@/servis/EventBus'
 export default {
   name: 'SitePage',
   async mounted(){
-    //this.updateList()
+    EventBus.on('cardProduct:saved', ()=>{this.updateList()})
   },
   data(){
     return{

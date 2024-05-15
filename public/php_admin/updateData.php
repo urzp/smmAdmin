@@ -12,6 +12,9 @@ $typeData = $rq_data -> typeData;
 
 
 switch ($typeData) {
+    case 'cardProduct':
+        include 'updateCardProduct.php';
+        break;
     case 'provider':
         include 'updateProvider.php';
         break;

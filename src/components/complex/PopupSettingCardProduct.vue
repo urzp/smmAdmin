@@ -48,13 +48,16 @@
                                 <div class="title_field_form">Параметры:</div>
                                 <div class="settings_field">
                                     <div class="settings_field_header">
-                                        <img class="icon_setting_add" src="@/assets/icons/btn_add.svg" alt="">
+                                        <img class="icon_setting_add" src="@/assets/icons/btn_add.svg" alt="" @click="addParams()">
                                         <div class="header_colum header_colum_1">Название</div>
                                         <div class="header_colum header_colum_2">Значение</div>
                                     </div>
-                                    <div v-for="(item) in card.params" :key="item.id" class="setting_field_row">
-                                        <div class="colum header_colum_1">{{ item.name }}</div>
-                                        <div class="colum header_colum_2">{{ item.value }}</div>
+                                    <div class="settings_fields_content">
+                                        <div v-for="(item, index) in card_params" :key="item.id" class="setting_field_row">
+                                            <img class="icon_setting_delete" src="@/assets/icons/btn_delete.svg" alt="" @click="deletePrams(index)">
+                                            <input class="colum header_colum_1" type="text" :value="item.name" @input="event => setParams( event.target.value, 'name' , index ) " >
+                                            <input class="colum header_colum_2" type="text" :value="item.value" @input="event => setParams( event.target.value, 'value' , index ) " >
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +66,7 @@
                             <div class="form_test"></div>
                             <div class="form_buttons">
                                 <div class="test_btn">ТЕСТ</div>
-                                <div class="save_btn">СОХРАНИТЬ</div>
+                                <div class="save_btn" @click="saveSettings()">СОХРАНИТЬ</div>
                             </div>
                         </div>
                     </div>
@@ -75,6 +78,7 @@
 
 <script>
 import { getData } from '@/servis/getData.js'
+import { EventBus } from '@/servis/EventBus'
 export default{
     name: 'PopupSettingCardProduct',
     async mounted(){
@@ -84,10 +88,13 @@ export default{
         return{
             pop_order:{},
             providers:'',
+            list_provider_open: false,
             selectedProvider:'',
             id_servis:'',
             type_servis:'',
-            list_provider_open: false,
+            card_params:'',
+            card_params_to_delete:[],
+            
         }
     },
     props:{
@@ -100,6 +107,7 @@ export default{
             this.updateSelectProvider(this.card.id_provider)
             this.update_id_servis()
             this.update_type_servis()
+            this.update_card_params()
         }
     },
     methods:{
@@ -112,6 +120,12 @@ export default{
             if(!this.checkResult(result)) return false
             this.providers = await result.data
         },
+        checkResult(result){
+            this.lading = false
+            if (result.success) return true
+            this.notFound = true
+            return false
+        },
         updateSelectProvider(id_provider){
             this.selectedProvider = this.providers.find(item => item.id_old == id_provider);
         },
@@ -121,16 +135,47 @@ export default{
         update_type_servis(){
             this.type_servis = this.card.type
         },
+        update_card_params(){
+            this.card_params = []
+            this.card.params.forEach( (el) => {
+                let new_el = {...el}
+                this.card_params.push(new_el)
+            });
+        },
         selectProvider(id_old){
             this.updateSelectProvider(id_old)
             this.card.id_provider = id_old;
             this.list_provider_open = false
         },
-        checkResult(result){
-            this.lading = false
-            if (result.success) return true
-            this.notFound = true
-            return false
+        setParams(val, type, index){
+            if(type == 'name') this.card_params[index].name = val
+            if(type == 'value') this.card_params[index].value = val
+        },
+        addParams(){
+            let newParam ={
+                id: 'new',
+                id_card: this.card.id,
+                name: 'name',
+                value: 'value'
+            }
+            this.card_params.push(newParam)
+        },
+        deletePrams(index){
+            this.card_params_to_delete.push(this.card_params[index].id)
+            this.card_params.splice(index,1)
+        },
+        async saveSettings(){
+            let data = {}
+            data.id = this.card.id
+            data.id_provider = this.card.id_provider
+            data.type = this.type_servis
+            data.id_servis = this.id_servis
+            data.params = await this.card_params
+            data.card_params_to_delete = this.card_params_to_delete
+            let result = await getData('updateData.php',{typeData:'cardProduct', data})
+            if(!this.checkResult(result)) return false
+            EventBus.emit('cardProduct:saved')
+            this.closePopup();
         },
     },
 
@@ -343,6 +388,7 @@ export default{
             height: 270px;
             padding: 10px 20px;
             .settings_field_header{
+                margin-bottom: 10px;
                 display: flex;
                 align-items: center;
                 gap: 10px;
@@ -352,21 +398,38 @@ export default{
                 .icon_setting_add{
                     cursor: pointer;
                 }
+
                 .header_colum_1{
                     width: 50%;
                     border-right: 1px solid #D2D2D2;
-                    color: #969696;
+                    color: #969696
                 }
                 .header_colum_2{
                     width: 50%;
                 }
             }
 
+            .settings_fields_content{
+                overflow-x: hidden;
+                overflow-y: auto;     
+                height: 205px;          
+            }
+
+            .icon_setting_delete{
+                cursor: pointer;
+                opacity: 0.3;
+                transition: 0.3s;
+            }
+
+            .icon_setting_delete:hover{
+                opacity: 1.0;
+            }
+
             .setting_field_row{
                 display: flex;
                 align-items: center;
                 gap: 10px;     
-                height: 35px;
+                height: 30px;
                 .header_colum_1{
                     width: 60%;
                 }
@@ -376,6 +439,13 @@ export default{
             }
         }
 
+    }
+
+    input.colum{
+        border: none;
+        text-align: center;
+        font-family: 'TildaSansBold';
+        background-color: #F4F4F4;
     }
 
     .form_test_buttons{
@@ -405,10 +475,12 @@ export default{
             .test_btn{
                 border: 1px solid #4A55F0;
                 color:#4A55F0;
+                cursor: pointer;
             }
             .save_btn{
                 background-color:  #4A55F0;
                 color:#ffffff;
+                cursor: pointer;
             }
         }
     }
