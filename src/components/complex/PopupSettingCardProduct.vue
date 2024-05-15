@@ -98,7 +98,7 @@
                                 </div>
                             </div>
                             <div class="form_buttons">
-                                <div class="test_btn">ТЕСТ</div>
+                                <div class="test_btn" @click="runTest()" >ТЕСТ</div>
                                 <div class="save_btn" @click="saveSettings()">СОХРАНИТЬ</div>
                             </div>
                         </div>
@@ -239,6 +239,16 @@ export default{
         },
         deleteTestPrams(index){
             this.for_test_params.splice(index,1)
+        },
+        async runTest(){
+            let data = {}
+            this.for_test_params.forEach(item=>{
+                data[item.name]=item.value
+            })
+            this.card_params.forEach(item=>{
+                data[item.name]=item.value
+            })
+            let result = await getData('getData.php', {typeData:'testReqProvider', id_old_provider:this.card.id_provider , data })
         },
     },
 
