@@ -62,8 +62,41 @@
                                 </div>
                             </div>
                         </div>
+<!-- --------------------- TEST Panel------------------------------------------- -->
                         <div class="form_test_buttons">
-                            <div class="form_test"></div>
+                            <div class="form_test">
+                                <div class="title_test_form">Тест настроек</div>
+                                <div class="main_test_settings">
+                                    <div class="setting_wrap">
+                                        <div class="test_name_setting">Провайдер:</div>
+                                        <div class="test_value_settings">{{ selectedProvider.id_old }}</div>
+                                    </div>
+                                    <div class="setting_wrap">
+                                        <div class="test_name_setting">id servis:</div>
+                                        <div class="test_value_settings">{{ id_servis }}</div>
+                                    </div>
+                                </div>
+                                <div v-if="card_params.length > 0" class="subtitle_test_form">Параметры:</div>
+                                <div class="params_test_settings">
+                                    <div v-for="(item) in card_params"  :key="item.id" class="setting_wrap" >
+                                        <div class="test_name_setting">{{ item.name }}:</div>
+                                        <div class="test_value_settings">{{ item.value }}</div>
+                                    </div>                                    
+                                </div>
+                                <div class="subtitle_test_form subtitle_test_form_user">
+                                    <img class="icon_setting_add" src="@/assets/icons/btn_add.svg" alt="" @click="addTestParams()">
+                                    Параметры клиента:
+                                </div>
+                                <div class="params_test_settings_user">
+                                    <div v-for="(item, index) in for_test_params"  :key="item.id" class="setting_wrap" >
+                                        <img class="icon_setting_delete" src="@/assets/icons/btn_delete.svg" alt="" @click="deleteTestPrams(index)">
+                                            <div class="wrap_test_params">
+                                                <input class="prams_for_test prams_for_test_name" type="text" :value="item.name" @input="event => setTestParams( event.target.value, 'name' , index ) " >
+                                                <input class="prams_for_test prams_for_test_name_vlaue" type="text" :value="item.value" @input="event => setTestParams( event.target.value, 'value' , index ) " >
+                                            </div>    
+                                    </div>                                    
+                                </div>
+                            </div>
                             <div class="form_buttons">
                                 <div class="test_btn">ТЕСТ</div>
                                 <div class="save_btn" @click="saveSettings()">СОХРАНИТЬ</div>
@@ -94,6 +127,19 @@ export default{
             type_servis:'',
             card_params:'',
             card_params_to_delete:[],
+            for_test_params:[
+                {
+                 id:0,
+                 name:'link url',
+                 value:'www.exsample.com'   
+                },
+                {
+                id:1,
+                name:'quantity',
+                value: 1
+                },
+            ],
+            
             
         }
     },
@@ -176,6 +222,23 @@ export default{
             if(!this.checkResult(result)) return false
             EventBus.emit('cardProduct:saved')
             this.closePopup();
+        },
+        addTestParams(){
+            let id = this.for_test_params.length
+            let newParam ={
+                id,
+                id_card: this.card.id,
+                name: 'name',
+                value: 'value'
+            }
+            this.for_test_params.push(newParam)
+        },
+        setTestParams(val, type, index){
+            if(type == 'name') this.for_test_params[index].name = val
+            if(type == 'value') this.for_test_params[index].value = val
+        },
+        deleteTestPrams(index){
+            this.for_test_params.splice(index,1)
         },
     },
 
@@ -455,10 +518,67 @@ export default{
         flex-direction: column;
         justify-content: space-between;
         .form_test{
+            padding: 10px 20px;
             width: 300px;
             height: 370px;
             background-color: #E2EFDA;
             border-radius: 20px;
+
+
+
+            .title_test_form, .subtitle_test_form{
+                color: #686868;
+            }
+
+
+
+            .subtitle_test_form{
+                text-align: left;
+                display: flex;
+                gap: 10px;
+                
+            }
+
+            .setting_wrap{
+                display: flex;
+                gap: 10px;
+                font-family: "TildaSans";
+                .test_name_setting{
+                    color: #969696;
+                }
+            }
+
+            .wrap_test_params{
+                margin: 5px 0;
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .icon_setting_add, .icon_setting_delete{
+                cursor: pointer;
+            }
+
+            .icon_setting_delete{
+                cursor: pointer;
+                opacity: 0.3;
+                transition: 0.3s;
+            }
+
+            .icon_setting_delete:hover{
+                opacity: 1.0;
+            }
+
+            .prams_for_test{
+                border: none;
+                width: 100%;
+                color:#969696;
+                background-color: transparent;
+            }
+
+            .prams_for_test_name_vlaue{
+                color:#0C151C;
+            }
         }
 
         .form_buttons{
@@ -484,6 +604,22 @@ export default{
             }
         }
     }
+}
+
+
+.form_test{
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 155px
+}
+
+.main_test_settings, .params_test_settings{
+    margin-bottom: 10px;
+}
+
+.subtitle_test_form_user{
+    padding-bottom: 10px;
+    border-bottom: 1px solid #D2D2D2;   
 }
 
 </style>
