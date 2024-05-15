@@ -240,7 +240,7 @@ export default{
         deleteTestPrams(index){
             this.for_test_params.splice(index,1)
         },
-        async runTest(){
+        async _runTest(){
             let data = {}
             this.for_test_params.forEach(item=>{
                 data[item.name]=item.value
@@ -250,6 +250,20 @@ export default{
             })
             let result = await getData('getData.php', {typeData:'testReqProvider', id_old_provider:this.card.id_provider , data })
         },
+        async runTest(){
+            // $_POST["api_k"]
+            // $_POST['paymentsystem']
+            // $payment['orderid']
+            // $_POST['payment']
+
+            // $_POST['type']
+            // $_POST['comments']
+            // $POST['prodavec_id']
+            // $_POST['service']
+            // $_POST['post-link']
+            // $_POST['quantity']
+
+        }
     },
 
 }
