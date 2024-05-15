@@ -251,7 +251,7 @@ export default{
             let result = await getData('getData.php', {typeData:'testReqProvider', id_old_provider:this.card.id_provider , data })
         },
         async runTest(){
-            // $_POST["api_k"]
+            // $_POST["api_k"] = 0234$567DAs
             // $_POST['paymentsystem']
             // $payment['orderid']
             // $_POST['payment']
@@ -263,7 +263,20 @@ export default{
             // $_POST['post-link']
             // $_POST['quantity']
 
-        }
+            let xhr = new XMLHttpRequest();
+            body = 'api_k=' + encodeURIComponent('0234$567DAs') +
+            '&paymentsystem=' + encodeURIComponent('test');
+
+        },
+        bodyPost(data){
+            let result =''
+            let and_sumbol = ''
+            Object.keys(data).forEach(key=>{
+                result = result + and_sumbol + key + '=' + encodeURIComponent(data[key])
+                and_sumbol = '&'
+            })
+            return result
+        },
     },
 
 }
