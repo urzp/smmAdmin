@@ -89,12 +89,25 @@
                                 </div>
                                 <div class="params_test_settings_user">
                                     <div v-for="(item, index) in for_test_params"  :key="item.id" class="setting_wrap" >
-                                        <img class="icon_setting_delete" src="@/assets/icons/btn_delete.svg" alt="" @click="deleteTestPrams(index)">
+                                        <img v-if="index!=1&&index!=0" class="icon_setting_delete" src="@/assets/icons/btn_delete.svg" alt="" @click="deleteTestPrams(index)">
                                             <div class="wrap_test_params">
                                                 <input class="prams_for_test prams_for_test_name" type="text" :value="item.name" @input="event => setTestParams( event.target.value, 'name' , index ) " >
                                                 <input class="prams_for_test prams_for_test_name_vlaue" type="text" :value="item.value" @input="event => setTestParams( event.target.value, 'value' , index ) " >
                                             </div>    
                                     </div>                                    
+                                </div>
+                                <div v-if="showResult" class="result_test">
+                                    <div class="subtitle_test_form subtitle_test_form_user">Ответ</div>
+                                    <div class="setting_wrap">
+                                        <div class="test_name_setting">Статус:</div>
+                                        <div class="test_value_settings">{{ resultTest.status }}</div>
+                                    </div>
+                                    <div class="setting_wrap">
+                                        <div class="test_name_setting">Сообщение:</div>
+                                    </div>
+                                    <div class="setting_wrap">
+                                        <div class="test_value_settings result_message">{{ resultTest.message }}</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form_buttons">
@@ -116,6 +129,9 @@ export default{
     name: 'PopupSettingCardProduct',
     async mounted(){
         this.updateList()
+        EventBus.on('test:result', (result)=>{
+            this.updateResult(result)
+        })
     },
     data(){
         return{
@@ -127,16 +143,18 @@ export default{
             type_servis:'',
             card_params:'',
             card_params_to_delete:[],
+            resultTest:'',
+            showResult:false,
             for_test_params:[
                 {
                  id:0,
-                 name:'link url',
+                 name:'post-link',
                  value:'www.exsample.com'   
                 },
                 {
                 id:1,
                 name:'quantity',
-                value: 1
+                value: 10
                 },
             ],
             
@@ -160,6 +178,7 @@ export default{
         closePopup(){
             this.$emit('update:modelValue', false)
             this.list_provider_open = false
+            this.showResult = false
         },
         async updateList(){
             let result = await getData('getData.php',{typeData:'providers'})
@@ -253,7 +272,6 @@ export default{
         async runTest(){
             // $_POST["api_k"] = 0234$567DAs
             // $_POST['paymentsystem']
-            // $payment['orderid']
             // $_POST['payment']
 
             // $_POST['type']
@@ -262,10 +280,53 @@ export default{
             // $_POST['service']
             // $_POST['post-link']
             // $_POST['quantity']
+             //let payment = '{\"orderid\":\"test\",\"products\":[\"Реакции Телеграм: Сердце=4.72\"],\"amount\":\"100\"}'
+            
+            let url = "https://smmbackmy.ru/php/outcom_payment.php"
 
-            let xhr = new XMLHttpRequest();
-            body = 'api_k=' + encodeURIComponent('0234$567DAs') +
-            '&paymentsystem=' + encodeURIComponent('test');
+            //let url = 'https://smmbackmy.ru/php_admin/test.php'
+            let quntity = this.for_test_params.find((el)=>{ return el.name == 'quantity' }).value
+            let amount = Number(this.card.price)*quntity
+
+            let paymentObj = {
+                orderid: 'testing',
+                products: [this.card.title],
+                amount: amount,
+            }
+
+            let payment = JSON.stringify(paymentObj);
+
+            let data ={
+                api_k: '0234$567DAs',
+                paymentsystem: 'no',
+                payment,
+                type: this.card.type,
+                prodavec_id: this.selectedProvider.id_old,
+                service: this.id_servis,
+            }
+
+            this.for_test_params.forEach(item=>{
+                data[item.name]=item.value
+            })
+            this.card_params.forEach(item=>{
+                data[item.name]=item.value
+            })
+
+            let xhr = new XMLHttpRequest()
+            let body = this.bodyPost(data)
+
+            this.resultTest
+
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {//Call a function when the state changes.
+                if(xhr.readyState == 4 && xhr.status == 200) {                   
+                    let result =  JSON.parse(xhr.responseText) ;  
+                    result.message = result.message.replace("{", "").replace("}", "")
+                    EventBus.emit('test:result', result)            
+                }
+            }
+            xhr.send(body);
 
         },
         bodyPost(data){
@@ -277,6 +338,10 @@ export default{
             })
             return result
         },
+        updateResult(result){
+            this.resultTest = result
+            this.showResult = true
+        }
     },
 
 }
@@ -658,5 +723,12 @@ export default{
     padding-bottom: 10px;
     border-bottom: 1px solid #D2D2D2;   
 }
+.result_test{
+    margin-top: 30px;
 
+    .result_message{
+        text-align: left;
+    }
+    
+}
 </style>
