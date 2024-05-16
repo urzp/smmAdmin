@@ -1,7 +1,7 @@
 <template>
     <Header></Header>
     <MenuLeft selected="servis"></MenuLeft>
-    <MainContent>
+    <MainContent v-if="false">
       <BackGrCard height="60px" :class="{collapse:collapse, displayNone:displayNone}" >
         <div class="buttons_wrap">
           <Title title="Список страниц сайта"/>
@@ -29,6 +29,9 @@
       <div class="animateOpen" :class="{collapse:!uncolapse, displayNone:!displayNone}">
         <SitePage :pageId="activePageId"/>
       </div>
+    </MainContent>
+    <MainContent v-if="true">
+      <InfoPage/>
     </MainContent>
   </template>
 
