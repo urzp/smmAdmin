@@ -1,11 +1,11 @@
 <template>
     <Header></Header>
     <MenuLeft selected="servis"></MenuLeft>
-    <MainContent v-if="false">
+    <MainContent v-if="!showInfoPage">
       <BackGrCard height="60px" :class="{collapse:collapse, displayNone:displayNone}" >
         <div class="buttons_wrap">
           <Title title="Список страниц сайта"/>
-          <ButtonStd @click="$router.push('/pages')" class="btn-right" width="80px"><img src="@/assets/icons/update_w.svg" alt=""></ButtonStd>
+          <ButtonStd @click="showInfoPage=true" class="btn-right" width="80px"><img src="@/assets/icons/update_w.svg" alt=""></ButtonStd>
         </div>
       </BackGrCard>
       <BackGrCard :class="{collapse:collapse, displayNone:displayNone}">
@@ -30,7 +30,7 @@
         <SitePage :pageId="activePageId"/>
       </div>
     </MainContent>
-    <MainContent v-if="true">
+    <MainContent v-if="showInfoPage">
       <InfoPage/>
     </MainContent>
   </template>
@@ -50,6 +50,7 @@ export default {
     EventBus.on('pages:closeSitePage', ()=>{
       this.closeSitePage()
     })
+    EventBus.on('showInfoPage', (val)=>{this.showInfoPage = val})
   },
   data(){
     return{
@@ -63,7 +64,8 @@ export default {
       url_f:'',
       collapse: false,
       uncolapse: false,
-      displayNone:false
+      displayNone:false,
+      showInfoPage:false
     }
   },
   watch:{

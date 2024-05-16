@@ -3,7 +3,7 @@
         <div class="Panel_wrap">
           <ButtonStd title="К списку страниц"  @click="closeThePage()" width="180px" font_size="15px"/>
           <Title title="Настройка карточек услуг" subtitle="instagram-podpishiki"  />
-          <ButtonStd @click="updateList" class="btn-right" width="80px"><img src="@/assets/icons/update_w.svg" alt=""></ButtonStd>
+          <!-- <ButtonStd @click="showInfoPage()" class="btn-right" width="80px"><img src="@/assets/icons/update_w.svg" alt=""></ButtonStd> -->
         </div>
       </BackGrCard>
       <BackGrCard class="sitePage">
@@ -73,6 +73,9 @@ export default {
     openPopap(card){
       this.selectedCard = card;
       this.openPopupCard = true;
+    },
+    showInfoPage(){
+      EventBus.emit('showInfoPage', true)
     }
   },
 }
