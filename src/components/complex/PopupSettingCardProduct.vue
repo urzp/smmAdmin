@@ -69,7 +69,7 @@
                                 <div class="main_test_settings">
                                     <div class="setting_wrap">
                                         <div class="test_name_setting">Провайдер:</div>
-                                        <div class="test_value_settings">{{ selectedProvider.id_old }}</div>
+                                        <div class="test_value_settings">{{ selectedProvider?selectedProvider.id:'-' }}</div>
                                     </div>
                                     <div class="setting_wrap">
                                         <div class="test_name_setting">id servis:</div>
