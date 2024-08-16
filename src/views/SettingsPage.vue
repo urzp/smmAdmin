@@ -1,9 +1,11 @@
 <template>
     <Header></Header>
     <MenuLeft selected="settings"></MenuLeft>
-    <main>
-      <h1>Страница настроек (пока настроек нет)</h1>
-    </main>
+    <MainContent>
+      <BackGrCard height="500px">
+        <TitleTable title="Настройки"></TitleTable>
+      </BackGrCard>
+    </MainContent>
   </template>
 
 <script>

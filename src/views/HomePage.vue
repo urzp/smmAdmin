@@ -33,7 +33,7 @@
           <img src="@/assets/icons/card/provader_d.svg" alt="" class="dark">         
         </template>
       </CardMain>
-      <CardMain v-if="false" :data="settingsProp" :iconCentr="true" @click="$router.push('/settings')">
+      <CardMain  :data="settingsProp" :iconCentr="true" @click="$router.push('/settings')">
         <template v-slot:big_icon>
           <img src="@/assets/icons/card/settings_l.svg" alt="" class="light">
           <img src="@/assets/icons/card/settings_d.svg" alt="" class="dark">         
