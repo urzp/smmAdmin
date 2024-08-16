@@ -11,15 +11,15 @@
           <div class="line"></div>
           <div class="item_config">
             <div class="name_config">Максимальное количество услуг</div>
-            <input type="number">
+            <input type="number" v-model="configs.quantity_max_free_orderd">
           </div>
           <div class="item_config">
             <div class="name_config">Поставшик</div>
-            <input type="number">
+            <input type="number" v-model="configs.provider_free_orders">
           </div>
           <div class="item_config">
             <div class="name_config">Ожидания повторного заказа по одной ссылке (ч)</div>
-            <input type="number">
+            <input type="number" :value="configs.pause_free_orders_h">
           </div>
         </BackGrCard>
       </BackGrCard>
@@ -27,9 +27,30 @@
   </template>
 
 <script>
-
+import { getData } from '@/servis/getData.js'
 export default {
-  name: 'SettingsPage'
+  name: 'SettingsPage',
+  async mounted(){
+    this.getConfigs()
+  },
+  data(){
+    return{
+      configs:{},
+    }
+  },
+  methods:{
+    async getConfigs(){
+      let result  = await getData('getData.php',{typeData:'configs'})
+      if(!this.checkResult(result)) return false
+      this.configs = await result.data
+    },
+    checkResult(result){
+      this.lading = false
+      if (result.success) return true
+      this.notFound = true
+      return false
+    }
+  },
 }
 </script>
 
