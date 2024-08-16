@@ -4,7 +4,7 @@
     <MainContent>
       <BackGrCard height="500px">
         <Title title="Настройки" style="margin-bottom: 20px;">
-          <ButtonStd  title="Сохранить" @click="()=>{}"/>
+          <ButtonStd  title="Сохранить" @click="updateConfigs()"/>
         </Title>
         <BackGrCard height="200px" width="560px" bg_color="#FFFFFF" bg_color_hover="#FFFFFF" border_radius="15px">
           <Title title="Бесплатные заказы" text_size="18px"></Title>
@@ -49,6 +49,9 @@ export default {
       if (result.success) return true
       this.notFound = true
       return false
+    },
+    async updateConfigs(){
+      let result  = await getData('updateData.php',{typeData:'configs'})
     }
   },
 }
