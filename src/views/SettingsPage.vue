@@ -24,11 +24,15 @@
         </BackGrCard>
       </BackGrCard>
     </MainContent>
+    <Toaster/>
   </template>
 
 <script>
 import { getData } from '@/servis/getData.js'
+import { EventBus } from '@/servis/EventBus'
+import Toaster from '@/components/UI/Toaster.vue'
 export default {
+  components: { Toaster },
   name: 'SettingsPage',
   async mounted(){
     this.getConfigs()
@@ -52,7 +56,12 @@ export default {
     },
     async updateConfigs(){
       let result  = await getData('updateData.php',{typeData:'configs', data: this.configs} )
-      console.log(result)
+      if(!!result){
+        EventBus.emit(`toaster:update`, {success:true, msg:'сохранено'})
+      }else{
+        EventBus.emit(`toaster:update`, {success:false, msg:'ошибка'})
+      }
+      
     }
   },
 }

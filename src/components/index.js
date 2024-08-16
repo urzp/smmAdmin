@@ -23,6 +23,7 @@ import TableUserLog from '@/components/Tables/UserLog.vue'
 import CardMain from '@/components/complex/CardMain.vue'
 import SitePage from '@/components/complex/SitePage.vue'
 import InfoPage from '@/components/complex/InfoPage.vue'
+import Toaster from '@/components/UI/Toaster.vue'
 
 export default [
     ButtonStd,
@@ -50,5 +51,6 @@ export default [
     SitePage,
     PopupSettingCardProduct,
     InfoPage,
+    Toaster,
 ]
 
