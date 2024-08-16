@@ -26,7 +26,12 @@ export default {
         bg_color_hover:{
             type: String,
             default: '#F0F0F0',
-        }
+        },
+        border_radius:{
+            type: String,
+            default: '5px',
+        },
+
     }
 }
 </script>
@@ -38,6 +43,7 @@ export default {
     background-color: v-bind(bg_color);
     border-radius: 5px;
     transition: 0.3s;
+    border-radius: v-bind(border_radius);
 }
 .bg_card:hover{
     background-color: v-bind(bg_color_hover);

@@ -12,6 +12,10 @@ export default{
     props:{
         title: String,
         subtitle: String,
+        text_size:{
+            type: String,
+            default: '24px',
+        },
     }
 }
 </script>
@@ -23,7 +27,7 @@ export default{
     align-items: center;
   }
   .label{
-    font-size: 24px;
+    font-size: v-bind(text_size);
     text-align: left;
   }
   .subtitle{

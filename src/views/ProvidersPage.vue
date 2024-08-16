@@ -5,7 +5,7 @@
         <BackGrCard>
             <div class="table">
                 <TitleTable title="Поставщики">
-                  <ButtonStd v-if="isAdmin" title="Добавить" :height="'35px'" @click="new_provider"/>
+                  <ButtonStd v-if="isAdmin" title="Добавить"  @click="new_provider"/>
                 </TitleTable>
                 <TableHeader class="set_width_table" :align="'flex-start'">
                     <h_colum title="#"/>
