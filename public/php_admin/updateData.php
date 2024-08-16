@@ -10,8 +10,10 @@ include 'checkAccess.php';
 $rq_data = $post -> rq_data;
 $typeData = $rq_data -> typeData;
 
-
 switch ($typeData) {
+    case 'configs':
+        include 'updateConfigs.php';
+        break;
     case 'cardProduct':
         include 'updateCardProduct.php';
         break;

@@ -19,7 +19,7 @@
           </div>
           <div class="item_config">
             <div class="name_config">Ожидания повторного заказа по одной ссылке (ч)</div>
-            <input type="number" :value="configs.pause_free_orders_h">
+            <input type="number" v-model="configs.pause_free_orders_h">
           </div>
         </BackGrCard>
       </BackGrCard>
@@ -51,7 +51,8 @@ export default {
       return false
     },
     async updateConfigs(){
-      let result  = await getData('updateData.php',{typeData:'configs'})
+      let result  = await getData('updateData.php',{typeData:'configs', data: this.configs} )
+      console.log(result)
     }
   },
 }
