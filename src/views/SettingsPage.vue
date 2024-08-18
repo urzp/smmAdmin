@@ -8,6 +8,7 @@
         </Title>
         <BackGrCard height="200px" width="560px" bg_color="#FFFFFF" bg_color_hover="#FFFFFF" border_radius="15px">
           <Title title="Бесплатные заказы" text_size="18px"></Title>
+          <Title class="centr_align" title="По умолчанию" text_size="18px" color="#aaa"></Title>
           <div class="line"></div>
           <div class="item_config">
             <div class="name_config">Максимальное количество услуг</div>
@@ -21,6 +22,11 @@
             <div class="name_config">Ожидания повторного заказа по одной ссылке (ч)</div>
             <input type="number" v-model="configs.pause_free_orders_h">
           </div>
+          <div class="line"></div>
+          <Title class="centr_align" title="Для страниц" text_size="18px" color="#aaa"></Title>
+          <ButtonStd @click="updateList" class="btn-left" width="80px"><img src="@/assets/icons/trach.svg" alt=""></ButtonStd>
+          <div class="line"></div>
+          <ButtonStd @click="updateList" class="btn-left" width="80px"><img src="@/assets/icons/btn_pluss.svg" alt=""></ButtonStd>
         </BackGrCard>
       </BackGrCard>
     </MainContent>
@@ -96,6 +102,10 @@ export default {
     background-color: #eff8ff;
     border-radius: 8px;
     padding: 0px 8px;
+  }
+
+  .centr_align{
+    justify-content: center!important;
   }
 
 </style>

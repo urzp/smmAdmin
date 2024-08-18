@@ -12,6 +12,10 @@ export default{
     props:{
         title: String,
         subtitle: String,
+        color:{
+          type: String,
+          default: '#000',
+        },
         text_size:{
             type: String,
             default: '24px',
@@ -25,6 +29,7 @@ export default{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: v-bind(color);
   }
   .label{
     font-size: v-bind(text_size);
