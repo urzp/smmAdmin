@@ -11,6 +11,12 @@ $rq_data = $post -> rq_data;
 $typeData = $rq_data -> typeData;
 
 switch ($typeData) {
+    case 'freePages_del':
+        include 'deleteFreePage.php';
+        break;
+    case 'freePages':
+        include 'updateFreePage.php';
+        break;
     case 'configs':
         include 'updateConfigs.php';
         break;
