@@ -40,6 +40,11 @@ $orders['today'] = countDay('orders', 0);
 $orders['graphic'] = getGraphic('orders');
 $data['orders'] = $orders;
 
+$freeOrders['total'] = countTotal('orders_free');
+$freeOrders['today'] = countDay('orders_free', 0);
+$freeOrders['graphic'] = getGraphic('orders_free');
+$data['freeOrders'] = $freeOrders;
+
 $ordersUsers['total'] = countTotal('out_payments');
 $ordersUsers['today'] = countDay('out_payments', 0);
 $ordersUsers['graphic'] = getGraphic('out_payments');

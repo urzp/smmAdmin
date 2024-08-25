@@ -3,16 +3,22 @@
   <MenuLeft selected="main"></MenuLeft>
   <MainContent>
     <div class="panel">
-      <CardMain :data="usersProp"  @click="$router.push('/users')">
-        <template v-slot:small_icon>
-          <img src="@/assets/icons/card/user_l.svg" alt="" class="light">
-          <img src="@/assets/icons/card/user_d.svg" alt="" class="dark">
-        </template>
-      </CardMain>
       <CardMain :data="OrdersProp"  @click="$router.push('/orders')">
         <template v-slot:small_icon>
           <img src="@/assets/icons/card/orders_l.svg" alt="" class="light">
           <img src="@/assets/icons/card/orders_d.svg" alt="" class="dark">
+        </template>
+      </CardMain>
+      <CardMain :data="OrdersFree"  @click="$router.push('/orders')">
+        <template v-slot:small_icon>
+          <img src="@/assets/icons/card/orders_l.svg" alt="" class="light">
+          <img src="@/assets/icons/card/orders_d.svg" alt="" class="dark">
+        </template>
+      </CardMain>
+      <CardMain :data="usersProp"  @click="$router.push('/users')">
+        <template v-slot:small_icon>
+          <img src="@/assets/icons/card/user_l.svg" alt="" class="light">
+          <img src="@/assets/icons/card/user_d.svg" alt="" class="dark">
         </template>
       </CardMain>
       <CardMain :data="UsersOrdersProp" @click="$router.push('/orders/users')">
@@ -68,6 +74,14 @@ export default {
         total_data: "-",
         graphic:[0,0,0,0,0,0,0],
       },
+      OrdersFree:{
+        title:'Бесплатные заказы',
+        title_day_data: 'сутки',
+        title_total_data: 'всего',
+        day_data: "-",
+        total_data: "-",
+        graphic:[0,0,0,0,0,0,0],
+      },
       UsersOrdersProp:{
         title:'Заказы пользователей',
         title_day_data: 'сутки',
@@ -115,6 +129,10 @@ export default {
       this.OrdersProp.day_data = data.orders.today
       this.OrdersProp.total_data = data.orders.total
       this.OrdersProp.graphic = data.orders.graphic
+
+      this.OrdersFree.day_data = data.freeOrders.today
+      this.OrdersFree.total_data = data.freeOrders.total
+      this.OrdersFree.graphic = data.freeOrders.graphic
 
       this.UsersOrdersProp.day_data = data.ordersUsers.today
       this.UsersOrdersProp.total_data = data.ordersUsers.total

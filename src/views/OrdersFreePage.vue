@@ -4,43 +4,39 @@
     <MainContent>
       <BackGrCard height="60px">
         <div class="buttons_wrap">
-          <ButtonStd title="Общие" @click="updateList" width="250px" font_size="15px"/>
-          <ButtonStd title="Бесплатные" @click="$router.push('/free-orders')" width="250px" font_size="15px"/>
+          <ButtonStd title="Общие" @click="$router.push('/orders')" width="250px" font_size="15px"/>
+          <ButtonStd title="Бесплатные" @click="updateList" width="250px" font_size="15px"/>
           <ButtonStd title="Пользователей" @click="$router.push('/orders/users')" width="250px" font_size="15px"/>
           <ButtonStd @click="updateList" class="btn-right" width="80px"><img src="@/assets/icons/update_w.svg" alt=""></ButtonStd>
         </div>
       </BackGrCard>
       <BackGrCard>
         <div class="table">
-          <TitleTable title="Общие заказы" :subtitle="`от ${date_f.from} до ${date_f.until}`" @click="date_f_click = !date_f_click" class="pointer"/>
+          <TitleTable title="Бесплатные заказы" :subtitle="`от ${date_f.from} до ${date_f.until}`" @click="date_f_click = !date_f_click" class="pointer"/>
           <TableHeader class="set_width_table">
             <h_colum title="#"/>
             <h_colum title='Дата время' type_f="date" v-model="date_f" :click_hand="date_f_click"/>
-            <h_colum title='Транзакция'  type_f='find' v-model="transaction_f"/>
-            <h_colum title='Email' type_f='find' v-model="email_f"/>
-            <h_colum title='Кол-во' type_f='true_false' v-model="qunt_f" l_true="вверх" l_false="вниз"/>
-            <h_colum title='Сумма' type_f='true_false' v-model="sum_f" l_true="вверх" l_false="вниз"/>
+            <h_colum title='Страница'  type_f='find' v-model="transaction_f"/>
+            <h_colum title='Название сервиса' type_f='find' v-model="email_f"/>
+            <h_colum title='id Сервис' type_f='true_false' v-model="sum_f" l_true="вверх" l_false="вниз"/>
             <h_colum title='url' type_f='true_false' v-model="url_f" l_true="есть url" l_false="без url"/>
-            <h_colum title='статус' type_f='true_false' v-model="status_f"/>
+            <h_colum title='Кол-во' type_f='true_false' v-model="qunt_f" l_true="вверх" l_false="вниз"/>
+            <h_colum title='Огра-ние'/>
+            <h_colum title='id провайдер' type_f='true_false' v-model="status_f"/>
             <h_colum title='msg'/>
-            <h_colum title='Старт'/>
-            <h_colum title='Остаток'/>
-            <h_colum title='Прогресс' type_f='find' v-model="prog_staus_f" f_left/>
           </TableHeader>
           <TableBody>
             <div v-for="(item, index) in part_orders" :key="item.id" class="row set_width_table pointer" @click="pop_show(index)">
               <div>{{ index + 1 + (part - 1)*this.part_items}}</div>
               <div class="content_left">{{ item.datetime }}</div>
-              <div>{{ item.transaction }}</div> 
-              <div class="content_left">{{ item.email }}</div>
-              <div class="content_right">{{ item.quantity }}</div>
-              <div class="content_right">{{ item.sum }} p.</div>
+              <div class="content_left">{{ item.page }}</div> 
+              <div class="content_left">{{ item.name_servis }}</div>
+              <div class="content_right">{{ item.service }}</div>
               <div class="content_left">{{ item.link }}</div>
-              <div>{{ conv_val(item.provader_status) }}</div>
-              <div class="content_left">{{ conv_val(item.provader_msg) }}</div>
-              <div class="content_right">{{ item.start_count }}</div>
-              <div class="content_right">{{ item.progress_remains }}</div>
-              <div class="content_left">{{ item.progress_status }}</div>
+              <div class="content_right">{{ item.quantity }}</div>
+              <div >{{ item.quantity_max }}</div>
+              <div>{{ item.id_provider }}</div>
+              <div class="content_left">{{ item.provider_msg }}</div>
             </div>
           </TableBody>
         </div>  
@@ -54,7 +50,7 @@ import { getData } from '@/servis/getData.js'
 import {coutMaxPages, newPage} from '@/servis/pageControl.js'
 import { EventBus } from '@/servis/EventBus'
 export default {
-  name: 'OrderPage',
+  name: 'FreeOrderPage',
   async mounted(){
     this.updateList()
     EventBus.on('pageTable:update', (page)=>{
@@ -116,7 +112,7 @@ export default {
   },
   methods:{
     async updateList(){
-      let result = await getData('getData.php',{typeData:'orders', typeOrders:'not_users' ,date_from:this.date_f.from, date_until:this.date_f.until})
+      let result = await getData('getData.php',{typeData:'freeOrders', typeOrders:'not_users' ,date_from:this.date_f.from, date_until:this.date_f.until})
       if(!this.checkResult(result)) return false
       this.orders = await result.data
       this.filter();
@@ -226,7 +222,7 @@ export default {
   }
 
   .set_width_table>:nth-child(3){
-    min-width: 80px;
+    min-width: 180px;
   }
 
   .set_width_table>:nth-child(4){
@@ -238,12 +234,12 @@ export default {
   }
 
   .set_width_table>:nth-child(6){
-    min-width: 50px;
+    min-width: 200px;
+    width: 25%;
   }
 
   .set_width_table>:nth-child(7){
-    min-width: 200px;
-    width: 25%;
+    min-width: 50px;
   }
 
   .set_width_table>:nth-child(8){
@@ -251,20 +247,12 @@ export default {
   }
 
   .set_width_table>:nth-child(9){
-    min-width: 150px;
-    width: 10%;
+    width: 50px;
   }
-
+  
   .set_width_table>:nth-child(10){
-    width: 50px;
-  }
-
-  .set_width_table>:nth-child(11){
-    width: 50px;
-  }
-
-  .set_width_table>:nth-child(12){
-    width: 80px;
+    min-width: 200px;
+    width: 10%;
   }
 
   .pointer{

@@ -53,6 +53,9 @@ switch ($typeData) {
     case 'users':
         include 'getUsers.php';
         break;
+    case 'freeOrders':
+        include 'getFreeOrders.php';
+        break;
     case 'orders':
         include 'getOrders.php';
         break;
