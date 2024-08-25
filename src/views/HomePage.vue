@@ -9,7 +9,7 @@
           <img src="@/assets/icons/card/orders_d.svg" alt="" class="dark">
         </template>
       </CardMain>
-      <CardMain :data="OrdersFree"  @click="$router.push('/orders')">
+      <CardMain :data="OrdersFree"  @click="$router.push('/free-orders')">
         <template v-slot:small_icon>
           <img src="@/assets/icons/card/orders_l.svg" alt="" class="light">
           <img src="@/assets/icons/card/orders_d.svg" alt="" class="dark">

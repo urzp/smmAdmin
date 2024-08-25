@@ -16,13 +16,13 @@
           <TableHeader class="set_width_table">
             <h_colum title="#"/>
             <h_colum title='Дата время' type_f="date" v-model="date_f" :click_hand="date_f_click"/>
-            <h_colum title='Страница'  type_f='find' v-model="transaction_f"/>
-            <h_colum title='Название сервиса' type_f='find' v-model="email_f"/>
-            <h_colum title='id Сервис' type_f='true_false' v-model="sum_f" l_true="вверх" l_false="вниз"/>
+            <h_colum title='Страница'  type_f='find' v-model="page_f"/>
+            <h_colum title='Название сервиса' type_f='find' v-model="name_f"/>
+            <h_colum title='id Сервис' type_f='true_false' v-model="servis_f" l_true="вверх" l_false="вниз"/>
             <h_colum title='url' type_f='true_false' v-model="url_f" l_true="есть url" l_false="без url"/>
             <h_colum title='Кол-во' type_f='true_false' v-model="qunt_f" l_true="вверх" l_false="вниз"/>
             <h_colum title='Огра-ние'/>
-            <h_colum title='id провайдер' type_f='true_false' v-model="status_f"/>
+            <h_colum title='id провайдер'/>
             <h_colum title='msg'/>
           </TableHeader>
           <TableBody>
@@ -70,10 +70,10 @@ export default {
         from:  this.getFromTodayString(7),
       },
       date_f_click: false,
-      transaction_f:'',
-      email_f:'',
+      page_f:'',
+      name_f:'',
       qunt_f:'',
-      sum_f:'',
+      servis_f:'',
       url_f:'',
       status_f:'',
       prog_staus_f:'',
@@ -91,16 +91,16 @@ export default {
     url_f(){
       this.filter();
     },
-    sum_f(){
+    servis_f(){
       this.filter();
     },
     qunt_f(){
       this.filter();
     },
-    email_f(){
+    name_f(){
       this.filter();
     },
-    transaction_f(){
+    page_f(){
       this.filter();
     },
     date_f:{
@@ -122,16 +122,16 @@ export default {
       result.push(...this.orders)
       let status_f = this.status_f
       let url_f = this.url_f
-      let sum_f = this.sum_f
+      let servis_f = this.servis_f
       let qunt_f = this.qunt_f
-      let email_f = this.email_f
-      let transaction_f = this.transaction_f
+      let name_f = this.name_f
+      let page_f = this.page_f
       let prog_staus_f = this.prog_staus_f
-      if(transaction_f!=''){
-        result = result.filter(i=>i.transaction.indexOf(transaction_f)!=-1)
+      if(page_f!=''){
+        result = result.filter(i=>i.page.indexOf(page_f)!=-1)
       }
-      if(email_f!=''){
-        result = result.filter(i=>i.email.indexOf(email_f)!=-1)
+      if(name_f!=''){
+        result = result.filter(i=>i.name_servis.indexOf(name_f)!=-1)
       }
       if(qunt_f!=''){
         result = result.sort((a,b)=>{
@@ -145,15 +145,15 @@ export default {
           return res
         })
       }
-      if(sum_f!=''){
+      if(servis_f!=''){
         result = result.sort((a,b)=>{
           let res;
-          a = Number(a.sum)
-          b = Number(b.sum)
+          a = Number(a.service)
+          b = Number(b.service)
           if(a > b) res = 1;
           if(a == b) res = 0;
           if(a < b) res = -1;
-          if(sum_f == 'false') res = res*(-1)
+          if(servis_f == 'false') res = res*(-1)
           return res
         }) 
       }
