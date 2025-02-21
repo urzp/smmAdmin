@@ -1,7 +1,7 @@
 <template>
     <Header></Header>
     <MenuLeft selected="settings"></MenuLeft>
-    <MainContent> 
+    <MainContent flex> 
       <SettingsFreePages :site="'smmnakrutka'"/>
       <SettingsFreePages :site="'youtikins'"/>
     </MainContent>

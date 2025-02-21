@@ -1,6 +1,6 @@
 <template>
     <div class="main-content">
-      <div class="main-content-wrap"> 
+      <div class="main-content-wrap" :class="{flex}"> 
         <slot />
       </div>
     </div>
@@ -9,7 +9,13 @@
 <script>
 
 export default {
-  name: 'MainContent'
+  name: 'MainContent',
+  props:{
+    flex:{
+      type:Boolean,
+      default:false,
+    }
+  }
 }
 </script>
 
@@ -21,6 +27,9 @@ export default {
     height: calc(100vh - 100px);
     .main-content-wrap{
       margin: 20px;
+    }
+
+    .main-content-wrap.flex{
       display: flex;
       column-gap: 20px;
     }
