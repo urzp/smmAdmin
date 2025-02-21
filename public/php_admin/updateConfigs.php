@@ -2,9 +2,14 @@
 
 $data = $rq_data -> data;
 
+$site = $rq_data -> site;
+
+$table = 'config';
+if($site=='youtikins') $table = 'config_youtikin';
+
 $returnData;
 foreach($data as $name => $value) {
-    $sql = "UPDATE `config` SET `value`='$value'  WHERE `name`='$name'";
+    $sql = "UPDATE `$table` SET `value`='$value'  WHERE `name`='$name'";
     $mysql -> query($sql);
 }
 

@@ -1,6 +1,11 @@
 <?php
 
-$sql = "SELECT * FROM `pages_free`";
+$site = $rq_data -> site;
+
+$table = 'pages_free';
+if($site=='youtikins') $table = 'pages_free_youtikin';
+
+$sql = "SELECT * FROM `$table`";
 $result_sql = $mysql -> query($sql);
 
 $data=[];

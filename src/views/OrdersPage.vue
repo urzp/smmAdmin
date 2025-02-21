@@ -27,7 +27,7 @@
             <h_colum title='Остаток'/>
             <h_colum title='Прогресс' type_f='find' v-model="prog_staus_f" f_left/>
           </TableHeader>
-          <TableBody>
+          <TableBody v-if="!loading">
             <div v-for="(item, index) in part_orders" :key="item.id" class="row set_width_table pointer" @click="pop_show(index)">
               <div>{{ index + 1 + (part - 1)*this.part_items}}</div>
               <div class="content_left">{{ item.datetime }}</div>
@@ -43,6 +43,7 @@
               <div class="content_left">{{ item.progress_status }}</div>
             </div>
           </TableBody>
+          <div v-else class="loading">Загрузка данных . . . .</div>
         </div>  
       </BackGrCard>
       <PopupOrder :order="pop_order" v-model="pop_open"/>
@@ -83,6 +84,7 @@ export default {
       prog_staus_f:'',
       pop_order:{},
       pop_open:false,
+      loading:false,
     }
   },
   watch:{
@@ -116,10 +118,12 @@ export default {
   },
   methods:{
     async updateList(){
+      this.loading = true
       let result = await getData('getData.php',{typeData:'orders', typeOrders:'not_users' ,date_from:this.date_f.from, date_until:this.date_f.until})
       if(!this.checkResult(result)) return false
       this.orders = await result.data
       this.filter();
+      this.loading = false
     },
     async filter(){
       let result = []
@@ -276,5 +280,11 @@ export default {
     background-color: #6B99C3;
     color:#fff;
     transition: 0.3s;
+  }
+
+  .loading{
+    margin: 50px;
+    font-size: 20px;
+    color: #787878;
   }
 </style>

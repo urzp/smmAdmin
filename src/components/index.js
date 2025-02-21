@@ -24,6 +24,7 @@ import CardMain from '@/components/complex/CardMain.vue'
 import SitePage from '@/components/complex/SitePage.vue'
 import InfoPage from '@/components/complex/InfoPage.vue'
 import Toaster from '@/components/UI/Toaster.vue'
+import SettingsFreePages from'@/components/complex/SettingsFreePages.vue'
 
 export default [
     ButtonStd,
@@ -52,5 +53,6 @@ export default [
     PopupSettingCardProduct,
     InfoPage,
     Toaster,
+    SettingsFreePages,
 ]
 

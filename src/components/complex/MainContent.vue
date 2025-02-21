@@ -21,6 +21,8 @@ export default {
     height: calc(100vh - 100px);
     .main-content-wrap{
       margin: 20px;
+      display: flex;
+      column-gap: 20px;
     }
   }
   @media (max-width: 1499.98px) {

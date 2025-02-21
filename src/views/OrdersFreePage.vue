@@ -13,6 +13,12 @@
       <BackGrCard>
         <div class="table">
           <TitleTable title="Бесплатные заказы" :subtitle="`от ${date_f.from} до ${date_f.until}`" @click="date_f_click = !date_f_click" class="pointer"/>
+          <div class="top_panel">
+            <div class="wrap_site_buttons">
+              <ButtonStd title="smmnakrutka.ru" @click="switchSite('smmnakrutka')" width="150px" font_size="15px"/>
+              <ButtonStd title="youtikins.com" @click="switchSite('youtikins')" width="150px" font_size="15px"/>
+            </div>
+          </div>
           <TableHeader class="set_width_table">
             <h_colum title="#"/>
             <h_colum title='Дата время' type_f="date" v-model="date_f" :click_hand="date_f_click"/>
@@ -25,7 +31,7 @@
             <h_colum title='id провайдер'/>
             <h_colum title='msg'/>
           </TableHeader>
-          <TableBody>
+          <TableBody v-if="!loading">
             <div v-for="(item, index) in part_orders" :key="item.id" class="row set_width_table pointer" @click="pop_show(index)">
               <div>{{ index + 1 + (part - 1)*this.part_items}}</div>
               <div class="content_left">{{ item.datetime }}</div>
@@ -39,6 +45,7 @@
               <div class="content_left">{{ item.provider_msg }}</div>
             </div>
           </TableBody>
+          <div v-else class="loading">Загрузка данных . . . .</div>
         </div>  
       </BackGrCard>
       <PopupOrder :order="pop_order" v-model="pop_open"/>
@@ -67,7 +74,7 @@ export default {
       part_orders:'',
       date_f:{
         until: this.getFromTodayString(),
-        from:  this.getFromTodayString(7),
+        from:  this.getFromTodayString(1),
       },
       date_f_click: false,
       page_f:'',
@@ -79,6 +86,8 @@ export default {
       prog_staus_f:'',
       pop_order:{},
       pop_open:false,
+      loading:false,
+      site:'smmnakrutka',
     }
   },
   watch:{
@@ -112,10 +121,16 @@ export default {
   },
   methods:{
     async updateList(){
-      let result = await getData('getData.php',{typeData:'freeOrders', typeOrders:'not_users' ,date_from:this.date_f.from, date_until:this.date_f.until})
+      this.loading = true
+      let result = await getData('getData.php',{typeData:'freeOrders', typeOrders:'not_users' ,date_from:this.date_f.from, date_until:this.date_f.until, site:this.site})
       if(!this.checkResult(result)) return false
       this.orders = await result.data
       this.filter();
+      this.loading = false
+    },
+    switchSite(name){
+      this.site = name
+      this.updateList()
     },
     async filter(){
       let result = []
@@ -264,5 +279,24 @@ export default {
     background-color: #6B99C3;
     color:#fff;
     transition: 0.3s;
+  }
+
+  .loading{
+    margin: 50px;
+    font-size: 20px;
+    color: #787878;
+  }
+
+  .top_panel{
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    column-gap: 50px;
+  }
+
+  .wrap_site_buttons{
+    display: flex;
+    align-items: center;
+    column-gap: 20px;    
   }
 </style>
