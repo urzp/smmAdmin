@@ -28,18 +28,22 @@
         <div class="pageRowWrap">
             <ButtonStd @click="deletePagesFree(item.id, index, item.newPage)" class="btn-left" width="80px"><img src="@/assets/icons/trach.svg" alt=""></ButtonStd>
             <div class="page_configs">
-            <div class="item_config">  
-                <div class="name_config">Название страницы</div>
-                <input type="text" v-model="item.page" @change="updatePagesFree()">
-            </div>
-            <div class="item_config">
-                <div class="name_config">Поставшик</div>
-                <input type="number" v-model="item.id_provider"  @change="updatePagesFree()">
-            </div>
-            <div class="item_config">
-            <div class="name_config">Максимальное количество услуг</div>
-                <input type="number" v-model="item.quantity_max"  @change="updatePagesFree()">
-            </div>
+                <div class="item_config">  
+                    <div class="name_config">Название страницы</div>
+                    <input type="text" v-model="item.page" @change="updatePagesFree()">
+                </div>
+                <div class="item_config">
+                    <div class="name_config">Поставшик</div>
+                    <input type="number" v-model="item.id_provider"  @change="updatePagesFree()">
+                </div>
+                <div class="item_config">
+                    <div class="name_config">Максимальное количество услуг</div>
+                    <input type="number" v-model="item.quantity_max"  @change="updatePagesFree()">
+                </div>
+                <div class="item_config">
+                    <div class="name_config">Запрет повторного заказа (ч)</div>
+                    <input type="number" v-model="item.pause_h"  @change="updatePagesFree()">
+                </div>
             </div>
         </div>
         <div class="line"></div>
