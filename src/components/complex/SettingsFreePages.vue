@@ -22,6 +22,18 @@
         <div class="name_config">Очистка записей бесплатных заказов после (д)</div>
         <input type="number" v-model="configs.clearFreeOrdersDays"  @change="updateConfigs()">
         </div>
+        <div class="item_config">
+        <div class="name_config">Блокировки отслеживаемого пользователя (1-вкл/0-откл)</div>
+        <input type="number" v-model="configs.block_by_ip"  @change="updateConfigs()">
+        </div>
+        <div class="item_config">
+        <div class="name_config">Время блокировки отслеживаемого пользователя (ч)</div>
+        <input type="number" v-model="configs.pause_free_orders_h_by_ip"  @change="updateConfigs()">
+        </div>
+        <div class="item_config">
+        <div class="name_config">Лимит заказов в час отслеживаемого пользователя</div>
+        <input type="number" v-model="configs.limit_orders_by_ip"  @change="updateConfigs()">
+        </div>
         <div class="line"></div>
         <Title class="centr_align" title="Для страниц" text_size="18px" color="#aaa"></Title>
         <div class="pageRow" v-for="(item, index) in pages_list" :key="item.id" >
