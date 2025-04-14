@@ -18,6 +18,7 @@ const routes = [
     name: 'login',
     meta: {
       requireAuth: false,
+      requireAdmin: false,
     },
     component: LoginPage
   },
@@ -26,6 +27,7 @@ const routes = [
     name: 'home',
     meta: {
       requireAuth: true,
+      requireAdmin: false,
     },
     component: HomePage
   },
@@ -34,6 +36,7 @@ const routes = [
     name: 'users',
     meta: {
       requireAuth: true,
+      requireAdmin: true,
     },
     component: UsersPage
   },
@@ -42,6 +45,7 @@ const routes = [
     name: 'user',
     meta: {
       requireAuth: true,
+      requireAdmin: true,
     },
     component: UserPage
   },
@@ -50,6 +54,7 @@ const routes = [
     name: 'orders',
     meta: {
       requireAuth: true,
+      requireAdmin: false,
     },
     component: OrdersPage
   },
@@ -58,6 +63,7 @@ const routes = [
     name: 'free_orders',
     meta: {
       requireAuth: true,
+      requireAdmin: false,
     },
     component: OrdersFreePage
   },
@@ -66,6 +72,7 @@ const routes = [
     name: 'orders_user',
     meta: {
       requireAuth: true,
+      requireAdmin: true,
     },
     component: OrdersUserPage
   },
@@ -74,6 +81,7 @@ const routes = [
     name: 'sitePages',
     meta: {
       requireAuth: true,
+      requireAdmin: true,
     },
     component: sitePages
   },
@@ -82,6 +90,7 @@ const routes = [
     name: 'provaders',
     meta: {
       requireAuth: true,
+      requireAdmin: false,
     },
     component: ProvidersPage
   },
@@ -90,6 +99,7 @@ const routes = [
     name: 'settings',
     meta: {
       requireAuth: true,
+      requireAdmin: true,
     },
     component: SettingsPage
   },
@@ -102,9 +112,12 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   let logget = await isLogget();
+  let Admin = await isAdmin();
 
   if(to.meta.requireAuth&&!logget) return {path: '/login'}
   if(!to.meta.requireAuth&&logget) return {path: '/'}
+
+  if(to.meta.requireAdmin&&!Admin) return {path: '/home'}
 })
 
 export default router

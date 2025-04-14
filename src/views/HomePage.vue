@@ -15,19 +15,19 @@
           <img src="@/assets/icons/card/orders_d.svg" alt="" class="dark">
         </template>
       </CardMain>
-      <CardMain :data="usersProp"  @click="$router.push('/users')">
+      <CardMain v-if="isAdmin" :data="usersProp"  @click="$router.push('/users')">
         <template v-slot:small_icon>
           <img src="@/assets/icons/card/user_l.svg" alt="" class="light">
           <img src="@/assets/icons/card/user_d.svg" alt="" class="dark">
         </template>
       </CardMain>
-      <CardMain :data="UsersOrdersProp" @click="$router.push('/orders/users')">
+      <CardMain v-if="isAdmin" :data="UsersOrdersProp" @click="$router.push('/orders/users')">
         <template v-slot:small_icon>
           <img src="@/assets/icons/card/order_users_l.svg" alt="" class="light">
           <img src="@/assets/icons/card/order_users_d.svg" alt="" class="dark">
         </template>
       </CardMain>
-      <CardMain :data="ServisProp" :iconCentr="true" @click="$router.push('/sitePages')">
+      <CardMain v-if="isAdmin" :data="ServisProp" :iconCentr="true" @click="$router.push('/sitePages')">
         <template v-slot:big_icon>
           <img src="@/assets/icons/card/servis_l.svg" alt="" class="light">
           <img src="@/assets/icons/card/servis_l.svg" alt="" class="dark">         
@@ -39,7 +39,7 @@
           <img src="@/assets/icons/card/provader_d.svg" alt="" class="dark">         
         </template>
       </CardMain>
-      <CardMain  :data="settingsProp" :iconCentr="true" @click="$router.push('/settings')">
+      <CardMain v-if="isAdmin" :data="settingsProp" :iconCentr="true" @click="$router.push('/settings')">
         <template v-slot:big_icon>
           <img src="@/assets/icons/card/settings_l.svg" alt="" class="light">
           <img src="@/assets/icons/card/settings_d.svg" alt="" class="dark">         
@@ -51,13 +51,16 @@
 
 <script>
 import { getData } from '@/servis/getData.js'
+import { isAdmin } from '@/servis/islogget'
 export default {
   name: 'HomePage',
   async mounted(){
+    this.isAdmin = await isAdmin()
     this.updateData()
   },
   data(){
     return{
+      isAdmin:false,
       usersProp:{
         title:'Пользователи',
         title_day_data: 'сутки',

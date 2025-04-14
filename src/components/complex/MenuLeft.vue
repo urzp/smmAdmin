@@ -7,7 +7,7 @@
                 <img v-else  src="../../assets/icons/menu_left/home_b.svg" alt="users">
                 <div class="memu-item-lab">Главная</div>
             </div>
-            <div class="menu-item" :class="{'active':selectedItem.users}" @click="$router.push('/users')">
+            <div class="menu-item" v-if="isAdmin"  :class="{'active':selectedItem.users}" @click="$router.push('/users')">
                 <img v-if="selectedItem.users" src="../../assets/icons/menu_left/users_w.svg" alt="users">
                 <img v-else  src="../../assets/icons/menu_left/users_b.svg" alt="users">
                 <div class="memu-item-lab">Пользователи</div>
@@ -17,7 +17,7 @@
                 <img v-else  src="../../assets/icons/menu_left/orders_b.svg" alt="users">
                 <div class="memu-item-lab">Заказы</div>
             </div>
-            <div class="menu-item"  :class="{'active':selectedItem.servis}" @click="$router.push('/sitePages')">
+            <div class="menu-item" v-if="isAdmin"  :class="{'active':selectedItem.servis}" @click="$router.push('/sitePages')">
                 <img v-if="selectedItem.servis" src="../../assets/icons/menu_left/servis_w.svg" alt="users">
                 <img v-else  src="../../assets/icons/menu_left/servis_b.svg" alt="users">
                 <div class="memu-item-lab">Услуги</div>
@@ -27,7 +27,7 @@
                 <img v-else  src="../../assets/icons/menu_left/prov_b.svg" alt="users">
                 <div class="memu-item-lab">Поставщики</div>
             </div>
-            <div  class="menu-item"  :class="{'active':selectedItem.settings}" @click="$router.push('/settings')">
+            <div  class="menu-item" v-if="isAdmin"  :class="{'active':selectedItem.settings}" @click="$router.push('/settings')">
                 <img v-if="selectedItem.settings" src="../../assets/icons/menu_left/settings_w.svg" alt="users">
                 <img v-else  src="../../assets/icons/menu_left/settings_b.svg" alt="users">
                 <div class="memu-item-lab">Настройки</div>
@@ -38,9 +38,16 @@
 
 
 <script>
+import { isAdmin } from '@/servis/islogget'
 export default {
     name: 'MenuLeft',
+    async mounted(){
+        this.isAdmin = await isAdmin()
+    },
     data(){
+        return {
+            isAdmin:false,
+        }
     },
     props:{
         selected: String,
