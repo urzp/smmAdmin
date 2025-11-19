@@ -34,6 +34,10 @@
         <div class="name_config">Лимит заказов в час отслеживаемого пользователя</div>
         <input type="number" v-model="configs.limit_orders_by_ip"  @change="updateConfigs()">
         </div>
+        <div class="item_config">
+        <div class="name_config">Вероятность выигрыша в колесе 0..100 %</div>
+        <input type="number" v-model="configs.probability_winning"  @change="updateConfigs()">
+        </div>
         <div class="line"></div>
         <Title class="centr_align" title="Для страниц" text_size="18px" color="#aaa"></Title>
         <div class="pageRow" v-for="(item, index) in pages_list" :key="item.id" >
@@ -55,6 +59,10 @@
                 <div class="item_config">
                     <div class="name_config">Запрет повторного заказа (ч)</div>
                     <input type="number" v-model="item.pause_h"  @change="updatePagesFree()">
+                </div>
+                <div class="item_config">
+                    <div class="name_config">Вероятность выигрыша в колесе 0..100 %</div>
+                    <input type="number" v-model="item.probability_winning"  @change="updatePagesFree()">
                 </div>
             </div>
         </div>
@@ -111,6 +119,7 @@ export default {
             }
         },
         async updatePagesFree(){
+            console.log(this.pages_list)
             let result  = await getData('updateData.php',{typeData:'freePages', data: this.pages_list, site: this.site} )
             if(!!result){
                 EventBus.emit(`toaster:update`, {success:true, msg:'сохранено'})
